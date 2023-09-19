@@ -1,0 +1,15 @@
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.deps.json
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.dll
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.pdb
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\bin\Debug\net6.0\Model.dll
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\bin\Debug\net6.0\Model.pdb
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.AssemblyReference.cache
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfoInputs.cache
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfo.cs
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.CopyComplete
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.dll
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLayer.dll
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
+D:\Asp.net web api\BTL_WEB_CAFINA\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
