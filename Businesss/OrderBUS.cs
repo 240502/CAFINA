@@ -36,7 +36,7 @@ namespace Businesss
             var result = orderDAL.UpdateOrder(order);
             return result;
         }
-        public List<ThongKe_KhachModel> ThongKe(int page,int pageSize , out long total, string fullname,DateTime ? ngaybd,DateTime ? ngaykt)
+        public List<ThongKe_KhachModel> ThongKe(int page,int pageSize , out int total, string fullname,DateTime ? ngaybd,DateTime ? ngaykt)
         {
             var result = orderDAL.listTk(page,pageSize,out total,fullname,ngaybd,ngaykt);
             return result;

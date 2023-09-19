@@ -75,8 +75,8 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                var page = int.Parse(formData["page"].ToString());
-                var pageSize = int.Parse(formData["pageSize"].ToString());
+                int  page = int.Parse (formData["page"].ToString());
+                int  pageSize = int.Parse(formData["pageSize"].ToString());
                 string fullname = "";
                 if (formData.Keys.Contains("fullname") && !string.IsNullOrEmpty(Convert.ToString(formData["fullname"])))
                     fullname = Convert.ToString(formData["fullname"]);
@@ -86,14 +86,16 @@ namespace API_Cafina.Controllers
                     var dt = DateTime.Parse(formData["ngaybd"].ToString());
                     ngaybd = new DateTime(dt.Year,dt.Month,dt.Day,0,0,0,0);
                 }
-                DateTime ? ngaykt = null;
+                DateTime? ngaykt = null;
                 if (formData.Keys.Contains("ngaykt") && !string.IsNullOrEmpty(Convert.ToString(formData["ngaykt"])))
                 {
                     var dt = DateTime.Parse(formData["ngaykt"].ToString());
-                    ngaykt = new DateTime(dt.Year, dt.Month, dt.Day, 23,59, 59, 999);
+                    ngaykt = new DateTime(dt.Year, dt.Month, dt.Day);
                 }
-                long total = 0;
+              
+                int total = 0;
                 var result = orderBus.ThongKe(page,pageSize,out total,fullname,ngaybd,ngaykt);
+                long abc = total;
                 return Ok(new
                 {
                     TotalItem = total,

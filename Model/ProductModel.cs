@@ -19,5 +19,6 @@ namespace Model
         public string size { get; set; }
         public string color { get; set; }
         public int CateId { get; set; }
+        public int SoLuongBan { get; set; }
     }
 }

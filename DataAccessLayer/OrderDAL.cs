@@ -132,11 +132,13 @@ namespace DataAccessLayer
 
                 if (tb!=null)
                 {
+                    
 
+                    OrderModel Order = new OrderModel();
+                    Order.order_Details = new List<Order_Details>();
                     total = (long)tb.Rows[0]["recordcount"];
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
-                        OrderModel Order = new OrderModel();
                         Order_Details Order_Detail = new Order_Details();
                         Order.Id = int.Parse(tb.Rows[i]["id"].ToString());
                         Order.User_Id = int.Parse(tb.Rows[i]["user_id"].ToString());
@@ -151,11 +153,11 @@ namespace DataAccessLayer
                         Order_Detail.ProductId = tb.Rows[i]["ProductId"].ToString();
                         Order_Detail.price = int.Parse(tb.Rows[i]["price"].ToString());
                         Order_Detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
-                        Order.order_Details = new List<Order_Details> { Order_Detail };
-                        listOrder.Add(Order);
+                        Order.order_Details.Add( Order_Detail );
 
 
                     }
+                    listOrder.Add(Order);
                 }
                 else listOrder = null ;
                     return listOrder;
@@ -166,7 +168,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ThongKe_KhachModel> listTk(int page, int page_size, out long total, string fullname,DateTime ? ngaybd,DateTime ? ngaykt)
+        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname,DateTime ? ngaybd,DateTime ? ngaykt)
         {
             try
             {
@@ -180,12 +182,12 @@ namespace DataAccessLayer
                 );
                 if (tb != null)
                 {
-                    total = (long)tb.Rows[0]["RecordCount"];
+                    total = (int)tb.Rows[0]["RecordCount"];
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         ThongKe_KhachModel tk = new ThongKe_KhachModel();
                         tk.fullName = tb.Rows[i]["fullName"].ToString();
-                        tk.addrees = tb.Rows[i]["addrees"].ToString();
+                        tk.address = tb.Rows[i]["address"].ToString();
                         tk.ProductId = tb.Rows[i]["ProductId"].ToString();
                         tk.title = tb.Rows[i]["title"].ToString();
                         tk.price = int.Parse(tb.Rows[i]["price"].ToString());

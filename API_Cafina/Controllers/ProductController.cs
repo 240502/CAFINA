@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Businesss;
 using Model;
+using System.Globalization;
+using System;
 
 namespace API_Cafina.Controllers
 {
@@ -87,6 +89,38 @@ namespace API_Cafina.Controllers
                
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        [Route("ThongKe")]
+        [HttpPost]
+        public IActionResult ThongKe5SanPhamBanChayNhat([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                DateTime ?  to_date = null;
+                DateTime ? fr_date = null;
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
+                {
+                    var dt = DateTime.Parse(formData["fr_date"].ToString());
+                    fr_date = new DateTime(dt.Year, dt.Month, dt.Day);
+                }
+                
+
+                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["to_date"])))
+                 {
+                    var dt = DateTime.Parse(formData["to_date"].ToString());
+                    to_date = new DateTime(dt.Year, dt.Month, dt.Day);
+                }
+                Product_List = proBus.ThongKe5SanPhamBanChayNhat(fr_date, to_date);
+                if (Product_List != null)
+                {
+                    return Ok(Product_List);
+                }
+                else return NotFound();
+
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
