@@ -15,3 +15,20 @@ D:\Asp.net web api\BTL_WEB_CAFINA\Businesss\obj\Debug\net6.0\Businesss.dll
 D:\Asp.net web api\BTL_WEB_CAFINA\Businesss\obj\Debug\net6.0\refint\Businesss.dll
 D:\Asp.net web api\BTL_WEB_CAFINA\Businesss\obj\Debug\net6.0\Businesss.pdb
 D:\Asp.net web api\BTL_WEB_CAFINA\Businesss\obj\Debug\net6.0\ref\Businesss.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\Businesss.deps.json
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\Businesss.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\Businesss.pdb
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\DataAccessLayer.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\Model.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\DataAccessLayer.pdb
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\bin\Debug\net6.0\Model.pdb
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.csproj.AssemblyReference.cache
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.GeneratedMSBuildEditorConfig.editorconfig
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.AssemblyInfoInputs.cache
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.AssemblyInfo.cs
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.csproj.CoreCompileInputs.cache
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.csproj.CopyComplete
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\refint\Businesss.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\Businesss.pdb
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\Businesss\obj\Debug\net6.0\ref\Businesss.dll
