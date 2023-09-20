@@ -18,6 +18,7 @@ namespace Model
         public DateTime order_Date { get; set; }
         public int status { get; set; }
         public List<Order_Details> order_Details { get; set; }
+     
 
 
     }

@@ -168,7 +168,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname,DateTime ? ngaybd,DateTime ? ngaykt)
+        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname,DateTime ? ngaybd,DateTime ?  ngaykt)
         {
             try
             {
@@ -180,6 +180,7 @@ namespace DataAccessLayer
                     "@page_index", "@page_size", "@fullname", "@ngaybd", "@ngaykt",
                     page, page_size, fullname, ngaybd, ngaykt
                 );
+                
                 if (tb != null)
                 {
                     total = (int)tb.Rows[0]["RecordCount"];
@@ -205,5 +206,32 @@ namespace DataAccessLayer
             }
            
         }
+        public ThongKe_OrderModel ThongKeSoLuongDonHang(DateTime ? fr_date , DateTime ? to_date)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader(
+                    "Pro_ThongKe_SoLuongDonHang",
+                    "@fr_date","@to_date",
+                    fr_date,to_date
+                );
+                if (tb != null)
+                {
+                    ThongKe_OrderModel tk = new ThongKe_OrderModel();
+                    
+                        tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
+                   
+                        tk.to_date = tb.Rows[0]["Ngày kết thúc"] !=null ? tb.Rows[0]["Ngày kết thúc"].ToString():null;
+                    
+                    tk.TongDonHang = int.Parse(tb.Rows[0]["Tổng số đơn hàng"].ToString());
+                    return tk;
+                }
+                return null;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
     }
 }

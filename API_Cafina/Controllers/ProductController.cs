@@ -95,12 +95,12 @@ namespace API_Cafina.Controllers
         }
         [Route("ThongKe")]
         [HttpPost]
-        public IActionResult ThongKe5SanPhamBanChayNhat([FromBody] Dictionary<string,object> formData)
+        public IActionResult ThongKeSanPhamBanChay([FromBody] Dictionary<string,object> formData)
         {
             try
             {
-                DateTime ?  to_date = null;
-                DateTime ? fr_date = null;
+                DateTime? to_date = null ;
+                DateTime? fr_date  = null;
                 if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
                 {
                     var dt = DateTime.Parse(formData["fr_date"].ToString());
@@ -113,7 +113,7 @@ namespace API_Cafina.Controllers
                     var dt = DateTime.Parse(formData["to_date"].ToString());
                     to_date = new DateTime(dt.Year, dt.Month, dt.Day);
                 }
-                Product_List = proBus.ThongKe5SanPhamBanChayNhat(fr_date, to_date);
+                Product_List = proBus.ThongKeSanPhamBanChay(fr_date, to_date);
                 if (Product_List != null)
                 {
                     return Ok(Product_List);

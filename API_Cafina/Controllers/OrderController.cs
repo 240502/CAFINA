@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using System;
 
 namespace API_Cafina.Controllers
 {
@@ -69,7 +70,7 @@ namespace API_Cafina.Controllers
                 throw new Exception(ex.Message);
             }
         }
-        [Route("ThongKe")]
+        [Route("ThongKe_SoDonHang_TheoUser")]
         [HttpPost]
         public IActionResult ThongKe([FromBody] Dictionary<string,object> formData)
         {
@@ -104,6 +105,35 @@ namespace API_Cafina.Controllers
                     PageSize = pageSize
                 });
             }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        [Route("ThongKe_TongSoLuongDonHang")]
+        [HttpPost]
+        public IActionResult ThongKeTongSlDonHang([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                DateTime? fr_date = null;
+                DateTime? to_date = null;
+                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
+                {
+                    var dt = DateTime.Parse(formData["fr_date"].ToString());
+                    fr_date = new DateTime(dt.Year,dt.Month,dt.Day);
+
+                }
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
+                {
+                    var dt= DateTime.Parse((formData["to_date"]).ToString());
+                    to_date = new DateTime(dt.Year,dt.Month,dt.Day);
+                }
+               
+                ThongKe_OrderModel tk = orderBus.ThongKe_Order(fr_date, to_date);
+                if (tk != null) return Ok(tk);
+                return NotFound();
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

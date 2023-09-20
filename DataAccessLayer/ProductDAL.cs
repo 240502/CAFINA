@@ -129,23 +129,23 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ProductModel> ThongKe5SanPhamBanChayNhat(DateTime ? fr_date, DateTime ? to_date)
+        public List<ProductModel> ThongKeSanPhamBanChay(DateTime? fr_date , DateTime ? to_date)
         {
             try
             {
-                var tb = helper.ExcuteReader(
+                DataTable tb = helper.ExcuteReader(
                     "Pro_ThongKe_SanPham_BanChay",
                     "@fr_date", "@to_date",
-                    fr_date, to_date
+                    fr_date,to_date
                 );
-                if (tb != null)
+                if (tb!=null)
                 {
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         ProductModel product = new ProductModel();
                         product.ProductId = tb.Rows[i]["ProductId"].ToString();
                         product.title = tb.Rows[i]["title"].ToString();
-                        product.price = int.Parse(tb.Rows[i]["title"].ToString());
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
                         product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
                         product.description = tb.Rows[i]["description"].ToString();
                         product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
@@ -157,16 +157,20 @@ namespace DataAccessLayer
                         ProductList.Add(product);
                     }
                 }
-                else { ProductList = null; }
+                else
+                {
+                    ProductList = null;
+                }
                 return ProductList;
-
             }
-            catch(Exception ex)
+            catch(Exception ex )
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
-
         }
+      
+
+        
     }
     
 }

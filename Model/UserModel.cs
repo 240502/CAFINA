@@ -15,5 +15,6 @@ namespace Model
         public DateTime Birthday { get; set; }
          public string Gender { get; set; }
         public int RoleId { get; set; }
+        public int TongTienMua { get; set; }
     }
 }

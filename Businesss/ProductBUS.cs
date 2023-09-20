@@ -45,9 +45,9 @@ namespace Businesss
             ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName,CateId);
             return ProductList;
         }
-        public List<ProductModel> ThongKe5SanPhamBanChayNhat(DateTime ? fr_date,DateTime ? td_date)
+        public List<ProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)
         {
-            ProductList = prodDal.ThongKe5SanPhamBanChayNhat(fr_date, td_date);
+            ProductList = prodDal.ThongKeSanPhamBanChay(fr_date, td_date);
             return ProductList;
         }
 
