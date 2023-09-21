@@ -218,11 +218,8 @@ namespace DataAccessLayer
                 if (tb != null)
                 {
                     ThongKe_OrderModel tk = new ThongKe_OrderModel();
-                    
-                        tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
-                   
-                        tk.to_date = tb.Rows[0]["Ngày kết thúc"] !=null ? tb.Rows[0]["Ngày kết thúc"].ToString():null;
-                    
+                    tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
+                    tk.to_date = tb.Rows[0]["Ngày kết thúc"] !=null ? tb.Rows[0]["Ngày kết thúc"].ToString():null;
                     tk.TongDonHang = int.Parse(tb.Rows[0]["Tổng số đơn hàng"].ToString());
                     return tk;
                 }

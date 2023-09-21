@@ -14,4 +14,5 @@ as
 		group by  u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Role_Id
 		order by  [Tổng tiền mua] desc 
 	end
-exec Pro_ThongKe_User '2023-01-01',null
+
+

@@ -11,16 +11,15 @@ namespace Businesss
     {
         List<ProductModel> ProductList ;  
         ProductDAL prodDal = new ProductDAL();
-        public List<ProductModel> GetListProduct()
+        public ProductModel GetListProduct(string productId)
         {
-            ProductList = prodDal.GetListProduct();
-            return ProductList;
+            var reuslt = prodDal.GetListProduct(productId);
+            return reuslt;
         
         }
         public List<ProductModel> SearchProduct(string value)
         {
             ProductList = prodDal.SearchProduct(value);
-            if (ProductList.Count==0) return null;
             return ProductList;
         }
         public string CreateProduct(ProductModel product)
@@ -30,10 +29,7 @@ namespace Businesss
         }
         public string UpdateProduct(ProductModel product)
         {
-            GetListProduct();
-            foreach(ProductModel pd in ProductList)
-            {
-            }    
+           
             var result = prodDal.UpdateProduct(product);
             return result;
         }
@@ -45,10 +41,10 @@ namespace Businesss
             ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName,CateId);
             return ProductList;
         }
-        public List<ProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)
+        public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)
         {
-            ProductList = prodDal.ThongKeSanPhamBanChay(fr_date, td_date);
-            return ProductList;
+            var result = prodDal.ThongKeSanPhamBanChay(fr_date, td_date);
+            return result;
         }
 
 

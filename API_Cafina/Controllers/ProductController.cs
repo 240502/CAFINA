@@ -14,23 +14,19 @@ namespace API_Cafina.Controllers
        
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List;
-        [Route("Get_All_Product")]
+        [Route("GetById")]
         [HttpGet]
-        public IActionResult GetAllProduct()
+        public IActionResult GetAllProduct(string productId)
         {
-            Product_List = proBus.GetListProduct();
-            if (Product_List.Count ==0)
-                return NotFound();
-            return Ok(Product_List);
+            var result = proBus.GetListProduct(productId);
+            return result == null? NotFound():Ok(result);
         }
         [Route("Search_Product")]
         [HttpGet]
         public IActionResult SearchProduct(string value)
         {
             Product_List = proBus.SearchProduct(value);
-            if(Product_List ==  null)
-                return NotFound();
-             return Ok(Product_List);
+            return Product_List == null ? NotFound(): Ok(Product_List);
         }
         [Route("Insert_Product")]
         [HttpPost]
@@ -113,12 +109,8 @@ namespace API_Cafina.Controllers
                     var dt = DateTime.Parse(formData["to_date"].ToString());
                     to_date = new DateTime(dt.Year, dt.Month, dt.Day);
                 }
-                Product_List = proBus.ThongKeSanPhamBanChay(fr_date, to_date);
-                if (Product_List != null)
-                {
-                    return Ok(Product_List);
-                }
-                else return NotFound();
+                var result = proBus.ThongKeSanPhamBanChay(fr_date, to_date);
+                return result != null ? Ok(result) : NotFound();
 
             }catch(Exception ex)
             {

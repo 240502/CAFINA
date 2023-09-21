@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class ProductModel
+    public class ThongKeSoLuongBanProductModel
     {
         public string ProductId { get; set; }
         public string title { get; set; }
@@ -18,6 +18,6 @@ namespace Model
         public string size { get; set; }
         public string color { get; set; }
         public int CateId { get; set; }
-
+        public int SoLuongBan { get; set; }
     }
 }
