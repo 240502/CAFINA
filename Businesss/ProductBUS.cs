@@ -11,16 +11,30 @@ namespace Businesss
     {
         List<ProductModel> ProductList ;  
         ProductDAL prodDal = new ProductDAL();
-        public ProductModel GetListProduct(string productId)
+        public List<ProductModel> GetAll()
         {
-            var reuslt = prodDal.GetListProduct(productId);
-            return reuslt;
+            ProductList = prodDal.GetAll();
+            return ProductList != null ? ProductList : null;
+        }
+        public List<ProductModel> PhanTrangDSProduct(int page,int pageSize)
+        {
+            List<ProductModel> ProductList1 = GetAll();
+            if(ProductList1.Count < pageSize && page !=1) {
+                page = 1;
+            }
+            ProductList = prodDal.PhanTrangDSProduct(page, pageSize);
+            return ProductList !=null ? ProductList:null;
+        }
+        public ProductModel GetProductById(string productId)
+        {
+            var reuslt = prodDal.GetProductById(productId);
+            return reuslt!=null ? reuslt : null;
         
         }
         public List<ProductModel> SearchProduct(string value)
         {
             ProductList = prodDal.SearchProduct(value);
-            return ProductList;
+            return ProductList!=null ? ProductList:null;
         }
         public string CreateProduct(ProductModel product)
         {
@@ -44,7 +58,7 @@ namespace Businesss
         public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)
         {
             var result = prodDal.ThongKeSanPhamBanChay(fr_date, td_date);
-            return result;
+            return result != null ? result:null;
         }
 
 

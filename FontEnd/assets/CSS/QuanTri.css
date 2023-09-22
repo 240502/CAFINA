@@ -1,0 +1,54 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.frame{
+    position: relative;
+    background-color: #fff;
+}
+.form_create_container{
+   position: fixed !important;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;z-index: 999999;
+   background-color: rgba(0,0,0,0.5);
+}
+#form_create{
+    background-color: #fff;
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    margin:  auto !important;
+}
+#form_create .form-item{
+    display: inherit;
+    align-items: center;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+#form_create label
+{
+    width: 20%;
+    margin-right: 10px;
+    font-size: 14px;
+}
+#form_create input,
+#form_create textarea{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    width: 60%  !important;
+    font-size: 16px;
+}
+#form_create input:focus,
+#form_create textarea:focus{
+    border-color: #63b1bc;
+    outline: 2px solid rgba(99,177,188,.15);
+}
+

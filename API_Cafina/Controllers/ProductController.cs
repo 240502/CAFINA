@@ -14,11 +14,26 @@ namespace API_Cafina.Controllers
        
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List;
+        [Route("Get_All")]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            Product_List = proBus.GetAll();
+            return Ok(Product_List);
+        }
+        [Route("PhanTrang_DSProduct")]
+        [HttpGet]
+        public IActionResult PhanTrang(int page)
+        {
+            int pageSize = 36;
+            Product_List=   proBus.PhanTrangDSProduct(page, pageSize);
+            return Product_List !=null ? Ok(Product_List):NotFound();
+        }
         [Route("GetById")]
         [HttpGet]
         public IActionResult GetAllProduct(string productId)
         {
-            var result = proBus.GetListProduct(productId);
+            var result = proBus.GetProductById(productId);
             return result == null? NotFound():Ok(result);
         }
         [Route("Search_Product")]
@@ -99,15 +114,14 @@ namespace API_Cafina.Controllers
                 DateTime? fr_date  = null;
                 if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
                 {
-                    var dt = DateTime.Parse(formData["fr_date"].ToString());
-                    fr_date = new DateTime(dt.Year, dt.Month, dt.Day);
+                     
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
                 }
                 
 
                 if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["to_date"])))
                  {
-                    var dt = DateTime.Parse(formData["to_date"].ToString());
-                    to_date = new DateTime(dt.Year, dt.Month, dt.Day);
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
                 }
                 var result = proBus.ThongKeSanPhamBanChay(fr_date, to_date);
                 return result != null ? Ok(result) : NotFound();

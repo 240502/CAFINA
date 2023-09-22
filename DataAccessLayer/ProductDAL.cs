@@ -12,8 +12,74 @@ namespace DataAccessLayer
     {
         DataHelper helper=new DataHelper();
         List<ProductModel> ProductList = new List<ProductModel>();
+        public List<ProductModel> GetAll()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader(
+                "GetAll"
+                );
+                if (tb != null)
+                {
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ProductModel product = new ProductModel();
+                        product.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        product.title = tb.Rows[i]["title"].ToString();
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
+                        product.description = tb.Rows[i]["description"].ToString();
+                        product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
+                        product.HuongDanSuDung = tb.Rows[i]["HuongDanSuDung"].ToString();
+                        product.size = tb.Rows[i]["size"].ToString();
+                        product.color = tb.Rows[i]["color"].ToString();
+                        product.CateId = tb.Rows[i]["CateId"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateId"].ToString());
+                        ProductList.Add(product);
+                    }
+                }
+                else ProductList = null;
+                return ProductList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ProductModel> PhanTrangDSProduct(int page_index,int pageSize)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader(
+                "Pro_Get_All_Product", "@page_index", "@page_size", page_index, pageSize
+                ) ;
+                if (tb != null)
+                {
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ProductModel product = new ProductModel();
+                        product.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        product.title = tb.Rows[i]["title"].ToString();
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
+                        product.description = tb.Rows[i]["description"].ToString();
+                        product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
+                        product.HuongDanSuDung = tb.Rows[i]["HuongDanSuDung"].ToString();
+                        product.size = tb.Rows[i]["size"].ToString();
+                        product.color = tb.Rows[i]["color"].ToString();
+                        product.CateId = tb.Rows[i]["CateId"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateId"].ToString());
+                        ProductList.Add(product);
+                    }
+                }
+                else ProductList = null;
+                return ProductList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        public ProductModel GetListProduct(string productId)
+        public ProductModel GetProductById(string productId)
         {
             DataTable tb = helper.ExcuteReader("GetbyId", "@productid", productId);
 
@@ -29,13 +95,10 @@ namespace DataAccessLayer
                     product.HuongDanSuDung = tb.Rows[0]["HuongDanSuDung"].ToString();
                     product.size = tb.Rows[0]["size"].ToString();
                     product.color = tb.Rows[0]["color"].ToString();
-                    if (tb.Rows[0]["CateId"] == DBNull.Value)
-                        product.CateId = 0;
-                    else
+                    product.CateId = tb.Rows[0]["CateId"] == DBNull.Value ? 0 : int.Parse(tb.Rows[0]["CateId"].ToString());
 
-                        product.CateId = int.Parse(tb.Rows[0]["CateId"].ToString());
+
                 return product;
-
             }
             else return null;
             
