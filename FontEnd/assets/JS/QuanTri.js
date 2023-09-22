@@ -1,3 +1,8 @@
+const btnAbc = document.getElementById('btnAbc');
+btnAbc.addEventListener('click', ()=>{
+    document.querySelector('.form_create_container').style.display = 'block';
+})
+
 
 function Start(){
     getProduct(renderProduct)
