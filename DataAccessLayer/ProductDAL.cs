@@ -45,13 +45,13 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ProductModel> PhanTrangDSProduct(int page_index,int pageSize)
+        public List<ProductModel> PhanTrangDSProduct(int ? page_index,int ? pageSize)
         {
             try
             {
                 DataTable tb = helper.ExcuteReader(
                 "Pro_Get_All_Product", "@page_index", "@page_size", page_index, pageSize
-                ) ;
+                );
                 if (tb != null)
                 {
                     for (int i = 0; i < tb.Rows.Count; i++)

@@ -23,15 +23,16 @@ namespace API_Cafina.Controllers
         }
         [Route("PhanTrang_DSProduct")]
         [HttpGet]
-        public IActionResult PhanTrang(int page)
+        public IActionResult PhanTrang(int? page)
         {
-            int pageSize = 36;
+            var abc = page;
+            int ? pageSize = 36;
             Product_List=   proBus.PhanTrangDSProduct(page, pageSize);
             return Product_List !=null ? Ok(Product_List):NotFound();
         }
         [Route("GetById")]
         [HttpGet]
-        public IActionResult GetAllProduct(string productId)
+        public IActionResult GetProductById(string productId)
         {
             var result = proBus.GetProductById(productId);
             return result == null? NotFound():Ok(result);

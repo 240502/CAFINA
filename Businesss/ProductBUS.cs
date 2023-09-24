@@ -9,20 +9,25 @@ namespace Businesss
 {
     public class ProductBUS
     {
-        List<ProductModel> ProductList ;  
         ProductDAL prodDal = new ProductDAL();
         public List<ProductModel> GetAll()
         {
-            ProductList = prodDal.GetAll();
+
+            List<ProductModel> ProductList = prodDal.GetAll();
             return ProductList != null ? ProductList : null;
         }
-        public List<ProductModel> PhanTrangDSProduct(int page,int pageSize)
+        public List<ProductModel> PhanTrangDSProduct(int ? page,int ? pageSize)
         {
-            List<ProductModel> ProductList1 = GetAll();
-            if(ProductList1.Count < pageSize && page !=1) {
+
+
+           var xz= GetAll();
+           var abnc = xz.Count ;
+            if(page == null ) {
                 page = 1;
             }
-            ProductList = prodDal.PhanTrangDSProduct(page, pageSize);
+            if(pageSize == null) pageSize = 10;
+            var ProductList = prodDal.PhanTrangDSProduct(page, pageSize);
+
             return ProductList !=null ? ProductList:null;
         }
         public ProductModel GetProductById(string productId)
@@ -33,7 +38,7 @@ namespace Businesss
         }
         public List<ProductModel> SearchProduct(string value)
         {
-            ProductList = prodDal.SearchProduct(value);
+            List<ProductModel> ProductList = prodDal.SearchProduct(value);
             return ProductList!=null ? ProductList:null;
         }
         public string CreateProduct(ProductModel product)
@@ -52,7 +57,7 @@ namespace Businesss
             return result;
         } public List<ProductModel> Search2(int pageIndex, int pageSize, out long total, string ProductName, int CateId)
         {
-            ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName,CateId);
+            List<ProductModel> ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName,CateId);
             return ProductList;
         }
         public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)
