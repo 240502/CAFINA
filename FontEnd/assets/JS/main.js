@@ -25,12 +25,22 @@ function renderProduct(products){
     pageSize = products["pageSize"]
     var html= products["data"].map(function(product){
         return `
-           <div class="item">
-                <h3 class="title">
-                    ${product.title}
-                </h3>
-           </div>
-          
+        <div class="item">
+            <div class="img">
+                <img src=${"https://canifa.com/img/1000/1500/resize/6/t/6tw23w007-sp234-2.webp"} alt="">    
+            </div>
+            <div class="list-color">
+                <span   class="color1 selected" ></span>
+                <span   class="color2" ></span>
+                <span   class="color3" ></span>
+            </div>
+            <div class="title">
+                ${product.title}
+            </div>
+            <div class="price">
+                ${product.price} đ
+            </div>
+        </div>
         `
     })
     listProduct.innerHTML=html.join("")
