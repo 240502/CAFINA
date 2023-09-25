@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-image: #fff;
+    min-height: 100vh;
+    line-height: 20px;
+    font-family :'Times New Roman', Times, serif;;
+
+}
+.content{
+    width: 100%;
+    padding: 20px 80px;
+}
+.list{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+}
+.list .item{
+    width: 25%;
+    padding: 0 16px;
+    margin-bottom: 38px;
+}
+.list .item .img{
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: relative;
+    border-radius: 2px;
+}
+.item .img img{
+   height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin: auto;
+}
+.item .list-color 
+{
+    width: 100%;
+    margin-bottom: 2px;
+    
+}
+.item .list-color span{
+    display: inline-block;
+    border-radius: 100%;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e6e7e8; 
+    background-repeat: no-repeat;
+    padding: 2px;
+    width: 24px;
+    height: 24px;
+    background-image: url("https://media.canifa.com/attribute/swatch/images/sp234.png");
+    background-clip: content-box ;
+    background-size: cover;
+    cursor: pointer;
+}
+.item .list-color .selected {
+    border-color: #333f48;
+}
+.item .title{
+    display: block;
+    color: #333f48;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.43;
+    margin: 0 0 4px;
+    overflow: hidden;
+    text-overflow:  ellipsis;
+    white-space: nowrap;
+}
+.item .title a{
+    text-decoration: none;
+    color: #333f48;
+}
+.item .price{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    display: block;
+}
+.listPage{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.listPage li{
+    background-color: rgba(26, 25, 25, 0.741);
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+.listPage .active{
+    background-color: #b192ef;
+    color: #fff;
+}

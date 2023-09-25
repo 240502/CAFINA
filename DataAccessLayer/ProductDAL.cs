@@ -45,8 +45,9 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ProductModel> PhanTrangDSProduct(int ? page_index,int ? pageSize)
+        public List<ProductModel> PhanTrangDSProduct(int ? page_index,int ? pageSize, out int total)
         {
+            total = 0;
             try
             {
                 DataTable tb = helper.ExcuteReader(
@@ -54,6 +55,8 @@ namespace DataAccessLayer
                 );
                 if (tb != null)
                 {
+                    total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         ProductModel product = new ProductModel();

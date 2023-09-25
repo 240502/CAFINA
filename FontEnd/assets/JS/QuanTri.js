@@ -27,4 +27,20 @@ function getProduct(render){
     .then((Response)=>Response.json())
     .then(render)
 }
+function getAllProduct(){
+    var option ={
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json"   
+        }
+    }
+    fetch(`https://localhost:7140/api/Product/PhanTrang_DSProduct?page=`)  
+    .then(response => response.json())
+    .then(function (response) {
+    
+        console.log(response)
+    })
+}
+getAllProduct()
 console.log("abc")
+console.log(Math.ceil(10/5))

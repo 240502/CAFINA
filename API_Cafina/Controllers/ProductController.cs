@@ -4,6 +4,7 @@ using Businesss;
 using Model;
 using System.Globalization;
 using System;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace API_Cafina.Controllers
 {
@@ -22,13 +23,27 @@ namespace API_Cafina.Controllers
             return Ok(Product_List);
         }
         [Route("PhanTrang_DSProduct")]
-        [HttpGet]
-        public IActionResult PhanTrang(int? page)
+        [HttpPost]
+        public IActionResult PhanTrang([FromBody] Dictionary<string,object> formData)
         {
-            var abc = page;
-            int ? pageSize = 36;
-            Product_List=   proBus.PhanTrangDSProduct(page, pageSize);
-            return Product_List !=null ? Ok(Product_List):NotFound();
+            try
+            {
+                int? page = null;
+                if (formData.Keys.Contains("page") && !string.IsNullOrEmpty(formData["page"].ToString()))
+                {
+
+                     page = int.Parse(formData["page"].ToString());
+                }    
+                int? pageSize = 5;
+                int total = 0;
+                Product_List = proBus.PhanTrangDSProduct(page, pageSize,out total);
+                return Product_List != null ? Ok(new {TotalItem= total,Data=Product_List,Page= page, PageSize=pageSize}) : NotFound();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
         }
         [Route("GetById")]
         [HttpGet]
@@ -71,6 +86,7 @@ namespace API_Cafina.Controllers
         {
             try
             {
+                
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string proName = "";

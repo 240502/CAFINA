@@ -16,17 +16,14 @@ namespace Businesss
             List<ProductModel> ProductList = prodDal.GetAll();
             return ProductList != null ? ProductList : null;
         }
-        public List<ProductModel> PhanTrangDSProduct(int ? page,int ? pageSize)
+        public List<ProductModel> PhanTrangDSProduct(int ? page,int ? pageSize,out int total)
         {
 
-
-           var xz= GetAll();
-           var abnc = xz.Count ;
             if(page == null ) {
                 page = 1;
             }
             if(pageSize == null) pageSize = 10;
-            var ProductList = prodDal.PhanTrangDSProduct(page, pageSize);
+            var ProductList = prodDal.PhanTrangDSProduct(page, pageSize,out total);
 
             return ProductList !=null ? ProductList:null;
         }
