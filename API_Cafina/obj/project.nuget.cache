@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xiXxylbbwUgWvcw/Um5SnyuS4GR1K6H7XV1x1t1HhqUQO9nttKP7F3rFZxIwv3P5gQ7iwremOWrKaeV2qpovpQ==",
+  "dgSpecHash": "ZetpFmMs9X4gNdpHdbL/cguT+//fSgZx/BuPXj+IAvgh3aBrIFjAvSgQM4LO6XEzEzFvWFbkwSIn3iBpvuBSBQ==",
   "success": true,
-  "projectFilePath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina.csproj",
+  "projectFilePath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina_Manage.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.22\\microsoft.aspnetcore.authentication.jwtbearer.6.0.22.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

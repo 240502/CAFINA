@@ -5,16 +5,20 @@ using Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder.Extensions;
 using System.Text;
+using Microsoft.AspNetCore.DataProtection;
 
+using Microsoft.AspNetCore.Authorization;
 namespace API_Cafina.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserBUS userBUS= new UserBUS();
+        UserBUS userBUS = new UserBUS();
+     
         List<UserModel> userList = new List<UserModel>();
 
+        [Authorize]
         [Route("Thong_Ke_So_Tien_Da_Tieu_Cua_User")]
         [HttpPost]
         public IActionResult ThongKeSoTienUs([FromBody] Dictionary<string, object> formData)
@@ -43,13 +47,15 @@ namespace API_Cafina.Controllers
 
             }
         }
+        [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
         public IActionResult Login([FromBody] AuthenticateModel model)
         {
+            var result = userBUS.Login(model.Email, model.Password);
             try
             {
-                var result = userBUS.Login(model.Email, model.Password);
+                
                 return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number, token = result.token });
             }
             catch (Exception ex)

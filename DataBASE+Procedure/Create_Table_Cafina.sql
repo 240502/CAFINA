@@ -63,4 +63,18 @@ create table Order_Details(
 	Price int,
 	Amount int
 )
-
+Create table BoSuTap(
+	id int identity primary key,
+	TenBST  nvarchar(100) not null
+)
+drop table Directory
+Create table [Object](
+	id  int identity primary key,
+	TenDoiTuong nvarchar(50) not null
+)
+alter table Product
+add [Object_id] int foreign key references [Object]
+	on update cascade on delete cascade
+alter table Product
+add Bst_id int foreign key references BoSuTap
+	on update cascade on delete cascade

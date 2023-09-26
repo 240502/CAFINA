@@ -8,6 +8,7 @@ using DataAccessLayer;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+
 using Microsoft.Extensions.Configuration;
 
 namespace Businesss
@@ -17,8 +18,7 @@ namespace Businesss
         UserDAL userDAL = new UserDAL();
         List<UserModel> userList ;
         private string secret;
-        
-     
+
         public List<UserModel> ThongKeSoTienUs(DateTime? fr_date ,DateTime ? to_date)
         {
             userList = userDAL.ThongKeTop5UserTieuNhieuTienNhat(fr_date,to_date);
@@ -28,15 +28,14 @@ namespace Businesss
         public UserModel Login(string email,string PassWord)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             IConfigurationRoot configuration = builder.Build();
             // configurationSection.Key => FilePath
             // configurationSection.Value => C:\\temp\\logs\\output.txt
-            IConfigurationSection configurationSection = configuration.GetSection("AppSettings").GetSection("Secret");
-          
-            secret = configurationSection.Value;
+            IConfigurationSection configuration1 = configuration.GetSection("AppSettings").GetSection("Secret");
+            secret = configuration1.Value;
             var user = userDAL.Login(email, PassWord);
             if (user == null) return null;
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -46,10 +45,10 @@ namespace Businesss
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Email, user.email),
-                    new Claim(ClaimTypes.StreetAddress, user.PassWord)
+                    new Claim(ClaimTypes.Name, user.FullName)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.Aes128CbcHmacSha256)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.token = tokenHandler.WriteToken(token);

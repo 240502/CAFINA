@@ -15,7 +15,7 @@ function getProduct(data) {
         },
         body: JSON.stringify(data)
     }
-    fetch("https://localhost:7140/api/Product/PhanTrang_DSProduct",option)
+    fetch("https://localhost:7094/api/Product/PhanTrang_DSProduct",option)
     .then(response => response.json())
     .then(response=>renderProduct(response))
 

@@ -1726,9 +1726,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina.csproj",
-      "projectName": "API_Cafina",
-      "projectPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina.csproj",
+      "projectUniqueName": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina_Manage.csproj",
+      "projectName": "API_Cafina_Manage",
+      "projectPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\API_Cafina_Manage.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
       "outputPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\API_Cafina\\obj\\",
       "projectStyle": "PackageReference",

@@ -14,5 +14,16 @@ as
 		group by  u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Role_Id
 		order by  [Tổng tiền mua] desc 
 	end
+alter Procedure Pro_Login
+	@email varchar(100),
+	@PassWord varchar(50)
 
+as
+	begin
+		select * from Users
+		where email =@email and [PassWord] = @PassWord
+	end
+
+exec Pro_Login 'sanghip200@gmail.com','123456'
+select * from Users
 

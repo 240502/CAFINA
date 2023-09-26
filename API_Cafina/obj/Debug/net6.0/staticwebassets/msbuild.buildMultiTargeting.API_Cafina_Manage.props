@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\API_Cafina_Manage.props" />
+</Project>
