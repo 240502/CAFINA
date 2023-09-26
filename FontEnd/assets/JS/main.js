@@ -24,6 +24,12 @@ function renderProduct(products){
     totalItem = products["totalItem"]
     pageSize = products["pageSize"]
     var html= products["data"].map(function(product){
+        var stringPrice = String(product.price)
+
+         var StartPrice = stringPrice.slice(0,3)
+         var EndPrice = stringPrice.slice(3,6)
+         var price = StartPrice+'.'+EndPrice
+         console.log(price)
         return `
         <div class="item">
             <div class="img">
@@ -38,7 +44,7 @@ function renderProduct(products){
                 ${product.title}
             </div>
             <div class="price">
-                ${product.price} đ
+                ${String(product.price).length == 6 ? price:product.price} đ
             </div>
         </div>
         `

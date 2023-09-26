@@ -88,3 +88,12 @@ D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\obj\Debug\net6.0\refint\API
 D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\obj\Debug\net6.0\API_Cafina.pdb
 D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\obj\Debug\net6.0\API_Cafina.genruntimeconfig.cache
 D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\obj\Debug\net6.0\ref\API_Cafina.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+D:\Asp.net web api\BTL_Nguyễn Văn Sang\API_Cafina\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

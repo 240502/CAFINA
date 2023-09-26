@@ -155,9 +155,8 @@ namespace DataAccessLayer
                         Order_Detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
                         Order.order_Details.Add( Order_Detail );
 
-
+                        listOrder.Add(Order);
                     }
-                    listOrder.Add(Order);
                 }
                 else listOrder = null ;
                     return listOrder;

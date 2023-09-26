@@ -16,5 +16,7 @@ namespace Model
          public string Gender { get; set; }
         public int RoleId { get; set; }
         public int TongTienMua { get; set; }
+        public string PassWord { get;set; }
+        public string token { get; set; }
     }
 }
