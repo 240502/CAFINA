@@ -10,6 +10,32 @@ body{
     font-family :'Times New Roman', Times, serif;;
 
 }
+
+#form-search{
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+#form-search #search-header{
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 70%;
+    font-size: 14px;
+    outline: none;
+    border-radius: 10px;
+    margin-right: 10px;
+
+}
+#form-search #search-header:hover{
+    border: 1px solid #c29999;
+}
+#form-search #btnSearch{
+    border: none;
+    background-color: #c29999;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
 .content{
     width: 100%;
     padding: 20px 80px;

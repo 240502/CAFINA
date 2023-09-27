@@ -163,14 +163,14 @@ namespace DataAccessLayer
                    productId);
             return result;
         }
-        public List<ProductModel> Search2(int pageIndex,int pageSize,out long total, string ProductName,int CateId)
+        public List<ProductModel> Search2(int pageIndex,int pageSize,out long total, string ProductName,string CateName)
         {
             total = 0;
             try
             {
                     DataTable tb = helper.ExcuteReader("Pro_Search_Product",
-                    "@page_index","@page_size", "@tensp", "@loaisp",
-                    pageIndex,pageSize,ProductName, CateId);
+                    "@page_index","@page_size", "@tensp", "@tenloaisp",
+                    pageIndex,pageSize,ProductName, CateName);
                 if (tb.Rows.Count > 0)
                 {
                     total = (long)tb.Rows[0]["RecordCount"];

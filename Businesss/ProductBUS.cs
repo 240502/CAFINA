@@ -52,9 +52,9 @@ namespace Businesss
         public string DeleteProduct(string productId) { 
             var result = prodDal.DeleteProduct(productId);
             return result;
-        } public List<ProductModel> Search2(int pageIndex, int pageSize, out long total, string ProductName, int CateId)
+        } public List<ProductModel> Search2(int pageIndex, int pageSize, out long total, string ProductName, string CateName)
         {
-            List<ProductModel> ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName,CateId);
+            List<ProductModel> ProductList = prodDal.Search2(pageIndex,pageSize,out total,ProductName, CateName);
             return ProductList;
         }
         public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime ? fr_date,DateTime ? td_date)

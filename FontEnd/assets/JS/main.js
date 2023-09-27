@@ -1,10 +1,44 @@
 const listProduct = document.querySelector(".list")
+const inputSearch = document.querySelector("#search-header")
+const btnSearch = document.querySelector("#btnSearch")
+console.log(btnSearch)
+inputSearch.addEventListener("change",(e)=>{
+    inputSearch.value = e.target.value
+})
 let thisPage = 1;
-function Start(){
-    var data ={
-        page:thisPage
+let pageSize = 5
+function SearchProduct(data) {
+    var options = {
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json"
+
+        },
+        body: JSON.stringify(data)
     }
-    getProduct(data);
+    fetch("https://localhost:7094/api/Product/Search",options)
+    .then(response => response.json())
+    .then((products) => {
+        renderProduct(products)
+        
+    }) 
+}
+
+
+function handleSearch(page){
+    btnSearch.addEventListener("click",(e)=>{
+        e.preventDefault()
+        var data ={
+            page,
+            pageSize:pageSize,
+            ProductName:inputSearch.value
+        }
+        SearchProduct(data)
+    })
+}
+
+function Start(){
+    handleGetProduct()
 }
 Start();
 function getProduct(data) {
@@ -20,6 +54,12 @@ function getProduct(data) {
     .then(response=>renderProduct(response))
 
 }
+function handleGetProduct(){
+    var data = {
+        page:thisPage
+    }
+    getProduct(data)
+}
 function renderProduct(products){
     totalItem = products["totalItem"]
     pageSize = products["pageSize"]
@@ -29,7 +69,6 @@ function renderProduct(products){
          var StartPrice = stringPrice.slice(0,3)
          var EndPrice = stringPrice.slice(3,6)
          var price = StartPrice+'.'+EndPrice
-         console.log(price)
         return `
         <div class="item">
             <div class="img">
@@ -50,11 +89,10 @@ function renderProduct(products){
         `
     })
     listProduct.innerHTML=html.join("")
-    listPage(products["totalItem"],products["pageSize"])
+    listPage(products["totalItems"],products["pageSize"])
 }
 
 function listPage(totalItem,pageSize) {
-    
     let numberPage = Math.ceil(totalItem/pageSize)
     document.querySelector(".listPage").innerHTML = ""
     for(i=1;i<=numberPage;i++){
@@ -66,10 +104,10 @@ function listPage(totalItem,pageSize) {
         }
         newPage.setAttribute("onclick", "changePage(" + i + ")")
         document.querySelector(".listPage").appendChild(newPage)
-        
     }
+
 }
 function changePage(i){
-    thisPage  =i
-    Start();
+    thisPage=i
+    Start()
 }
