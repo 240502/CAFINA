@@ -25,7 +25,7 @@ namespace API_Cafina_Customer.Controllers
                 int? pageSize = 5;
                 int total = 0;
                 Product_List = proBus.PhanTrangDSProduct(page, pageSize, out total);
-                return Product_List != null ? Ok(new { TotalItem = total, Data = Product_List, Page = page, PageSize = pageSize }) : NotFound();
+                return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = page, PageSize = pageSize }) : NotFound();
             }
             catch (Exception ex)
             {

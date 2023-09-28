@@ -1,74 +1,58 @@
-const listProduct = document.querySelector(".list")
-const inputSearch = document.querySelector("#search-header")
-const btnSearch = document.querySelector("#btnSearch")
-console.log(btnSearch)
-inputSearch.addEventListener("change",(e)=>{
-    inputSearch.value = e.target.value
-})
+ const listProduct = $(".list")
+ const inputSearch = $("#search-header")
+ const btnSearch = $("#btnSearch")
+
 let thisPage = 1;
-let pageSize = 5
-function SearchProduct(data) {
-    var options = {
-        method:"POST",
-        headers: {
-            "Content-Type": "application/json"
-
-        },
-        body: JSON.stringify(data)
-    }
-    fetch("https://localhost:7094/api/Product/Search",options)
-    .then(response => response.json())
-    .then((products) => {
-        renderProduct(products)
-        
-    }) 
-}
-
-
-function handleSearch(page){
-    btnSearch.addEventListener("click",(e)=>{
-        e.preventDefault()
-        var data ={
-            page,
-            pageSize:pageSize,
-            ProductName:inputSearch.value
-        }
-        SearchProduct(data)
-    })
-}
-
+let pageSize = 5;
 function Start(){
-    handleGetProduct()
-}
+    getProduct(renderProduct)
+ }
 Start();
-function getProduct(data) {
-    var option = {
-        method : "POST",
-        headers:{
-            "Content-Type": "application/json "
-        },
-        body: JSON.stringify(data)
+btnSearch.click(()=>{
+    handleSearch();
+});
+function handleSearch() {
+    const data = {
+        page:thisPage,
+        pageSize:pageSize,
+        ProductName:inputSearch.val()
     }
-    fetch("https://localhost:7094/api/Product/PhanTrang_DSProduct",option)
-    .then(response => response.json())
-    .then(response=>renderProduct(response))
+    SearchProduct(data);
 
-}
-function handleGetProduct(){
-    var data = {
-        page:thisPage
+};
+function SearchProduct(data) {
+    $.post({
+        url: "https://localhost:7094/api/Product/Search",
+        data:JSON.stringify(data),
+        contentType:"application/json",
+    })
+    .done(response=>{
+        renderProduct(response)
+    })
+
+};
+function getProduct(render) {
+    const data = {
+        page:thisPage,
+        pageSize:pageSize
     }
-    getProduct(data)
+    $.post({
+        url: "https://localhost:7094/api/Product/Search",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8'
+    })
+        .done(render);
 }
+
+
 function renderProduct(products){
     totalItem = products["totalItem"]
     pageSize = products["pageSize"]
-    var html= products["data"].map(function(product){
-        var stringPrice = String(product.price)
-
-         var StartPrice = stringPrice.slice(0,3)
-         var EndPrice = stringPrice.slice(3,6)
-         var price = StartPrice+'.'+EndPrice
+    var result= products["data"].map(function(product){
+       var stringPrice = String(product.price)
+       var StartPrice = stringPrice.slice(0,3)
+       var EndPrice = stringPrice.slice(3,6)
+       var price = StartPrice+'.'+EndPrice
         return `
         <div class="item">
             <div class="img">
@@ -88,26 +72,77 @@ function renderProduct(products){
         </div>
         `
     })
-    listProduct.innerHTML=html.join("")
+    listProduct.html(result.join(''))
     listPage(products["totalItems"],products["pageSize"])
 }
-
 function listPage(totalItem,pageSize) {
-    let numberPage = Math.ceil(totalItem/pageSize)
-    document.querySelector(".listPage").innerHTML = ""
-    for(i=1;i<=numberPage;i++){
-        let newPage = document.createElement("li")
-        newPage.innerHTML=i
-        if(i==thisPage){
+   let numberPage = Math.ceil(totalItem/pageSize)
+   var listPage = $(".listPage")
+   listPage.html("")
+   for(i=1;i<=numberPage;i++){
+       let newPage = document.createElement("li")
+       newPage.innerHTML=i
+       if(i==thisPage){
+           newPage.classList.add("active")
+       }
+       newPage.setAttribute("onclick", "changePage("+i+")")
 
-            newPage.className = "active"
-        }
-        newPage.setAttribute("onclick", "changePage(" + i + ")")
-        document.querySelector(".listPage").appendChild(newPage)
+       listPage.append(newPage);
     }
-
 }
 function changePage(i){
     thisPage=i
     Start()
-}
+ }
+
+// function SearchProduct(data) {
+//     var options = {
+//         method:"POST",
+//         headers: {
+//             "Content-Type": "application/json"
+
+//         },
+//         body: JSON.stringify(data)
+//     }
+//     fetch("https://localhost:7094/api/Product/Search",options)
+//     .then(response => response.json())
+//     .then((products) => {
+//         renderProduct(products)
+        
+//     }) 
+// }
+
+
+// function handleSearch(page){
+//     btnSearch.addEventListener("click",(e)=>{
+//         e.preventDefault()
+//         var data ={
+//             page,
+//             pageSize:pageSize,
+//             ProductName:inputSearch.value
+//         }
+//         SearchProduct(data)
+//     })
+// }
+
+
+// function getProduct(data) {
+//     var option = {
+//         method : "POST",
+//         headers:{
+//             "Content-Type": "application/json "
+//         },
+//         body: JSON.stringify(data)
+//     }
+//     fetch("https://localhost:7094/api/Product/PhanTrang_DSProduct",option)
+//     .then(response => response.json())
+//     .then(response=>renderProduct(response))
+
+// }
+// function handleGetProduct(){
+//     var data = {
+//         page:thisPage
+//     }
+//     getProduct(data)
+// }
+// 
