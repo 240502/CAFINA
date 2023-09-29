@@ -7,6 +7,7 @@ using System.Globalization;
 using System;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_Cafina.Controllers
 {
@@ -22,6 +23,7 @@ namespace API_Cafina.Controllers
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List;
         string _path;
+        [Authorize]
         [Route("Get_All")]
         [HttpGet]
         public IActionResult Get()

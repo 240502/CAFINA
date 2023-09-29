@@ -30,21 +30,19 @@ namespace Businesss
             IConfigurationBuilder builder = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
             IConfigurationRoot configuration = builder.Build();
-            // configurationSection.Key => FilePath
-            // configurationSection.Value => C:\\temp\\logs\\output.txt
             IConfigurationSection configuration1 = configuration.GetSection("AppSettings").GetSection("Secret");
             secret = configuration1.Value;
             var user = userDAL.Login(email, PassWord);
-            if (user == null) return null;
+            if (user == null)
+                return null;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email, user.email),
+                    new Claim(ClaimTypes.NameIdentifier, user.email),
                     new Claim(ClaimTypes.Name, user.FullName)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),

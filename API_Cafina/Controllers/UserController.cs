@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder.Extensions;
 using System.Text;
 using Microsoft.AspNetCore.DataProtection;
-
 using Microsoft.AspNetCore.Authorization;
 namespace API_Cafina.Controllers
 {
@@ -56,7 +55,7 @@ namespace API_Cafina.Controllers
             try
             {
                 
-                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number, token = result.token });
+                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number,role = result.RoleId, token = result.token });
             }
             catch (Exception ex)
             {
