@@ -38,18 +38,18 @@ namespace Businesss
             List<ProductModel> ProductList = prodDal.SearchProduct(value);
             return ProductList!=null ? ProductList:null;
         }
-        public string CreateProduct(ProductModel product)
+        public int CreateProduct(ProductModel product)
         {
             var result = prodDal.CreateProduct(product);
             return result;
         }
-        public string UpdateProduct(ProductModel product)
+        public int UpdateProduct(ProductModel product)
         {
            
             var result = prodDal.UpdateProduct(product);
             return result;
         }
-        public string DeleteProduct(string productId) { 
+        public int DeleteProduct(string productId) { 
             var result = prodDal.DeleteProduct(productId);
             return result;
         } public List<ProductModel> Search2(int pageIndex, int pageSize, out long total, string ProductName, string CateName)

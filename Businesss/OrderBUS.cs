@@ -16,12 +16,12 @@ namespace Businesss
             OrderModel orderModel = orderDAL.GetById(id);
             return orderModel;
         }
-        public string CreateOrder(OrderModel order)
+        public int CreateOrder(OrderModel order)
         {
             var result = orderDAL.CreateOrder(order);
             return result;
         }
-        public string DeleteOrder(string orderId)
+        public int DeleteOrder(string orderId)
         {
             var result = orderDAL.DeleteOrder(orderId);
             return result;
@@ -31,7 +31,7 @@ namespace Businesss
             var result = orderDAL.SearchOrder(pageIndex,pageSize,out total,name);
             return result;
         }
-        public string UpdateOrder(OrderModel order)
+        public int UpdateOrder(OrderModel order)
         {
             var result = orderDAL.UpdateOrder(order);
             return result;

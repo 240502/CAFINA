@@ -14,12 +14,39 @@ namespace API_Cafina.Controllers
     public class UserController : ControllerBase
     {
         UserBUS userBUS = new UserBUS();
-     
+        UserLoginBUS userLogin = new UserLoginBUS();
+
+
         List<UserModel> userList = new List<UserModel>();
 
-        [Authorize]
+        [Route("Create_User")]
+        [HttpPost]
+        public IActionResult Create_User([FromBody] UserModel us)
+        {
+            var result = userBUS.Create_User(us);
+            
+            return result!=-1 ? Ok("Thêm user thành công"):BadRequest("User đã tồn tại");
+        }
+
+        [Route("Delete_User")]
+        [HttpDelete]
+        public IActionResult Delete_User(int usId)
+        {
+            var result = userBUS.Delete_User(usId);
+            return result ==1 ?Ok("Xóa thành công"):BadRequest("Xóa thông tin không thành công");
+        }
+
+
+        [Route("Update_User")]
+        [HttpPut]
+        public IActionResult Update_User([FromBody] UserModel us)
+        {
+            var result = userBUS.Update_User(us);
+            return result == 1 ? Ok("Sủa thành công") : BadRequest("Sửa thông tin không thành công");
+        }
         [Route("Thong_Ke_So_Tien_Da_Tieu_Cua_User")]
         [HttpPost]
+         [Authorize]
         public IActionResult ThongKeSoTienUs([FromBody] Dictionary<string, object> formData)
         {
             try
@@ -51,11 +78,11 @@ namespace API_Cafina.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] AuthenticateModel model)
         {
-            var result = userBUS.Login(model.Email, model.Password);
+            var result = userLogin.Login(model.Email, model.Password);
             try
             {
-                
-                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number,role = result.RoleId, token = result.token });
+
+                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number, role = result.RoleId, token = result.token });
             }
             catch (Exception ex)
             {

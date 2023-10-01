@@ -63,7 +63,7 @@ namespace DataAccessLayer
             }
            
         }
-        public string  CreateOrder(OrderModel order)
+        public int  CreateOrder(OrderModel order)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace DataAccessLayer
 
 
         }
-        public string DeleteOrder(string orderId)
+        public int DeleteOrder(string orderId)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace DataAccessLayer
                 throw new Exception(ex.Message);
             }
         }
-        public string UpdateOrder(OrderModel order)
+        public int UpdateOrder(OrderModel order)
         {
             try
             {

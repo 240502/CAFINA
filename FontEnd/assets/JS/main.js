@@ -18,6 +18,9 @@ function handleSearch() {
         ProductName:inputSearch.val()
     }
     SearchProduct(data);
+    $("li").click((event)=>{
+        console.log(event.target);
+    })
 
 };
 function SearchProduct(data) {
@@ -28,8 +31,9 @@ function SearchProduct(data) {
     })
     .done(response=>{
         renderProduct(response)
-    })
+        $(".list").before(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
 
+    })
 };
 function getProduct(render) {
     const data = {
@@ -37,7 +41,7 @@ function getProduct(render) {
         pageSize:pageSize
     }
     $.post({
-        url: "https://localhost:7094/api/Product/Search",
+        url: "https://localhost:7094/api/Product/PhanTrang_DSProduct",
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8'
     })
@@ -46,7 +50,7 @@ function getProduct(render) {
 
 
 function renderProduct(products){
-    totalItem = products["totalItem"]
+    totalItem = products["totalItems"]
     pageSize = products["pageSize"]
     var result= products["data"].map(function(product){
        var stringPrice = String(product.price)
@@ -76,73 +80,24 @@ function renderProduct(products){
     listPage(products["totalItems"],products["pageSize"])
 }
 function listPage(totalItem,pageSize) {
+
    let numberPage = Math.ceil(totalItem/pageSize)
    var listPage = $(".listPage")
    listPage.html("")
    for(i=1;i<=numberPage;i++){
        let newPage = document.createElement("li")
+       newPage.className = "list-item"
        newPage.innerHTML=i
        if(i==thisPage){
            newPage.classList.add("active")
        }
        newPage.setAttribute("onclick", "changePage("+i+")")
-
        listPage.append(newPage);
     }
 }
+
 function changePage(i){
     thisPage=i
     Start()
  }
 
-// function SearchProduct(data) {
-//     var options = {
-//         method:"POST",
-//         headers: {
-//             "Content-Type": "application/json"
-
-//         },
-//         body: JSON.stringify(data)
-//     }
-//     fetch("https://localhost:7094/api/Product/Search",options)
-//     .then(response => response.json())
-//     .then((products) => {
-//         renderProduct(products)
-        
-//     }) 
-// }
-
-
-// function handleSearch(page){
-//     btnSearch.addEventListener("click",(e)=>{
-//         e.preventDefault()
-//         var data ={
-//             page,
-//             pageSize:pageSize,
-//             ProductName:inputSearch.value
-//         }
-//         SearchProduct(data)
-//     })
-// }
-
-
-// function getProduct(data) {
-//     var option = {
-//         method : "POST",
-//         headers:{
-//             "Content-Type": "application/json "
-//         },
-//         body: JSON.stringify(data)
-//     }
-//     fetch("https://localhost:7094/api/Product/PhanTrang_DSProduct",option)
-//     .then(response => response.json())
-//     .then(response=>renderProduct(response))
-
-// }
-// function handleGetProduct(){
-//     var data = {
-//         page:thisPage
-//     }
-//     getProduct(data)
-// }
-// 

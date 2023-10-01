@@ -85,9 +85,9 @@ namespace DataAccessLayer.Helper
             }
             return tb;
         }
-        public string ExcuteNonQuery(string ProcedureName,params object[] param_List)
+        public int ExcuteNonQuery(string ProcedureName,params object[] param_List)
         {
-            string result = "";
+            int  result = 0;
             try
             {
                 SqlCommand cmd = new SqlCommand { CommandText=ProcedureName,CommandType=CommandType.StoredProcedure,Connection = connection};
@@ -106,18 +106,20 @@ namespace DataAccessLayer.Helper
                         cmd.Parameters.Add(new SqlParameter(paramName,paramValue));
                     }
                 }
-                cmd.ExecuteNonQuery();
+                result = cmd.ExecuteNonQuery();
                 cmd.Dispose ();
                 
             }
             catch(Exception ex) 
             {
-                result =ex.Message;
+                result = -1;
             }finally 
             {
                 Close();            
             }
             return result;
         }
+
+      
     }
 }

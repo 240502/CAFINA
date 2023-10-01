@@ -1,5 +1,5 @@
 ﻿--Thống kê user mua hàng với số tiền lớn nhất
-
+use cafina
 alter procedure Pro_ThongKe_User
 	@fr_date datetime,
 	@to_date datetime
@@ -14,6 +14,7 @@ as
 		group by  u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Role_Id
 		order by  [Tổng tiền mua] desc 
 	end
+
 alter Procedure Pro_Login
 	@email varchar(100),
 	@PassWord varchar(50)
@@ -26,4 +27,65 @@ as
 
 exec Pro_Login 'sanghip200@gmail.com','123456'
 select * from Users
+
+
+
+alter Procedure Pro_Create_User
+	@FullName nvarchar(100),
+	@email varchar(100),
+	@Phone_Number varchar(20),
+	@BirthDay date,
+	@Gender nvarchar(10),
+	@Role_Id int,
+	@PassWord varchar(50)
+
+
+as
+	begin
+		if(exists (select * from Users where email = @email))
+		begin
+			return -1 
+		end
+		eLSE
+		Begin
+			Insert into Users(FulLName,email,Phone_Number,BirthDay,Gender,Role_Id,[PassWord])
+			values (@FullName,@email,@Phone_Number,@BirthDay,@Gender,@Role_Id,@PassWord)
+		End
+		
+	end
+select * from Users
+
+Create Procedure Pro_Delete_User
+	@User_id int
+as
+	Begin
+		Delete Users
+		Where id  = @User_id
+	End
+
+alter Procedure Pro_Update_User
+	@User_id int,
+	@FullName nvarchar(100),
+	@email varchar(100),
+	@Phone_Number varchar(20),
+	@BirthDay datetime,
+	@Gender nvarchar(10),
+	@Role_Id int,
+	@PassWord varchar(50)
+as
+	Begin
+		Update Users
+		Set FullName = @FullName,
+			email = @email,
+			Phone_Number = @Phone_Number,
+			BirthDay = @BirthDay,
+			Gender = @Gender,
+			Role_Id = @Role_Id,
+			[PassWord] = @PassWord
+		Where id = @User_id
+	End
+
+
+
+
 

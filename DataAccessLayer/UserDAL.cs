@@ -12,6 +12,58 @@ namespace DataAccessLayer
     public class UserDAL
     {
         DataHelper helper = new DataHelper();
+
+        public int? Create_User(UserModel us)
+        {
+            try
+            {
+                var result = helper.ExcuteNonQuery(
+                    "Pro_Create_User",
+                    "@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord",
+                    us.FullName,us.email,us.phone_number,us.Birthday,us.Gender,us.RoleId,us.PassWord
+                );
+                return result;
+              
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int Update_User(UserModel us)
+        {
+            try
+            {
+                var result = helper.ExcuteNonQuery(
+                   "Pro_Update_User",
+                   "User_id","@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord",
+                   us.Id,us.FullName, us.email, us.phone_number, us.Birthday, us.Gender, us.RoleId, us.PassWord
+               );
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int Delete_User(int usId) 
+        {
+            try
+            {
+                var result = helper.ExcuteNonQuery(
+                   "Pro_Delete_User",
+                   "User_id",
+                    usId
+               );
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<UserModel> ThongKeTop5UserTieuNhieuTienNhat(DateTime? fr_date, DateTime? to_date)
         {
             try
@@ -48,32 +100,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public UserModel Login (string email,string PassWord)
-        {
-            try
-            {
-                var  tb = helper.ExcuteReader("Pro_Login","@email","@PassWord",email,PassWord);
-                if (tb != null)
-                {
-
-                    UserModel user = new UserModel();
-                    user.Id = int.Parse(tb.Rows[0]["id"].ToString());
-                    user.FullName = tb.Rows[0]["FullName"].ToString();
-                    user.email = tb.Rows[0]["email"].ToString();
-                    user.phone_number = tb.Rows[0]["Phone_Number"].ToString();
-                    user.Gender = tb.Rows[0]["Gender"].ToString();
-                    user.RoleId = int.Parse(tb.Rows[0]["Role_Id"].ToString());
-                    user.PassWord = tb.Rows[0]["PassWord"].ToString();
-                    user.Birthday = DateTime.Parse(tb.Rows[0]["BirthDay"].ToString());
-                    return user;
-                }
-                else return null;
-
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
 
     }
 }

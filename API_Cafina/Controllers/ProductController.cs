@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API_Cafina.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -23,7 +24,6 @@ namespace API_Cafina.Controllers
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List;
         string _path;
-        [Authorize]
         [Route("Get_All")]
         [HttpGet]
         public IActionResult Get()
@@ -51,21 +51,23 @@ namespace API_Cafina.Controllers
         public IActionResult CreateProduct([FromBody]ProductModel product)
         {
             var result = proBus.CreateProduct(product);
-            return Ok(result);
+            return result == 1 ? Ok("Thêm thành công"):BadRequest("Thêm không thành công");
         }
         [Route("Update_Product")]
         [HttpPut]
         public IActionResult UpdateProduct([FromBody] ProductModel product)
         {
             var result = proBus.UpdateProduct(product);
-            return Ok(result);
+            return result == 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+
         }
         [Route("Delete_Product")]
         [HttpDelete]
         public IActionResult DeleteProduct(string productId)
         {
             var result = proBus.DeleteProduct(productId);
-            return Ok(result);
+            return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
+
         }
         [Route("Search_2")]
         [HttpPost]

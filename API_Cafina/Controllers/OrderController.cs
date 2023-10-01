@@ -25,22 +25,25 @@ namespace API_Cafina.Controllers
         public IActionResult CreateOrder([FromBody] OrderModel order)
         {
             var result = orderBus.CreateOrder(order);
-            return Ok(result);
+            return result == 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+
         }
         [Route("Delete_Order")]
         [HttpDelete]
         public IActionResult DeleteOrder(string orderId)
         {
             var result = orderBus.DeleteOrder(orderId);
-            return Ok(result);
+            return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
         }
         [Route("Update_Order")]
         [HttpPut]
         public IActionResult UpdateOrder(OrderModel order)
         {
             var result = orderBus.UpdateOrder(order);
-            return Ok(result);
+            return result == 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+
         }
+
         [Route("Search_Order")]
         [HttpPost]
         public IActionResult Search_Order([FromBody] Dictionary <string,object> formData)

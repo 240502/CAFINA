@@ -137,7 +137,7 @@ namespace DataAccessLayer
          
             return ProductList;
         }
-        public string CreateProduct(ProductModel product)
+        public int CreateProduct(ProductModel product)
         {
             var result = helper.ExcuteNonQuery("InsertProduct",
                 "@ma", "@ten", "@gia", "@giaGiam", "@mota", "@chatLieu", "@hd", "size", "@color", "cateid",
@@ -146,7 +146,7 @@ namespace DataAccessLayer
             return result;
 
         }
-        public string UpdateProduct(ProductModel product)
+        public int UpdateProduct(ProductModel product)
         {
             var result = helper.ExcuteNonQuery(
                     "Pro_Update_Product",
@@ -155,7 +155,7 @@ namespace DataAccessLayer
                 );
             return result;
         }
-        public string DeleteProduct(string productId)
+        public int DeleteProduct(string productId)
         {
             var result = helper.ExcuteNonQuery(
                    "Pro_Delete_Product",

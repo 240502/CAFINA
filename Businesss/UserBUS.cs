@@ -18,6 +18,21 @@ namespace Businesss
         UserDAL userDAL = new UserDAL();
         List<UserModel> userList ;
         private string secret;
+        public int? Create_User (UserModel us)
+        {
+            var result = userDAL.Create_User (us);
+            return result;
+        }
+        public int? Delete_User(int usId)
+        {
+            var result = userDAL.Delete_User(usId);
+            return result;
+        }
+        public int? Update_User(UserModel us)
+        {
+            var result = userDAL.Update_User(us);
+            return result;
+        }
 
         public List<UserModel> ThongKeSoTienUs(DateTime? fr_date ,DateTime ? to_date)
         {
@@ -25,32 +40,6 @@ namespace Businesss
             return userList;
 
         }
-        public UserModel Login(string email,string PassWord)
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            IConfigurationSection configuration1 = configuration.GetSection("AppSettings").GetSection("Secret");
-            secret = configuration1.Value;
-            var user = userDAL.Login(email, PassWord);
-            if (user == null)
-                return null;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.email),
-                    new Claim(ClaimTypes.Name, user.FullName)
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.token = tokenHandler.WriteToken(token);
-            return user;
-        }
+      
     }
 }
