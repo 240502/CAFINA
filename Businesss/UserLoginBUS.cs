@@ -17,6 +17,7 @@ namespace Businesss
     {
         UserLoginDAL userDAL = new UserLoginDAL();
         private string secret;
+    
         public UserLoginModel Login(string email, string PassWord)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
@@ -25,6 +26,7 @@ namespace Businesss
             IConfigurationRoot configuration = builder.Build();
             IConfigurationSection configuration1 = configuration.GetSection("AppSettings").GetSection("Secret");
             secret = configuration1.Value;
+            // secret = configuration1.Value;
             var user = userDAL.Login(email, PassWord);
             if (user == null)
                 return null;
@@ -38,7 +40,7 @@ namespace Businesss
                     new Claim(ClaimTypes.Name, user.FullName)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.token = tokenHandler.WriteToken(token);

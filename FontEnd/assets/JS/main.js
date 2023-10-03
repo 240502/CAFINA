@@ -4,6 +4,7 @@
 
 let thisPage = 1;
 let pageSize = 5;
+
 function Start(){
     getProduct(renderProduct)
  }
@@ -12,6 +13,7 @@ btnSearch.click(()=>{
     handleSearch();
 });
 function handleSearch() {
+    thisPage = 1;
     const data = {
         page:thisPage,
         pageSize:pageSize,
@@ -27,11 +29,13 @@ function SearchProduct(data) {
     $.post({
         url: "https://localhost:7094/api/Product/Search",
         data:JSON.stringify(data),
-        contentType:"application/json",
+        contentType:"application/json"
     })
     .done(response=>{
         renderProduct(response)
-        $(".list").before(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
+        inputSearch.val("")
+        $(".total-item").html("")
+        $(".total-item").html(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
 
     })
 };
@@ -41,14 +45,12 @@ function getProduct(render) {
         pageSize:pageSize
     }
     $.post({
-        url: "https://localhost:7094/api/Product/PhanTrang_DSProduct",
+        url: "https://localhost:7096/api-customer/Product/PhanTrang_DSProduct",
         data: JSON.stringify(data),
-        contentType: 'application/json; charset=utf-8'
+        contentType: 'application/json'
     })
         .done(render);
 }
-
-
 function renderProduct(products){
     totalItem = products["totalItems"]
     pageSize = products["pageSize"]
@@ -80,20 +82,23 @@ function renderProduct(products){
     listPage(products["totalItems"],products["pageSize"])
 }
 function listPage(totalItem,pageSize) {
-
    let numberPage = Math.ceil(totalItem/pageSize)
    var listPage = $(".listPage")
    listPage.html("")
-   for(i=1;i<=numberPage;i++){
-       let newPage = document.createElement("li")
-       newPage.className = "list-item"
-       newPage.innerHTML=i
-       if(i==thisPage){
-           newPage.classList.add("active")
-       }
-       newPage.setAttribute("onclick", "changePage("+i+")")
-       listPage.append(newPage);
-    }
+   if(numberPage>1)
+   {
+        for(i=1;i<=numberPage;i++){
+            let newPage = document.createElement("li")
+            newPage.className = "list-item"
+            newPage.innerHTML=i
+            if(i==thisPage){
+                newPage.classList.add("active")
+            }
+            newPage.setAttribute("onclick", "changePage("+i+")")
+            listPage.append(newPage);
+        }
+   }
+   
 }
 
 function changePage(i){

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API_Cafina.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase

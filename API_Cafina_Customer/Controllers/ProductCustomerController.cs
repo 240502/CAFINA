@@ -6,7 +6,7 @@ namespace API_Cafina_Customer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductCustomerController : ControllerBase
     {
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List ;
@@ -19,7 +19,6 @@ namespace API_Cafina_Customer.Controllers
                 int? page = null;
                 if (formData.Keys.Contains("page") && !string.IsNullOrEmpty(formData["page"].ToString()))
                 {
-
                     page = int.Parse(formData["page"].ToString());
                 }
                 int? pageSize = 5;
