@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class CategoryModel
+    public class CategoryModel
     {
+        public int id { get; set; }
+        public string CateName { get; set; }
     }
 }
