@@ -18,19 +18,19 @@ namespace DataAccessLayer
 
         public OrderModel GetById(int id)
         {
-    
+
             try
             {
                 DataTable tb = helper.ExcuteReader(
-                 
+
                     "Pro_GetById_Order",
                     "@orderId",
                     id
                 );
                 OrderModel order = new OrderModel();
-                if (tb.Rows.Count >0)
+                if (tb.Rows.Count > 0)
                 {
-                    order.order_Details = new List<Order_Details> ();
+                    order.order_Details = new List<Order_Details>();
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         Order_Details detail = new Order_Details();
@@ -47,7 +47,7 @@ namespace DataAccessLayer
                         detail.ProductId = tb.Rows[i]["ProductId"].ToString();
                         detail.price = int.Parse(tb.Rows[i]["Price"].ToString());
                         detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
-                        order.order_Details.Add(detail );
+                        order.order_Details.Add(detail);
 
                     }
                     return order;
@@ -57,13 +57,13 @@ namespace DataAccessLayer
                     return null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-           
+
         }
-        public int  CreateOrder(OrderModel order)
+        public int CreateOrder(OrderModel order)
         {
             try
             {
@@ -71,12 +71,13 @@ namespace DataAccessLayer
                     "Pro_Create_Order",
                     "@user_id", "@fullName", "@email", "@phone_number", "@address", "@note", "@order_date", "@status", "@list_json_order_detail",
                     order.User_Id, order.FullName, order.email, order.phone_number, order.address, order.note, order.order_Date, order.status, order.order_Details != null ? MessageConvert.SerializeObject(order.order_Details) : null
-                
+
                 );
 
                 return result;
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
             }
 
@@ -93,7 +94,8 @@ namespace DataAccessLayer
                 );
                 return result;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -106,7 +108,7 @@ namespace DataAccessLayer
                     "Update_Order",
                     "@orderId", "@user_id", "@fullName", "@email", "@phone_number", "@address", "@note", "@order_date", "@status", "@list_json_order_detail",
 
-                    order.Id,order.User_Id, order.FullName, order.email, order.phone_number, order.address, order.note, order.order_Date, order.status, order.order_Details != null ? MessageConvert.SerializeObject(order.order_Details) : null
+                    order.Id, order.User_Id, order.FullName, order.email, order.phone_number, order.address, order.note, order.order_Date, order.status, order.order_Details != null ? MessageConvert.SerializeObject(order.order_Details) : null
 
                 );
 
@@ -118,56 +120,50 @@ namespace DataAccessLayer
             }
 
         }
-        public List<OrderModel> SearchOrder(int pageIndex,int pageSize, out long total, string name)
+        public List<OrderModel> SearchOrder(int pageIndex, int pageSize, out long total, string name)
         {
             total = 0;
             try
             {
                 var tb = helper.ExcuteReader(
-                 
-                    "Pro_Search_Order",  
-                    "@name","@page_index","@page_size",
-                    name,pageIndex,pageSize
+
+                    "Pro_Search_Order",
+                    "@name", "@page_index", "@page_size",
+                    name, pageIndex, pageSize
                );
 
-                if (tb!=null)
+                if (tb != null)
                 {
-                    
+
 
                     OrderModel Order = new OrderModel();
                     Order.order_Details = new List<Order_Details>();
                     total = (long)tb.Rows[0]["recordcount"];
+                    int order_id = 0;
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
+                      
                         Order_Details Order_Detail = new Order_Details();
-                        Order.Id = int.Parse(tb.Rows[i]["id"].ToString());
-                        Order.User_Id = int.Parse(tb.Rows[i]["user_id"].ToString());
-                        Order.FullName = tb.Rows[i]["fullName"].ToString();
-                        Order.email = tb.Rows[i]["email"].ToString();
-                        Order.phone_number = tb.Rows[i]["phone_number"].ToString();
-                        Order.address = tb.Rows[i]["address"].ToString();
-                        Order.note = tb.Rows[i]["note"].ToString();
-                        Order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
-                        Order.status = int.Parse(tb.Rows[i]["status"].ToString());
-                        Order_Detail.Od_id = int.Parse(tb.Rows[i]["id"].ToString());
+                        Order_Detail.Od_id = int.Parse(tb.Rows[i]["Order_DetailId"].ToString());
                         Order_Detail.ProductId = tb.Rows[i]["ProductId"].ToString();
                         Order_Detail.price = int.Parse(tb.Rows[i]["price"].ToString());
                         Order_Detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
-                        Order.order_Details.Add( Order_Detail );
-
-                        listOrder.Add(Order);
+                        Order.order_Details.Add(Order_Detail);
+                        
                     }
+                    listOrder.Add(Order);
                 }
-                else listOrder = null ;
-                    return listOrder;
+
+                else listOrder = null;
+                return listOrder;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname,DateTime ? ngaybd,DateTime ?  ngaykt)
+        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname, DateTime? ngaybd, DateTime? ngaykt)
         {
             try
             {
@@ -179,7 +175,7 @@ namespace DataAccessLayer
                     "@page_index", "@page_size", "@fullname", "@ngaybd", "@ngaykt",
                     page, page_size, fullname, ngaybd, ngaykt
                 );
-                
+
                 if (tb != null)
                 {
                     total = (int)tb.Rows[0]["RecordCount"];
@@ -199,35 +195,36 @@ namespace DataAccessLayer
                 else listtk = null;
                 return listtk;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-           
+
         }
-        public ThongKe_OrderModel ThongKeSoLuongDonHang(DateTime ? fr_date , DateTime ? to_date)
+        public ThongKe_OrderModel ThongKeSoLuongDonHang(DateTime? fr_date, DateTime? to_date)
         {
             try
             {
                 DataTable tb = helper.ExcuteReader(
                     "Pro_ThongKe_SoLuongDonHang",
-                    "@fr_date","@to_date",
-                    fr_date,to_date
+                    "@fr_date", "@to_date",
+                    fr_date, to_date
                 );
                 if (tb != null)
                 {
                     ThongKe_OrderModel tk = new ThongKe_OrderModel();
                     tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
-                    tk.to_date = tb.Rows[0]["Ngày kết thúc"] !=null ? tb.Rows[0]["Ngày kết thúc"].ToString():null;
+                    tk.to_date = tb.Rows[0]["Ngày kết thúc"] != null ? tb.Rows[0]["Ngày kết thúc"].ToString() : null;
                     tk.TongDonHang = int.Parse(tb.Rows[0]["Tổng số đơn hàng"].ToString());
                     return tk;
                 }
                 return null;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        
+
     }
 }

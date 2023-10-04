@@ -1,42 +1,48 @@
- const listProduct = $(".list")
- const inputSearch = $("#search-header")
- const btnSearch = $("#btnSearch")
-
-let thisPage = 1;
-let pageSize = 5;
-
-function Start(){
+const listProduct = $(".list")
+const inputSearch = $(".search-input")
+const btnSearch = $(".search-btn")
+const totalItemElement =$(".total-item")
+ let thisPage = 1;
+ let pageSize = 5;
+ let isResultSearch = false
+ function Start(){
     getProduct(renderProduct)
- }
+}
+    
 Start();
+inputSearch.keydown(function (e) { 
+    if(e.keyCode == 13)
+    {
+        handleSearch();
+        isResultSearch  = true;
+    }
+});
 btnSearch.click(()=>{
     handleSearch();
+    isResultSearch= true;
 });
+
 function handleSearch() {
-    thisPage = 1;
     const data = {
         page:thisPage,
         pageSize:pageSize,
         ProductName:inputSearch.val()
     }
     SearchProduct(data);
-    $("li").click((event)=>{
-        console.log(event.target);
-    })
+   
 
 };
 function SearchProduct(data) {
     $.post({
-        url: "https://localhost:7284/api/Product/Search",
+        url: "https://localhost:7284/api-customer/Product/Search",
         data:JSON.stringify(data),
         contentType:"application/json"
     })
     .done(response=>{
         renderProduct(response)
-        inputSearch.val("")
-        $(".total-item").html("")
-        $(".total-item").html(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
-
+        
+        totalItemElement.html("")
+        totalItemElement.html(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
     })
 };
 function getProduct(render) {
@@ -50,7 +56,7 @@ function getProduct(render) {
         contentType: 'application/json'
     })
         .done(render);
-}
+};
 function renderProduct(products){
     totalItem = products["totalItems"]
     pageSize = products["pageSize"]
@@ -80,29 +86,26 @@ function renderProduct(products){
     })
     listProduct.html(result.join(''))
     listPage(products["totalItems"],products["pageSize"])
-}
+};
 function listPage(totalItem,pageSize) {
    let numberPage = Math.ceil(totalItem/pageSize)
    var listPage = $(".listPage")
    listPage.html("")
    if(numberPage>1)
-   {
+   {    let html = ""
         for(i=1;i<=numberPage;i++){
-            let newPage = document.createElement("li")
-            newPage.className = "list-item"
-            newPage.innerHTML=i
-            if(i==thisPage){
-                newPage.classList.add("active")
-            }
-            newPage.setAttribute("onclick", "changePage("+i+")")
-            listPage.append(newPage);
+            html+= `<button  type="button" class="page-item ${thisPage == i ? "active":""}" onclick = changePage(${i})>${i}</button>`
         }
+        listPage.html(html);
    }
-   
-}
-
+};
 function changePage(i){
     thisPage=i
-    Start()
- }
+    if(isResultSearch == true){
+        handleSearch()
+    }
+    if(isResultSearch == false){
+        Start()
+    }
+ };
 

@@ -23,14 +23,6 @@ namespace API_Cafina.Controllers
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List;
         string _path;
-        [Route("Get_All")]
-        [HttpGet]
-        public IActionResult Get()
-        {
-            Product_List = proBus.GetAll();
-            return Ok(Product_List);
-        }
-      
         [Route("GetById")]
         [HttpGet]
         public IActionResult GetProductById(string productId)

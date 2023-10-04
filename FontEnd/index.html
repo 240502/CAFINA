@@ -4,22 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/CSS/style.css">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0-web/css/all.min.css">
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <form action="" id="form-search">
-            <input type="text" id="search-header" placeholder="Nhập từ khóa tìm kiếm...">
-            <button id = "btnSearch" type="button">Tìm kiếm</button>
-        </form>
+    <header class="top-header">
+        <div class="top-header-container">
+            <div class="header-logo">
+                <a href="./index.html"><img src="https://canifa.com/assets/images/logo.svg" alt=""></a>
+            </div>
+           <div id="header-menu">
+            <ul class="header-menu-list">
+                <li class="menu-item"><a href="#"> Hàng mới</a></li>
+                <li class="menu-item"><a href="#"> Nữ</a></li>
+                <li class="menu-item"><a href="#"> Nam</a></li>
+                <li class="menu-item"><a href="#"> Trẻ em</a></li>
+                <li class="menu-item"><a href="#"> Giá tốt</a></li>
+            </ul>
+           </div>
+           <div class="header-search">
+            <div class="search-input-group">
+                <button type="button" class="search-btn">
+
+                    <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
+                </button>
+               
+                <input type="text" placeholder="Tìm kiếm" class="search-input">
+            </div>
+        </div>
+        </div>
+        
     </header>
-    <div class="content">
+    <main id="content">
         <div class="total-item"></div>
         <div class="list">
          
         </div>
-        <ul class="listPage"></ul>
-    </div>
+        <div class="listPage"></div>
+    </main>
     
 </body>
 <script src="./assets/JS/Jquery/jquery.js"></script>
