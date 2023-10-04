@@ -666,11 +666,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\GateWay1\\Gateway.csproj",
+      "projectUniqueName": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\Gateway\\Gateway.csproj",
       "projectName": "Gateway",
-      "projectPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\GateWay1\\Gateway.csproj",
+      "projectPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\Gateway\\Gateway.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\GateWay1\\obj\\",
+      "outputPath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

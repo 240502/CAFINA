@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vr9K3CvAisWRyQZrRzP2VzB51r7WhhiUYWPT4ur8lmtgA8F0OIDv31nY+cl2dFJVV0dexjpvsv8Gkko8vH6dkg==",
+  "dgSpecHash": "9c8oI8DTCRzbqsB6J+6lq3d2sojdqw34P/c1CSk5wZoxBvWMYQQHc4Nt+pu2CCw5WY3rj5D+Bj4jfxIwqeNhWA==",
   "success": true,
-  "projectFilePath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\GateWay1\\Gateway.csproj",
+  "projectFilePath": "D:\\Asp.net web api\\BTL_Nguyễn Văn Sang\\Gateway\\Gateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.1\\microsoft.aspnetcore.jsonpatch.6.0.1.nupkg.sha512",

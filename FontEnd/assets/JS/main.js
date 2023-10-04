@@ -27,7 +27,7 @@ function handleSearch() {
 };
 function SearchProduct(data) {
     $.post({
-        url: "https://localhost:7094/api/Product/Search",
+        url: "https://localhost:7284/api/Product/Search",
         data:JSON.stringify(data),
         contentType:"application/json"
     })
@@ -45,7 +45,7 @@ function getProduct(render) {
         pageSize:pageSize
     }
     $.post({
-        url: "https://localhost:7096/api-customer/Product/PhanTrang_DSProduct",
+        url: "https://localhost:7284/api-customer/Product/PhanTrang_DSProduct",
         data: JSON.stringify(data),
         contentType: 'application/json'
     })

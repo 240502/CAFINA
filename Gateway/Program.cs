@@ -29,7 +29,7 @@ app.UseCors(policy => policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization(); 
+app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
