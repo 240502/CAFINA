@@ -46,5 +46,10 @@ namespace Businesss
             var result = orderDAL.ThongKeSoLuongDonHang(fr_date, to_date);
             return result;
         }
+        public List<OrderModel> GetOrderByUser(int? pageIndex,int ? pageSize, out int total, string ? email)
+        {
+            var result = orderDAL.GetOrderByUser(pageIndex,pageSize,out total,email);
+            return result;
+        }
     }
 }

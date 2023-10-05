@@ -134,28 +134,32 @@ namespace DataAccessLayer
 
                 if (tb != null)
                 {
-
-
-                    OrderModel Order = new OrderModel();
-                    Order.order_Details = new List<Order_Details>();
                     total = (long)tb.Rows[0]["recordcount"];
                     int order_id = 0;
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
-                      
-                        Order_Details Order_Detail = new Order_Details();
-                        Order_Detail.Od_id = int.Parse(tb.Rows[i]["Order_DetailId"].ToString());
-                        Order_Detail.ProductId = tb.Rows[i]["ProductId"].ToString();
-                        Order_Detail.price = int.Parse(tb.Rows[i]["price"].ToString());
-                        Order_Detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
-                        Order.order_Details.Add(Order_Detail);
-                        
+                        OrderModel order = new OrderModel();
+                        order.order_Details = new List<Order_Details>();
+                        Order_Details order_Details = new Order_Details();
+                        order.Id = int.Parse(tb.Rows[i]["id"].ToString());
+                        order.User_Id = int.Parse(tb.Rows[i]["user_id"].ToString());
+                        order.FullName = tb.Rows[i]["fullName"].ToString();
+                        order.email = tb.Rows[i]["email"].ToString();
+                        order.phone_number = tb.Rows[i]["phone_number"].ToString();
+                        order.address = tb.Rows[i]["address"].ToString();
+                        order.note = tb.Rows[i]["note"].ToString();
+                        order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
+                        order.status = int.Parse(tb.Rows[i]["status"].ToString());
+                        order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        order_Details.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
+                        order.order_Details.Add(order_Details);
+                        listOrder.Add(order);
                     }
-                    listOrder.Add(Order);
+                    return listOrder;
                 }
 
-                else listOrder = null;
-                return listOrder;
+                else return null;
 
             }
             catch (Exception ex)
@@ -225,6 +229,49 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+        public List<OrderModel> GetOrderByUser(int ? pageIndex, int ? pageSize, out int total, string ? email)
+        {
+            total = 0;
+            try
+            {
+                var tb = helper.ExcuteReader(
+                    "GetOrderByUs",
+                    "@page_index", "@page_size","@email",
+                    pageIndex, pageSize,email
+                );
+                if (tb != null)
+                {
+                    total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        OrderModel order = new OrderModel();
+                        order.order_Details = new List<Order_Details>();
+                        Order_Details order_Details = new Order_Details();
+                        order.Id = int.Parse(tb.Rows[i]["id"].ToString());
+                        order.User_Id = int.Parse(tb.Rows[i]["user_id"].ToString());
+                        order.FullName = tb.Rows[i]["fullName"].ToString();
+                        order.email = tb.Rows[i]["email"].ToString();
+                        order.phone_number = tb.Rows[i]["phone_number"].ToString();
+                        order.address = tb.Rows[i]["address"].ToString();
+                        order.note = tb.Rows[i]["note"].ToString();
+                        order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
+                        order.status = int.Parse(tb.Rows[i]["status"].ToString());
+                        order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        order_Details.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
+                        order.order_Details.Add(order_Details);
+                        listOrder.Add(order);
+                    }
+                    return listOrder;
+                }
+                else return null;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        } 
 
     }
 }

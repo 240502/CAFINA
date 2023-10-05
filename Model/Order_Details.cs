@@ -12,6 +12,5 @@ namespace Model
         public string ProductId { get; set; } 
         public int Amount { get; set; }
         public int price { get; set; }
-        public int status { get; set; }
     }
 }

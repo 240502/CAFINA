@@ -11,10 +11,33 @@
       ],
       "UpstreamPathTemplate": "/api-admin/Product/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //}
+      
+    },
+    {
+      "DownstreamPathTemplate": "/api/User/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/User/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+     
+    },
+    {
+      "DownstreamPathTemplate": "/api/Category/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Category/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+    
     },
     {
       "DownstreamPathTemplate": "/api/Order/{everything}",
@@ -27,10 +50,7 @@
       ],
       "UpstreamPathTemplate": "/api-admin/Order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //}
+  
     },
     {
       "DownstreamPathTemplate": "/api/ProductCustomer/{everything}",
@@ -44,51 +64,22 @@
       "UpstreamPathTemplate": "/api-customer/Product/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
 
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //}
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/OrderCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/Order/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
     }
-    //{
-    //  "DownstreamPathTemplate": "/api/catalog/{id}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": 44326
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/catalog/{id}",
-    //  "UpstreamHttpMethod": [ "GET", "DELETE" ],
-    //  "AuthenticationOptions": {
-    //    "AuthenticationProviderKey": "Bearer",
-    //    "AllowedScopes": []
-    //  }
-    //},
-    //{
-    //  "DownstreamPathTemplate": "/api/identity/login",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": 44397
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/identity/login",
-    //  "UpstreamHttpMethod": [ "POST" ]
-    //},
-    //{
-    //  "DownstreamPathTemplate": "/api/identity/validate",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": 44397
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/identity/validate",
-    //  "UpstreamHttpMethod": [ "GET" ]
-    //}
+   
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:18073"

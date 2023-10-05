@@ -64,6 +64,20 @@
       "UpstreamPathTemplate": "/api-customer/Product/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
 
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/OrderCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/Order/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
     }
    
   ],
