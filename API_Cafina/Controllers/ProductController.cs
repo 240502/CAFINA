@@ -21,6 +21,7 @@ namespace API_Cafina.Controllers
             _env = env;
        }
         ProductBUS proBus = new ProductBUS();
+        ProductTKBUS proTK = new ProductTKBUS();
         List<ProductModel> Product_List;
         string _path;
         [Route("GetById")]
@@ -30,17 +31,11 @@ namespace API_Cafina.Controllers
             var result = proBus.GetProductById(productId);
             return result == null? NotFound():Ok(result);
         }
-        [Route("Search_Product")]
-        [HttpGet]
-        public IActionResult SearchProduct(string value)
-        {
-            Product_List = proBus.SearchProduct(value);
-            return Product_List == null ? NotFound(): Ok(Product_List);
-        }
-        [Route("Insert_Product")]
+        [Route("Create_Product")]
         [HttpPost]
         public IActionResult CreateProduct([FromBody]ProductModel product)
         {
+            
             var result = proBus.CreateProduct(product);
             return result == 1 ? Ok("Thêm thành công"):BadRequest("Thêm không thành công");
         }
@@ -60,9 +55,9 @@ namespace API_Cafina.Controllers
             return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
 
         }
-        [Route("Search_2")]
+        [Route("Search")]
         [HttpPost]
-        public IActionResult Search2([FromBody] Dictionary<string,object> formData)
+        public IActionResult Search([FromBody] Dictionary<string,object> formData)
         {
             try
             {
@@ -79,7 +74,7 @@ namespace API_Cafina.Controllers
                     CateName = formData["CateName"].ToString(); 
                 }
                 long total = 0;
-                Product_List = proBus.Search2(page, pageSize, out total, proName, CateName);
+                Product_List = proBus.Search(page, pageSize, out total, proName, CateName);
                 if (Product_List.Count > 0)
                 {
                     return Ok(
@@ -119,14 +114,14 @@ namespace API_Cafina.Controllers
                  {
                     to_date = DateTime.Parse(formData["to_date"].ToString());
                 }
-                var result = proBus.ThongKeSanPhamBanChay(fr_date, to_date);
+                var result = proTK.ThongKeSanPhamBanChay(fr_date, to_date);
                 return result != null ? Ok(result) : NotFound();
-
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
 
         [NonAction]
         public string CreatePathFile(string RelativePathFileName)

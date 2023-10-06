@@ -1,5 +1,46 @@
-﻿--Thống kê user mua hàng với số tiền lớn nhất
+﻿
 use cafina
+
+
+Create Procedure Pro_Get_User_By_Id
+	@id int
+as
+	Begin
+		If(Not Exists (Select * From Users Where id = @id ))
+		Begin
+			Return -1
+		End
+		Else 
+		Begin
+			Select * From Users 
+			Where id = @id
+		End
+	End
+
+Create Procedure Pro_Search_Us
+	@FullName nvarchar(100),
+	@Email varchar(100),
+	@PhoneNumber varchar(20)
+as
+	Begin
+		If(Not Exists (
+			Select * From Users 
+			Where (@FullName = '' Or FullName Like N'%'+@FullName+'%') And
+				(@Email = '' Or email = @Email) And
+				(@PhoneNumber = '' Or Phone_Number = @PhoneNumber)
+		))
+		Begin
+			Return -1
+		End
+		Else
+		Begin
+			Select * From Users 
+			Where (@FullName = '' Or FullName Like N'%'+@FullName+'%') And
+				(@Email = '' Or email = @Email) And
+				(@PhoneNumber = '' Or Phone_Number = @PhoneNumber)
+		End
+	End
+
 alter procedure Pro_ThongKe_User
 	@fr_date datetime,
 	@to_date datetime

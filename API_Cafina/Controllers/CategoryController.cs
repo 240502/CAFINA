@@ -11,14 +11,46 @@ namespace API_Cafina_Manage.Controllers
         CategoryBUS cateBUS = new CategoryBUS();
         List<CategoryModel> listcate;
 
-        [Route("Create_Cate")]
-        [HttpPost]
-        public IActionResult Create([FromBody] CategoryModel model)
+        [Route("Get_Cate_By_Id")]
+        [HttpGet]
+        public IActionResult GetById(int id)
         {
             try
             {
-                var result = cateBUS.Create(model);
-                return result ==1 ? Ok(result) : BadRequest(result);
+                var result = cateBUS.Get( id);
+
+                return result !=null ?  Ok(result) :NotFound();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("Search_Cate")]
+        [HttpGet]
+        public IActionResult Search(string cateName )
+        {
+            try
+            {
+                var result = cateBUS.Search(cateName);
+
+                return result != null ? Ok(result) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("Create_Cate")]
+        [HttpPost]
+        public IActionResult Create(string cateName)
+        {
+            try
+            {
+                var result = cateBUS.Create(cateName);
+                return result == 1 ? Ok(result) : BadRequest(result);
                
             }catch (Exception ex)
             {

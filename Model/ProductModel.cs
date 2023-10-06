@@ -17,7 +17,11 @@ namespace Model
         public string HuongDanSuDung { get; set; }
         public string size { get; set; }
         public string color { get; set; }
-        public int CateId { get; set; }
+        public int ?CateId { get; set; }
+        public int ?Object_id { get; set; }
+        public int? Bst_id { get; set; }
+
+
 
     }
 }

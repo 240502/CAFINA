@@ -16,8 +16,22 @@ namespace Businesss
     public class UserBUS
     {
         UserDAL userDAL = new UserDAL();
+        UserThongKeDAL usThongke = new UserThongKeDAL();
+
         List<UserModel> userList ;
         private string secret;
+
+        public UserModel Get(int id)
+        {
+            var result = userDAL.GetUsById(id);
+            return result;
+        }
+
+        public List<UserModel> Search(string FullName, string email,string PhoneNumber)
+        {
+            var result = userDAL.Search(FullName,email,PhoneNumber);
+            return result;
+        }
         public int? Create_User (UserModel us)
         {
             var result = userDAL.Create_User (us);
@@ -34,11 +48,10 @@ namespace Businesss
             return result;
         }
 
-        public List<UserModel> ThongKeSoTienUs(DateTime? fr_date ,DateTime ? to_date)
+        public List<UserThongKeModel> ThongKeSoTienUs(DateTime? fr_date ,DateTime ? to_date)
         {
-            userList = userDAL.ThongKeTop5UserTieuNhieuTienNhat(fr_date,to_date);
-            return userList;
-
+            List<UserThongKeModel>  result= usThongke.ThongKeTop5UserTieuNhieuTienNhat(fr_date,to_date);
+            return result;
         }
       
     }

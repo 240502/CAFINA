@@ -11,6 +11,7 @@ namespace Businesss
     public class OrderBUS
     {
         OrderDAL orderDAL = new OrderDAL();
+
         public OrderModel GetById(int id)
         {
             OrderModel orderModel = orderDAL.GetById(id);
@@ -36,16 +37,7 @@ namespace Businesss
             var result = orderDAL.UpdateOrder(order);
             return result;
         }
-        public List<ThongKe_KhachModel> ThongKe(int page,int pageSize , out int total, string fullname,DateTime? ngaybd, DateTime ?ngaykt)
-        {
-            var result = orderDAL.listTk(page,pageSize,out total,fullname,ngaybd,ngaykt);
-            return result;
-        }
-        public ThongKe_OrderModel ThongKe_Order(DateTime? fr_date,DateTime? to_date)
-        {
-            var result = orderDAL.ThongKeSoLuongDonHang(fr_date, to_date);
-            return result;
-        }
+       
         public List<OrderModel> GetOrderByUser(int? pageIndex,int ? pageSize, out int total, string ? email)
         {
             var result = orderDAL.GetOrderByUser(pageIndex,pageSize,out total,email);

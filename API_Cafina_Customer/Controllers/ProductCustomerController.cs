@@ -23,7 +23,7 @@ namespace API_Cafina_Customer.Controllers
                 }
                 int? pageSize = 5;
                 int total = 0;
-                Product_List = proBus.PhanTrangDSProduct(page, pageSize, out total);
+                Product_List = proBus.GetPhanTrang(page, pageSize, out total);
                 return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = page, PageSize = pageSize }) : NotFound();
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace API_Cafina_Customer.Controllers
                 if (formData.Keys.Contains("CateName") && !string.IsNullOrEmpty(formData["CateName"].ToString()))
                     CateName = formData["CateName"].ToString();
                 long total = 0;
-                Product_List =  proBus.Search2(page,pageSize,out total,productName,CateName);
+                Product_List =  proBus.Search(page,pageSize,out total,productName,CateName);
                 return Product_List != null ? Ok(new { Page = page, pageSize = pageSize, TotalItems = total, Data = Product_List }) : NotFound();
 
             }catch(Exception ex)

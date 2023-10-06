@@ -15,7 +15,6 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
         List<OrderModel> listOrder = new List<OrderModel>();
-
         public OrderModel GetById(int id)
         {
 
@@ -167,68 +166,7 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-        public List<ThongKe_KhachModel> listTk(int page, int page_size, out int total, string fullname, DateTime? ngaybd, DateTime? ngaykt)
-        {
-            try
-            {
-                List<ThongKe_KhachModel> listtk = new List<ThongKe_KhachModel>();
-
-                total = 0;
-                var tb = helper.ExcuteReader(
-                    "Pro_ThongKe_Khach",
-                    "@page_index", "@page_size", "@fullname", "@ngaybd", "@ngaykt",
-                    page, page_size, fullname, ngaybd, ngaykt
-                );
-
-                if (tb != null)
-                {
-                    total = (int)tb.Rows[0]["RecordCount"];
-                    for (int i = 0; i < tb.Rows.Count; i++)
-                    {
-                        ThongKe_KhachModel tk = new ThongKe_KhachModel();
-                        tk.fullName = tb.Rows[i]["fullName"].ToString();
-                        tk.address = tb.Rows[i]["address"].ToString();
-                        tk.ProductId = tb.Rows[i]["ProductId"].ToString();
-                        tk.title = tb.Rows[i]["title"].ToString();
-                        tk.price = int.Parse(tb.Rows[i]["price"].ToString());
-                        tk.amount = int.Parse(tb.Rows[i]["Amount"].ToString());
-                        tk.order_date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
-                        listtk.Add(tk);
-                    }
-                }
-                else listtk = null;
-                return listtk;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-        public ThongKe_OrderModel ThongKeSoLuongDonHang(DateTime? fr_date, DateTime? to_date)
-        {
-            try
-            {
-                DataTable tb = helper.ExcuteReader(
-                    "Pro_ThongKe_SoLuongDonHang",
-                    "@fr_date", "@to_date",
-                    fr_date, to_date
-                );
-                if (tb != null)
-                {
-                    ThongKe_OrderModel tk = new ThongKe_OrderModel();
-                    tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
-                    tk.to_date = tb.Rows[0]["Ngày kết thúc"] != null ? tb.Rows[0]["Ngày kết thúc"].ToString() : null;
-                    tk.TongDonHang = int.Parse(tb.Rows[0]["Tổng số đơn hàng"].ToString());
-                    return tk;
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
 
         public List<OrderModel> GetOrderByUser(int ? pageIndex, int ? pageSize, out int total, string ? email)
         {

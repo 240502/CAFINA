@@ -12,9 +12,21 @@ namespace Businesss
     {
         CategoryDAL cateDAL =new CategoryDAL();
         List<CategoryModel> listCate;
-        public int Create(CategoryModel cate)
+
+        public CategoryModel Get(int id)
         {
-            var result = cateDAL.Create(cate);
+            var result = cateDAL.GetCateById(id);
+            return result;
+        }
+
+        public CategoryModel Search(string CateName)
+        {
+            var result = cateDAL.Search(CateName);
+            return result;
+        }
+        public int Create(string  cateName)
+        {
+            var result = cateDAL.Create(cateName);
             return result;
         }
 

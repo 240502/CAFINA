@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class ThongKe_KhachModel
+    public class ThongKe_Order_By_KhachModel
     {
         public string fullName { get; set; }
         public string address { get; set; }

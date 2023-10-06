@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class ThongKe_OrderModel
+    public class ThongKe_SLOrderModel
     {
         public string ? to_date { get; set; }
         public string ? fr_date { get; set; }

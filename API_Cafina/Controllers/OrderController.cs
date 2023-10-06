@@ -11,6 +11,7 @@ namespace API_Cafina.Controllers
     public class OrderController : ControllerBase
     {
         OrderBUS orderBus = new OrderBUS();
+        Order_ThongKeBUS odTK = new Order_ThongKeBUS();
         List<OrderModel> listOrder;
         [Route("Get_Order_ById")]
         [HttpGet]
@@ -98,7 +99,7 @@ namespace API_Cafina.Controllers
                 }
               
                 int total = 0;
-                var result = orderBus.ThongKe(page,pageSize,out total,fullname,ngaybd,ngaykt);
+                var result = odTK.ThongKeSoLuongDonHangTheoKH(page,pageSize,out total,fullname,ngaybd,ngaykt);
                 long abc = total;
                 return Ok(new
                 {
@@ -132,7 +133,7 @@ namespace API_Cafina.Controllers
                     to_date = new DateTime(dt.Year,dt.Month,dt.Day);
                 }
                
-                ThongKe_OrderModel tk = orderBus.ThongKe_Order(fr_date, to_date);
+                ThongKe_SLOrderModel tk = odTK.ThongKeSoLuongDonHangTheoTgian(fr_date, to_date);
                 if (tk != null) return Ok(tk);
                 return NotFound();
             }

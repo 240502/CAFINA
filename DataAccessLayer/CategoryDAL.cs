@@ -10,11 +10,52 @@ namespace DataAccessLayer
     public class CategoryDAL
     {
         DataHelper helper = new DataHelper();
-        public int Create(CategoryModel cate)
+
+        public CategoryModel GetCateById(int id)
+        {
+            try 
+            {
+                var result = helper.ExcuteReader("Pro_Get_Cate_By_Id","@id",id);
+                if (result != null)
+                {
+                    CategoryModel cate = new CategoryModel();
+                    cate.id = int.Parse(result.Rows[0]["id"].ToString());
+                    cate.CateName = result.Rows[0]["CateName"].ToString();
+                    return cate;
+                }
+                else return null;
+
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CategoryModel Search(string CateName)
         {
             try
             {
-                var result = helper.ExcuteNonQuery("Pro_Create_Cate","@id","@CateName",cate.id,cate.CateName);
+                var result = helper.ExcuteReader("Pro_Search_Cate_By_Name", "@CateName", CateName);
+                if (result != null)
+                {
+                    CategoryModel cate = new CategoryModel();
+                    cate.id = int.Parse(result.Rows[0]["id"].ToString());
+                    cate.CateName = result.Rows[0]["CateName"].ToString();
+                    return cate;
+                }
+                else return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int Create(string cateName)
+        {
+            try
+            {
+                var result = helper.ExcuteNonQuery("Pro_Create_Cate","@CateName", cateName);
                 return result;
             }catch (Exception ex)
             {

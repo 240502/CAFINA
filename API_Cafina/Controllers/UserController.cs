@@ -14,10 +14,50 @@ namespace API_Cafina.Controllers
     public class UserController : ControllerBase
     {
         UserBUS userBUS = new UserBUS();
+        UserThongKeBUS usTk = new UserThongKeBUS(); 
         UserLoginBUS userLogin = new UserLoginBUS();
-
-
         List<UserModel> userList = new List<UserModel>();
+
+        [Route("Get_Us_By_id")]
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var result = userBUS.Get(id);
+                return result == null ? NotFound() : Ok(result);
+
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        [Route("Search_Us")]
+        [HttpPost]
+        public IActionResult Search([FromBody] Dictionary<string,Object> formData)
+        {
+            try
+            {
+                string FullName = "";
+                string email = "";
+                string PhoneNumber = "";
+                if (formData.Keys.Contains("FullName") && !string.IsNullOrEmpty(formData["FullName"].ToString()))
+                    FullName = formData["FullName"].ToString();
+                if (formData.Keys.Contains("email") && !string.IsNullOrEmpty(formData["email"].ToString()))
+                    email = formData["email"].ToString();
+                if (formData.Keys.Contains("PhoneNumber") && !string.IsNullOrEmpty(formData["PhoneNumber"].ToString()))
+                    PhoneNumber = formData["PhoneNumber"].ToString();
+                var result = userBUS.Search(FullName,email,PhoneNumber);
+                return result == null ? NotFound() : Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         [Route("Create_User")]
         [HttpPost]
@@ -46,7 +86,7 @@ namespace API_Cafina.Controllers
         }
         [Route("Thong_Ke_So_Tien_Da_Tieu_Cua_User")]
         [HttpPost]
-         [Authorize]
+        [Authorize]
         public IActionResult ThongKeSoTienUs([FromBody] Dictionary<string, object> formData)
         {
             try
@@ -62,9 +102,8 @@ namespace API_Cafina.Controllers
                 {
                     to_date = DateTime.Parse((formData["to_date"]).ToString());
                 }
-                userList = userBUS.ThongKeSoTienUs(fr_date, to_date);
-                if (userList != null) return Ok(userList);
-                else return NotFound();
+                List<UserThongKeModel> result = usTk.ThongKeTop5UserTieuNhieuTienNhat(fr_date, to_date);
+                return result != null ? Ok(result) : NotFound();
 
             }
             catch (Exception ex)
