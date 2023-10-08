@@ -4,10 +4,16 @@
     box-sizing: border-box;
 }
 body{
-    background-image: #fff;
-    min-height: 100vh;
-    line-height: 20px;
-    font-family:  sans-serif;
+    max-width: 1528px;
+    font-family: Montserrat;
+    color: #333f48;
+    letter-spacing: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+    background-color: #fafafa;
+    height: 100vh;
 
 }
 .top-header{
@@ -93,6 +99,54 @@ body{
     outline: 0;
     box-shadow: none;
     width: 100%;
+}
+
+
+
+.header-group-icon{
+    display: inherit;
+    align-items: center;
+    height: 44px;
+}
+
+.header-group-icon .header-icon{
+    margin-left: 25px;
+    color: rgba(51,63,72,.5);
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.header-group-icon .header-icon i{
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+.header-group-icon .header-icon span {
+    display: block;
+    font-size: 14px;
+}
+.header-group-icon .header-cart-icon {
+    position: relative;
+}
+
+.header-group-icon .header-cart-icon .count {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 4px 8px rgba(16,24,40,.1), 0 2px 4px rgba(16,24,40,.06);
+    background: #da291c;
+    border-radius: 11px;
+    min-width: 18px;
+    position: absolute;
+    left: 60%;
+    margin-left: 18px;
+    top: 0;
+    
 }
 #content{
     margin-top: 96px;

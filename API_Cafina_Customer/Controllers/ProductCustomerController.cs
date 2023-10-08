@@ -21,7 +21,11 @@ namespace API_Cafina_Customer.Controllers
                 {
                     page = int.Parse(formData["page"].ToString());
                 }
-                int? pageSize = 5;
+                int? pageSize = null;
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                }
                 int total = 0;
                 Product_List = proBus.GetPhanTrang(page, pageSize, out total);
                 return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = page, PageSize = pageSize }) : NotFound();

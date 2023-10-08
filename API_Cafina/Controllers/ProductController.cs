@@ -8,6 +8,7 @@ using System;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace API_Cafina.Controllers
 {
@@ -146,21 +147,24 @@ namespace API_Cafina.Controllers
                 return ex.Message;
             }
         }
-        [Route("dowload")]
-        [HttpPost]
-        public IActionResult DownloadData([FromBody] Dictionary<string, object> formData)
+
+
+        [HttpGet]
+        [Route("DownloadFile")]
+        public async Task<IActionResult> DownloadFile(string filename)
         {
-            try
+            //Lấy về thư mục hiện tại của project
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\upload", filename);
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filepath, out var contenttype))
             {
-                var webRoot = _env.WebRootPath;
-                string exportPath = Path.Combine(webRoot, @"\export\DM.xlsx");
-                FileStream stream = new FileStream(exportPath,FileMode.Open,FileAccess.Read);
-                return File(stream, "application/octet-stream");
-            }catch(Exception ex)
-            {
-                throw ex;
+                contenttype = "application/octet-stream";
             }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+            return File(bytes, contenttype, Path.GetFileName(filepath));
         }
+
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post(List<IFormFile> files)
         {

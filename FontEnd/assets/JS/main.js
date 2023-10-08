@@ -3,7 +3,7 @@ const inputSearch = $(".search-input")
 const btnSearch = $(".search-btn")
 const totalItemElement =$(".total-item")
  let thisPage = 1;
- let pageSize = 5;
+ let pageSize = 8;
  let isResultSearch = false
  function Start(){
     getProduct(renderProduct)
@@ -50,6 +50,7 @@ function getProduct(render) {
         page:thisPage,
         pageSize:pageSize
     }
+    console.log(data);
     $.post({
         url: "https://localhost:7284/api-customer/Product/PhanTrang_DSProduct",
         data: JSON.stringify(data),

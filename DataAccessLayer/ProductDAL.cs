@@ -90,8 +90,8 @@ namespace DataAccessLayer
                         product.size = tb.Rows[i]["size"].ToString();
                         product.color = tb.Rows[i]["color"].ToString();
                         product.CateId = tb.Rows[i]["CateId"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateId"].ToString());
-                        product.CateId = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
-                        product.CateId = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
+                        product.Object_id = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
+                        product.Bst_id = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
                         ProductList.Add(product);
                     }
                     return ProductList;
