@@ -34,8 +34,8 @@ namespace DataAccessLayer
                         us.Gender = tb.Rows[i]["Gender"].ToString();
                         us.RoleId = int.Parse(tb.Rows[i]["Role_Id"].ToString());
                         us.TongTienMua = int.Parse(tb.Rows[i]["Tổng tiền mua"].ToString());
+                        us.PassWord = tb.Rows[i]["PassWord"].ToString();
                         listUser.Add(us);
-
                     }
                 }
                 else listUser = null;
