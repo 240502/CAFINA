@@ -50,7 +50,20 @@
       ],
       "UpstreamPathTemplate": "/api-admin/Order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
-  
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/Role/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Role/{everything}",
+      "UpstreamHttpMethod": ["Get","Post","Put","Delete"]
+
     },
     {
       "DownstreamPathTemplate": "/api/ProductCustomer/{everything}",

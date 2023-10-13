@@ -16,6 +16,16 @@ body{
     height: 100vh;
 
 }
+
+.col-4{
+    width: 25%;
+    max-width: 25%;
+}
+.col-3{
+    width: 33.3333333%;
+    max-width: 33.3333333%;
+
+}
 .row{
     display: flex;
     flex-wrap: nowrap;
@@ -224,7 +234,7 @@ body{
     border-radius: 2px;
 }
 .item .img img{
-   height: 100%;
+    height: 100%;
     width: 100%;
     object-fit: cover;
     margin: auto;
@@ -250,14 +260,13 @@ body{
     font-size: 20px;
     line-height: 30px;
 }
-.block-product .block-heading .viewall{
+.block-heading .viewall{
     font-weight: 500;
     font-size: 14px;
     line-height: 30px;
     text-align: right;
     display: flex;
     align-items: center;
-    -ms-flex-pack: end;
     justify-content: flex-end;
     width: fit-content;
     margin-left: auto;
@@ -265,7 +274,7 @@ body{
     cursor: pointer;
 }
 
-.block-product .block-heading .viewall::after{
+.block-heading .viewall::after{
     content: '';
     width: 20px;
     height: 20px;
@@ -273,56 +282,201 @@ body{
     background-repeat: no-repeat;
     background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuNDQ0NjYgMTQuMjQ5MUw1LjcxMzIyIDE1LjU1NDdMMTEuMTExMyA5Ljk5OTEzTDUuNzEzMjIgNC40NDM1OEw0LjQ0NDY2IDUuNzQ5MTNMOC41NjUyMiA5Ljk5OTEzTDQuNDQ0NjYgMTQuMjQ5MVoiIGZpbGw9IiNEQTI5MUMiLz4KPHBhdGggZD0iTTkuOTk5ODQgMTQuMjQ5MUwxMS4yNjg0IDE1LjU1NDdMMTYuNjY2NSA5Ljk5OTEzTDExLjI2ODQgNC40NDM1OEw5Ljk5OTg0IDUuNzQ5MTNMMTQuMTIwNCA5Ljk5OTEzTDkuOTk5ODQgMTQuMjQ5MVoiIGZpbGw9IiNEQTI5MUMiLz4KPC9zdmc+Cg==");
 }
-.block-content{
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: none;
-    padding-left: 7.64vw;
-    padding-right: 7.64vw;
-    padding-top: 20px;
-    padding-bottom: 20px;
+
+.image-slider .product-item{
+    position: relative;
+}
+.image {
+    padding: 0 32px 0 0 ;
+    width: 330px;
+    display: block;
+    margin-bottom: 16px;
+}
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    line-height: 1;
+    z-index: 5;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.5);
+  }
+
+  .slick-prev {
+    left: 17px;
+  }
+  .slick-next {
+    right: 17px;
+  }
+
+ 
+.product-item-image-label img {
+    height: 500px;
+  margin-bottom: 20px;
+
+} 
+.colors{
+    display: flex;
+    margin-bottom: 2px;
+    align-items: center;
+}
+.colors .color__option{
+    margin: 0 8px 10px 0;
+    padding: 2px;
+    background-image: url("https://media.canifa.com/attribute/swatch/images/sw001.png");
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border:1px solid #e6e7e8;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: content-box;
+    background-size: cover;
+
+    cursor: pointer;
+}
+.colors .color__option.selected{
+    border-color:#333f48 ;
+
 }
 
-.block-content .product-items{
+.product-item .product-item-name{
+    font-size: 14px;
+    color: #333f48;
+    font-weight: 400;
+    line-height: 1.43;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+.product-item .product-item-name a{
+    color: #333f48;
+    text-decoration: none;
+
+}
+
+.product-item .product-item-name:hover a{
+    color: #da291c;
+}
+.product-item .price-box{
     display: flex;
-    margin:  0  -16px;
+}
+.product-item .price-box .normal-price{
+    width: 100%;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    display: block;
+}
+/*  */
+/*  */
+/*  */
+/* Begin Block Collection */
+.block-collection{
+    width: 100%;
+    padding: 20px 7.64vw;
+    margin: 0 auto;
+}
+.block-collection .block-title{
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.block-collection .block-title h2{
+    font-size: 20px;
+    font-weight: 700;
+    color:rgb(51,63,72);
+    line-height: 30px;
+}
+
+.block-collection .block-content .item{
+    padding: 0 16px;
+}
+.block-collection .block-content .item__img img{
+    width: 100% !important;
+}
+
+.block-collection .slick-prev{
+    left: 15px;
+}
+.block-collection .slick-next{
+    right: 15px;
+}
+/* End Block Collection */
+/*  */
+/*  */
+/*  */
+/* Begin Block  New Product */
+.block-new-product{
+    padding: 20px 7.64vw;
+    margin: 0 auto;
+    width: 100%;
+}
+.block-new-product .block-heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom:10px ;
+}
+.block-new-product .block-heading h2{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+
+}
+
+.block-new-product .block-content .products{
     flex-wrap: wrap;
 }
-
-.block-content .product-items .product-item{
-    width: 25%;
+ .block-content .product-item{
     padding: 0 16px;
-    margin-bottom: 38px;
+    margin-bottom:38px ;
 }
 
-.block-content .product-item .product-item-photo{
-    display: block;
+  .product-item .item__image
+{
     width: 100%;
-    margin-bottom: 36px;
+    margin-bottom: 8px;
     position: relative;
-    overflow: hidden;
-}
-.product-item .product-item-photo .product-item-image-label{
-    pointer-events: none;
-}
-.product-item-image-label img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
 }
 
-.product-item .product-item-photo .product-item-button-tocart{
+  .product-item .item__image img
+{
+    width: 100%;
+}
+
+
+/* End Block  New Product */
+/*  */
+/*  */
+/*  */
+
+
+.block-new-product .product-item .product-item-button-tocart{
+    bottom: 15px;
+}
+.product-item .product-item-button-tocart{
     background: rgba(250,250,250,.85);
     border-radius: 2px;
     height: 36px;
     cursor: pointer;
     position: absolute;
     z-index: 20;
-    right: 8px;
     bottom: 8px;
     left: 8px;
+    right: 8px;
     color: #333f48;
     font-weight: 600;
     font-size: 12px;
@@ -338,61 +492,4 @@ body{
     opacity: 1;
     visibility: visible !important;
 }
-.product-item .product-item-photo .product-image-container{
-    height: 100%;
-    width: 100%;
-    position: relative;
-    display: block;
-    text-decoration: none;
-    color: #63b1bc;
-    cursor: pointer;
-}
-.product-item-details .options-color{
-    margin-bottom: 2px;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-start;
-}
-.product-item-details .options-color .option-color-item{
-    background-image: url("https://media.canifa.com/attribute/swatch/images/sb013.png");
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    display: inline-block;
-    border-radius: 100%;
-    margin-right: 8px;
-    margin-bottom: 10px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    border: 1px solid #e6e7e8;
-    padding: 2px;
-    background-clip: content-box!important;
-    cursor: pointer;
-}
-.option-color-item.selected{
-    border-color: #333f48  !important;
-}
-.product-item-details .product-item-name{
-    display: block;
-    color: #333f48;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.43;
-    margin: 0 0 4px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.product-item-details .normal-price{
-    width: 100%;
-    display: block;
-    order: -1;
-}
-.product-item-details .price{
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 22px;
-    display: block;
-}
+
