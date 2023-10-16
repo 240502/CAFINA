@@ -41,6 +41,11 @@ namespace Businesss
             List<ProductModel> ProductList = prodDal.GetPhanTrang(pageIndex, pageSize, out total);
             return ProductList;
         }
+        public List<ProductModel> GetByBST(int?pageSize,int? pageIndex, out int total,string TenBST)
+        {
+            List<ProductModel> ProductList = prodDal.GetByBST(pageSize,pageIndex,out total,TenBST);
+            return ProductList;
+        }
 
 
     }

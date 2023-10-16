@@ -1,3 +1,4 @@
+
 const listProduct = $(".list")
 const inputSearch = $(".search-input")
 const btnSearch = $(".search-btn")
@@ -5,230 +6,261 @@ const totalItemElement =$(".total-item")
 const nextBtn = $("#next")
 const prevBtn = $("#prev")
 const ProductItems = $(".product-items")
-$(document).ready(function () {
-    $(".block-bst").slick({
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      infinite: true,
-      arrows: true,
-      draggable: false,
-      prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
-      nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
-      dots: false,
-      responsive: [
-        {
-          breakpoint: 1025,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            arrows: false,
-            infinite: false,
-          },
-        },
-      ],
-      // autoplay: true,
-      // autoplaySpeed: 1000,
-    });
-    $(".nam").slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      infinite: true,
-      arrows: true,
-      draggable: false,
-      prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
-      nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
-      dots: false,
-      responsive: [
-        {
-          breakpoint: 1025,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            arrows: false,
-            infinite: false,
-          },
-        },
-      ],
-      // autoplay: true,
-      // autoplaySpeed: 1000,
-    });
-
-    $(".nu").slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      infinite: true,
-      arrows: true,
-      draggable: false,
-      prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
-      nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
-      dots: false,
-      responsive: [
-        {
-          breakpoint: 1025,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            arrows: false,
-            infinite: false,
-          },
-        },
-      ],
-      // autoplay: true,
-      // autoplaySpeed: 1000,
-    });
-
-    $(".tre_em").slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      infinite: true,
-      arrows: true,
-      draggable: false,
-      prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
-      nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
-      dots: false,
-      responsive: [
-        {
-          breakpoint: 1025,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            arrows: false,
-            infinite: false,
-          },
-        },
-      ],
-      // autoplay: true,
-      // autoplaySpeed: 1000,
-    });
-
-  });
- 
-   
+const blockBST = $(".block-bst")
+const viewAllBST = $(".block-product .viewall")
+const  subMenuImage = $(".sub-menu-image")
 let thisPage = 1;
-let pageSize = 8;
+let pageSize = 10;
 let isResultSearch = false
-//  function Start(){
-//     getProduct(renderProduct)
-// }
-    
-// Start();
-// inputSearch.keydown(function (e) { 
-//     if(e.keyCode == 13)
-//     {
-//         handleSearch();
-//         isResultSearch  = true;
-//     }
-// });
-// btnSearch.click(()=>{
-//     handleSearch();
-//     isResultSearch= true;
-// });
 
-// function handleSearch() {
-//     const data = {
-//         page:thisPage,
-//         pageSize:pageSize,
-//         ProductName:inputSearch.val()
-//     }
-//     SearchProduct(data);
-   
 
-// };
-// function SearchProduct(data) {
-//     $.post({
-//         url: "https://localhost:7284/api-customer/Product/Search",
-//         data:JSON.stringify(data),
-//         contentType:"application/json"
-//     })
-//     .done(response=>{
-//         renderProduct(response)
-        
-//         totalItemElement.html("")
-//         totalItemElement.html(`<div class="reuslt-search">Kết quả tìm kiếm: ${response["totalItems"]}</div>`)
-//     })
-// };
-// function getProduct(render) {
-//     const data = {
-//         page:thisPage,
-//         pageSize:pageSize
-//     }
-//     console.log(data);
-//     $.post({
-//         url: "https://localhost:7284/api-customer/Product/PhanTrang_DSProduct",
-//         data: JSON.stringify(data),
-//         contentType: 'application/json'
-//     })
-//         .done(render);
-// };
-// function renderProduct(products){
-//     totalItem = products["totalItems"]
-//     pageSize = products["pageSize"]
-//     var result= products["data"].map(function(product){
-//        var stringPrice = String(product.price)
-//        var StartPrice = stringPrice.slice(0,3)
-//        var EndPrice = stringPrice.slice(3,6)
-//        var price = StartPrice+'.'+EndPrice
-//         return `
-//         <div class="item">
-//             <div class="img">
-//                 <img src=${"https://canifa.com/img/1000/1500/resize/6/t/6tw23w007-sp234-2.webp"} alt="">    
-//             </div>
-//             <div class="list-color">
-//                 <span   class="color1 selected" ></span>
-//                 <span   class="color2" ></span>
-//                 <span   class="color3" ></span>
-//             </div>
-//             <div class="title">
-//                 ${product.title}
-//             </div>
-//             <div class="price">
-//                 ${String(product.price).length == 6 ? price:product.price} đ
-//             </div>
-//         </div>
-//         `
-//     })
-//     listProduct.html(result.join(''))
-//     listPage(products["totalItems"],products["pageSize"])
-// };
-// function listPage(totalItem,pageSize) {
-//    let numberPage = Math.ceil(totalItem/pageSize)
-//    var listPage = $(".listPage")
-//    listPage.html("")
-//    if(numberPage>1)
-//    {    let html = ""
-//         for(i=1;i<=numberPage;i++){
-//             html+= `<button  type="button" class="page-item ${thisPage == i ? "active":""}" onclick = changePage(${i})>${i}</button>`
-//         }
-//         listPage.html(html);
-//    }
-// };
-// function changePage(i){
-//     thisPage=i
-//     if(isResultSearch == true){
-//         handleSearch()
-//     }
-//     if(isResultSearch == false){
-//         Start()
-//     }
-//  };
 
+
+subMenuImage.slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  infinite: true,
+  arrows: false,
+  draggable: false,
+  dots: true,
+  responsive: [
+    {
+      breakpoint: 1025,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        arrows: false,
+        infinite: false,
+      },
+    },
+  ],
+  // autoplay: true,
+  // autoplaySpeed: 1000,
+});
+
+
+
+viewAllBST.on("click", function(e) { 
+
+});
+const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId"
+
+function httpGetAsync(url,resolve,reject,data){
+  $.get(url,data)
+  .done(response => resolve(response))
+  .fail(error => reject(error))
+}
+let ListGalery = new Array();
+const handleGetGalery = async (products)=>{
+  var data =  products.map(product=>{
+     return {productId:product["productId"]}
+  })
+  
+  let i = 0;
+  while (i<data.length) {
+      const promise = new Promise((resolve, reject) => {
+        httpGetAsync(urlApiGetByProductId,resolve,reject,data[i])
+      });
+      var response = await promise;
+      i++;
+      ListGalery.push(response)
+      localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
+  }
+}
+
+function handleGetByBST(){
+  var data = {
+    pageIndex:thisPage,
+    pageSize:pageSize,
+    TenBST :"Thu đông 2023"
+  };
+  GetProductByBST(data);
+};
+function GetProductByBST(data){
+  $.post({
+         url: "https://localhost:7284/api-customer/Product/Get_By_BST",
+         data:JSON.stringify(data),
+         contentType:"application/json"
+     })
+     .done(response=>{
+        RenderBST(response);
+        handleGetGalery(response["data"]);
+     })
+};
+function Start (){
+  handleGetByBST();
+};
+Start();
+function GetLinkBSTHome (id){
+  let link = ""
+  const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
+  if(ImgBSTHome!=null){
+  for (let i=0; i<ImgBSTHome.length;i++) {
+    if(ImgBSTHome[i]["productId"] === id)
+      link = ImgBSTHome[i]["thumbnail"]
+    }
+  }
+  return link;
+}
+function RenderBST(products){
+    var html = products["data"].map((product,index)=>{
+      return `
+      <div class="product-item col-4">
+                      <div class="item__image">
+                          <a href="#">
+                              <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+                          </a>
+                          <div class="product-item-button-tocart">
+                              <span>Thêm nhanh vào giỏ</span>
+                          </div>    
+                      </div>
+                      <div class="item__details">
+                          <div class="colors">
+                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                              </div>
+
+                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
+                              </div>
+
+                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
+                              </div>
+                          </div>
+                          <h3 class="product-item-name">
+      
+                              <a href="#">
+                                  ${product["title"]}
+                              </a>
+                          </h3>
+                          <div class="price-box">
+                              <div class="normal-price">299.000 đ</div>
+                          </div>
+                      </div>
+                  </div>
+      `
+    })
+    blockBST.html(html);
+    blockBST.slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    infinite: true,
+    arrows: true,
+    draggable: false,
+    prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
+    nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          infinite: false,
+        },
+      },
+    ],
+    // autoplay: true,
+    // autoplaySpeed: 1000,
+  });
+};
+
+
+$(".nam").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    infinite: true,
+    arrows: true,
+    draggable: false,
+    prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
+    nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          infinite: false,
+        },
+      },
+    ],
+    // autoplay: true,
+    // autoplaySpeed: 1000,
+});
+
+$(".nu").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    infinite: true,
+    arrows: true,
+    draggable: false,
+    prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
+    nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          infinite: false,
+        },
+      },
+    ],
+    // autoplay: true,
+    // autoplaySpeed: 1000,
+});
+
+$(".tre_em").slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    infinite: true,
+    arrows: true,
+    draggable: false,
+    prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
+    nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          infinite: false,
+        },
+      },
+    ],
+    // autoplay: true,
+    // autoplaySpeed: 1000,
+});
+ 

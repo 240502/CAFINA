@@ -10,6 +10,37 @@ namespace API_Cafina_Customer.Controllers
     {
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List ;
+        [Route("Get_By_BST")]
+        [HttpPost]
+        public IActionResult GetByBST([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int? pageSize = null;
+                int? pageIndex = null;
+                string TenBST = "";
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString())) 
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                }
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                {
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                }
+                if (formData.Keys.Contains("TenBST") && !string.IsNullOrEmpty(formData["TenBST"].ToString()))
+                {
+                    TenBST = formData["TenBST"].ToString();
+                }
+                int total = 0;
+                Product_List= proBus.GetByBST(pageSize,pageIndex,out total, TenBST);
+                return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = pageIndex,PageSize =pageSize }) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return Ok();
+        }
         [Route("PhanTrang_DSProduct")]
         [HttpPost]
         public IActionResult PhanTrang([FromBody] Dictionary<string, object> formData)

@@ -104,8 +104,20 @@
       "UpstreamPathTemplate": "/api-customer/Order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
 
-    }
+    },
+    {
+      "DownstreamPathTemplate": "/api/GaleryCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/Galery/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
 
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:18073"

@@ -139,6 +139,41 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+        
+        public List<ProductModel> GetByBST(int? pageSize,int? pageIndex,out int total,string TenBST)
+        {
+            total = 0;
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Get_By_BST", "@pageSize","@pageIndex","@TenBST",pageSize,pageIndex,TenBST);
+                if (tb != null)
+                {
+                    total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ProductModel product = new ProductModel();
+                        product.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        product.title = tb.Rows[i]["title"].ToString();
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        product.description = tb.Rows[i]["description"].ToString();
+                        product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
+                        product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
+                        product.size = tb.Rows[i]["size"].ToString();
+                        product.color = tb.Rows[i]["color"].ToString();
+                        product.CateId = int.Parse(tb.Rows[i]["CateId"].ToString());
+                        product.Object_id = int.Parse(tb.Rows[i]["Object_id"].ToString());
+                        product.Bst_id = int.Parse(tb.Rows[i]["Bst_id"].ToString());
+                        ProductList.Add(product);
+                    }
+                    return ProductList;
+                }
+                else return null;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
     
 }

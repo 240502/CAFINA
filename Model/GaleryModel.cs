@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class GaleryModel
+    public class GaleryModel
     {
+        public int id { get; set; }
+        public string ProductId { get;set; }
+        public string thumbnail { get; set; }
+
     }
 }
