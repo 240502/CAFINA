@@ -27,6 +27,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/api/Object/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Object/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/api/Category/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -117,6 +130,31 @@
       "UpstreamPathTemplate": "/api-customer/Galery/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
 
+    },
+    {
+      "DownstreamPathTemplate": "/api/CategoryCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/Category/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/ObjectCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/Object/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     }
   ],
   "GlobalConfiguration": {

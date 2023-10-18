@@ -48,7 +48,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 int result = bst_BUS.Create(TenBST);
-                return result == 1?  Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+                return result >= 1 ?  Ok("Thêm thành công") : BadRequest("Thêm không thành công");
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 int result = bst_BUS.Delete(id);
-                return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
+                return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
 
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 int result = bst_BUS.Update(bst);
-                return result == 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+                return result >= 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
 
             }
             catch (Exception ex)

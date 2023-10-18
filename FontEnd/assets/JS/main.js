@@ -9,11 +9,20 @@ const ProductItems = $(".product-items")
 const blockBST = $(".block-bst")
 const viewAllBST = $(".block-product .viewall")
 const  subMenuImage = $(".sub-menu-image")
+const ObjectName ={
+  nam:"Nam",
+  nu:"Nữ",
+  tre_em_gai:"Trẻ em gái",
+  tre_em_trai:"Trẻ em trai"
+}
+const CateList = {
+  ao:"Áo",
+  quan:"Quần"
+}
+console.log(ObjectName.tre_em_trai)
 let thisPage = 1;
 let pageSize = 10;
-let isResultSearch = false
-
-
+let isSearch = false
 
 
 subMenuImage.slick({
@@ -51,11 +60,28 @@ viewAllBST.on("click", function(e) {
 
 });
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId"
+const urlApiGetCate = "https://localhost:7284/api-customer/Category/Get_Cate_Ob"
 
+
+handleGetCate()
+function GetCate(data){
+  $.post(
+    {
+      url: urlApiGetCate,
+      data: JSON.stringify(data),
+      contentType:'application/json'
+    }
+  ).done(res=>{
+    console.log(res)
+  })
+}
 function httpGetAsync(url,resolve,reject,data){
   $.get(url,data)
   .done(response => resolve(response))
   .fail(error => reject(error))
+}
+async function hanleGetCate(){
+  var data = 
 }
 let ListGalery = new Array();
 const handleGetGalery = async (products)=>{

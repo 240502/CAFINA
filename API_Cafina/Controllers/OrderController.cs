@@ -26,7 +26,7 @@ namespace API_Cafina.Controllers
         public IActionResult CreateOrder([FromBody] OrderModel order)
         {
             var result = orderBus.CreateOrder(order);
-            return result == 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+            return result >= 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
 
         }
         [Route("Delete_Order")]
@@ -34,14 +34,14 @@ namespace API_Cafina.Controllers
         public IActionResult DeleteOrder(string orderId)
         {
             var result = orderBus.DeleteOrder(orderId);
-            return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
+            return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
         }
         [Route("Update_Order")]
         [HttpPut]
         public IActionResult UpdateOrder(OrderModel order)
         {
             var result = orderBus.UpdateOrder(order);
-            return result == 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+            return result >= 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
 
         }
 

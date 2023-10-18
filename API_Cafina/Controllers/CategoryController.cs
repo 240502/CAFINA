@@ -50,7 +50,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 var result = cateBUS.Create(cateName);
-                return result == 1 ? Ok(result) : BadRequest(result);
+                return result >= 1 ? Ok(result) : BadRequest(result);
                
             }catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 var result = cateBUS.Delete(cateId);
-                return result == 1 ? Ok(result) : BadRequest(result);
+                return result >= 1 ? Ok(result) : BadRequest(result);
 
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 var result = cateBUS.Update(model);
-                return result == 1 ? Ok(result) : BadRequest(result);
+                return result >= 1 ? Ok(result) : BadRequest(result);
 
             }
             catch (Exception ex)

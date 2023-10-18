@@ -47,7 +47,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {   
                 var result = roleBUS.Create(RoName);
-                return result == 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+                return result >= 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
 
             }catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 var result = roleBUS.Delete(id);
-                return result == 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+                return result >= 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
 
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace API_Cafina_Manage.Controllers
             try
             {
                 var result = roleBUS.Update(role);
-                return result == 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
+                return result >= 1 ? Ok("Thêm thành công") : BadRequest("Thêm không thành công");
 
             }
             catch (Exception ex)

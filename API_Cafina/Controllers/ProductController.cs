@@ -38,14 +38,14 @@ namespace API_Cafina.Controllers
         {
             
             var result = proBus.CreateProduct(product);
-            return result == 1 ? Ok("Thêm thành công"):BadRequest("Thêm không thành công");
+            return result >= 1 ? Ok("Thêm thành công"):BadRequest("Thêm không thành công");
         }
         [Route("Update_Product")]
         [HttpPut]
         public IActionResult UpdateProduct([FromBody] ProductModel product)
         {
             var result = proBus.UpdateProduct(product);
-            return result == 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+            return result >= 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
 
         }
         [Route("Delete_Product")]
@@ -53,7 +53,7 @@ namespace API_Cafina.Controllers
         public IActionResult DeleteProduct(string productId)
         {
             var result = proBus.DeleteProduct(productId);
-            return result == 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
+            return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
 
         }
         [Route("Search")]

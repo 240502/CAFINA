@@ -107,8 +107,8 @@ namespace DataAccessLayer.Helper
                     }
                 }
                 result = cmd.ExecuteNonQuery();
-                cmd.Dispose ();
-                
+                cmd.Dispose();
+                connection.Dispose();
             }
             catch(Exception ex) 
             {

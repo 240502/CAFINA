@@ -1,6 +1,22 @@
 ﻿use Cafina
+select * from [Object]
 
+create fulltext catalog SearchOb
+WITH accent_sensitivity = off
+as default
 
+select * from [Object]  o inner join Category c on o.id = c.[Object_id]
+where contains(TenDoiTuong,'nam') and CateName LIKE N'Áo%'
+exec Pro_Get_By_CateName_And_ObjectName N'','	'
+alter Proc Pro_Get_By_CateName_And_ObjectName
+	@catename nvarchar(100),
+	@objectname nvarchar(50)
+As
+	Begin
+		Select c.id, c.CateName,o.TenDoiTuong
+		From Category c inner join [Object] o on c.[Object_id] = o.id
+		Where CateName Like  @catename+'%' and (@objectname ='' or contains(TenDoiTuong,@objectname))
+	End
 Create Procedure Pro_Get_Cate_By_Id
 	@id int
 As
