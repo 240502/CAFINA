@@ -63,25 +63,98 @@ const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByPro
 const urlApiGetCate = "https://localhost:7284/api-customer/Category/Get_Cate_Ob"
 
 
-handleGetCate()
-function GetCate(data){
-  $.post(
-    {
-      url: urlApiGetCate,
-      data: JSON.stringify(data),
-      contentType:'application/json'
-    }
-  ).done(res=>{
-    console.log(res)
-  })
-}
+
 function httpGetAsync(url,resolve,reject,data){
   $.get(url,data)
   .done(response => resolve(response))
   .fail(error => reject(error))
 }
+function httpPostAsyncCate(url,resolve,reject,data){
+  $.post({
+    url: url,
+    data:JSON.stringify(data),
+    contentType : 'application/json'
+  })
+  .done((res,status,xhr) => {
+    if(xhr.status === 200) {
+      resolve(res)
+    }
+  })
+  .fail(err =>{ 
+    reject(err)
+  });
+
+};
+var listObject = ["nam","nữ","trẻ em gái","trẻ em trai"]
 async function hanleGetCate(){
-  var data = 
+    var dataNu = {
+      CateName:"Áo",
+      ObjectName:"nữ"
+    }
+    var dataNam = {
+      CateName:"Áo",
+      ObjectName:"nam"
+    }
+    var dataQuanNam = {
+      CateName:"Quần",
+      ObjectName:"nam"
+    }
+    var dataQuanNu = {
+      CateName:"Quần",
+      ObjectName:"nữ"
+    }
+    const QuanNam = new Promise((resolve,reject)=>{
+      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataQuanNam)
+    })
+    const QuanNu = new Promise((resolve,reject)=>{
+      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataQuanNu)
+    })
+    const AoNam = new Promise((resolve,reject)=>{
+      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataNam)
+    })
+    
+    const AoNu = new Promise((resolve,reject)=>{
+      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataNu)
+    })
+    // const TreEmGai = new Promise((resolve,reject)=>{
+    //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
+    // })
+    // const TreEmTrao = new Promise((resolve,reject)=>{
+    //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
+    // })
+    await AoNu.then(res => renderSubMenuAo(res,"Menu_nu"))
+    .catch(err =>alert(err.message))
+    await AoNam.then(res => renderSubMenuAo(res,"Menu_nam"))
+    .catch(err =>alert(err.message))
+
+    await QuanNu.then(res =>{
+      renderSubMenuQuan(res,"Menu_nu")
+    })
+    .catch(err =>alert(err.message))
+
+    await QuanNam.then(res => renderSubMenuQuan(res,"Menu_nam"))
+    .catch(err =>alert(err.message))
+
+    
+}
+function renderSubMenuAo(data,className){
+  var html = data.map(ao=>{
+    return `
+      <li> <a href="#">${ao["cateName"]}</a></li>
+    `
+  })
+  $(`.${className} .ao .content `).html(html)
+}
+
+
+function renderSubMenuQuan(data,className){
+  var html = data.map(ao=>{
+    return `
+      <li> <a href="#">${ao["cateName"]}</a></li>
+    `
+  })
+  $(`.${className} .quan .content`).html(html)
+  console.log(data);
 }
 let ListGalery = new Array();
 const handleGetGalery = async (products)=>{
@@ -122,6 +195,7 @@ function GetProductByBST(data){
 };
 function Start (){
   handleGetByBST();
+  hanleGetCate();
 };
 Start();
 function GetLinkBSTHome (id){
@@ -137,7 +211,16 @@ function GetLinkBSTHome (id){
 }
 function RenderBST(products){
     var html = products["data"].map((product,index)=>{
+      if(product["price"].toString().length>5)
+      {
+          var price = product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6);
+          console.log(price)
+      }
+      else{
+        var price = product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5);
+      }
       return `
+
       <div class="product-item col-4">
                       <div class="item__image">
                           <a href="#">
@@ -165,7 +248,9 @@ function RenderBST(products){
                               </a>
                           </h3>
                           <div class="price-box">
-                              <div class="normal-price">299.000 đ</div>
+                              <div class="normal-price">${
+                                product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                              } đ</div>
                           </div>
                       </div>
                   </div>
