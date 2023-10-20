@@ -9,20 +9,25 @@ const ProductItems = $(".product-items")
 const blockBST = $(".block-bst")
 const viewAllBST = $(".block-product .viewall")
 const  subMenuImage = $(".sub-menu-image")
-const ObjectName ={
-  nam:"Nam",
-  nu:"Nữ",
-  tre_em_gai:"Trẻ em gái",
-  tre_em_trai:"Trẻ em trai"
-}
-const CateList = {
-  ao:"Áo",
-  quan:"Quần"
-}
-console.log(ObjectName.tre_em_trai)
+
+const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId"
+const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails"
+const urlApiGetListCate = "https://localhost:7284/api-customer/Category/Get_List_Cate"
 let thisPage = 1;
 let pageSize = 10;
 let isSearch = false
+function Start (){
+  handleGetByBST();
+  getCategory();
+
+};
+Start();
+
+
+const list_menu_item =["cate-nu","cate-nam","cate-tre-em"]
+
+
+
 
 
 subMenuImage.slick({
@@ -59,8 +64,12 @@ subMenuImage.slick({
 viewAllBST.on("click", function(e) { 
 
 });
-const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId"
-const urlApiGetCate = "https://localhost:7284/api-customer/Category/Get_Cate_Ob"
+
+function httpGetCateAsync(url,resolve,reject) {
+  $.get(url)
+  .done(response => resolve(response))
+  .fail(error => reject(error))
+}
 
 
 
@@ -69,6 +78,136 @@ function httpGetAsync(url,resolve,reject,data){
   .done(response => resolve(response))
   .fail(error => reject(error))
 }
+async function getCategory(){
+  var dataNu = {
+       cateId:1,
+       objectName:"nữ"
+     }
+    //  var dataNam = {
+    //    cateName:"Áo",
+    //    objectName:"nam"
+    //  }
+    //  var dataQuanNam = {
+    //    cateName:"Quần",
+    //    objectName:"nam"
+    //  }
+     var dataQuanNu = {
+      cateId:1,
+       objectName:"nữ"
+     }
+  const promise = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject)
+  })
+  
+ 
+  var title = await promise
+  renderTitleSubMenu(title)
+}
+
+ function getCateDetails(id) {
+  var data ={
+    cateId : 1,
+    objectName:"Nữ"
+  }
+  const promise = new Promise((resolve,reject)=>{
+    httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
+  })
+  
+  var result=  promise.then(res=>{
+    return res
+  })
+  return result;
+}
+
+function renderTitleSubMenu(title){
+  var group_1 = ''
+  title.forEach(item=>{
+   if (item["id"] ==1)
+   {
+       
+            group_1 +=`
+            <ul class="sub-menu-item" data-id = ${item["id"]}
+            
+            >
+              <li class="title">${item["cateName"]}</li>
+              <div class="content">
+               
+              </div>
+            </ul>`
+      
+   }
+ });
+  var group_2 = ''
+   title.forEach(item=>{
+    if (item["id"] >1 && item["id"] <5)
+    {
+      group_2+= `
+          <ul class="sub-menu-item" data-id = ${item["id"]}>
+            <li class="title">${item["cateName"]}</li>
+            <div class="content">
+            </div>
+          </ul>
+        `
+    }
+  });
+ 
+  var group_3 = ''
+  title.forEach(item=>{
+   if (item["id"] >4 && item["id"] <7)
+   {
+     group_3+= `
+         <ul class="sub-menu-item" data-id = ${item["id"]}>
+           <li class="title">${item["cateName"]}</li>
+           <div class="content">
+           </div>
+         </ul>
+       `
+   }
+ });
+  
+  var group_4 = ''
+  title.forEach(item=>{
+    if (item["id"] >6 )
+    {
+      group_4+= `
+        <ul class="sub-menu-item" data-id = ${item["id"]}>
+          <li class="title">${item["cateName"]}</li>
+          <div class="content">
+          </div>
+        </ul>
+      `
+    }
+  });
+
+  $(".group-1").html(group_1);
+  $(".group-2").html(group_2);
+  $(".group-3").html(group_3);
+  $(".group-4").html(group_4);
+
+  var subMenuContent =  [...document.querySelectorAll(".Menu_nu .sub-menu-item")]
+  console.log(subMenuContent.length)
+  async function renderSubMenuContent(){
+    let i =0;
+    while(i<subMenuContent.length){
+      var data = {
+        cateId : subMenuContent[i].dataset.id,
+        objectName:"Nữ"
+      }
+      const promise = new Promise((resolve,reject)=>{
+        httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
+      })
+      var res = await promise
+      var html =""
+      res.forEach(item=>{
+        html+= ` <li> <a href="#">${item["detailName"]}</a></li>`
+      })
+      subMenuContent[i].children[1].innerHTML = html
+      // subMenuContent[i].children.html(html)
+      i++;
+    }
+  }
+  renderSubMenuContent()
+} 
 function httpPostAsyncCate(url,resolve,reject,data){
   $.post({
     url: url,
@@ -85,77 +224,59 @@ function httpPostAsyncCate(url,resolve,reject,data){
   });
 
 };
-var listObject = ["nam","nữ","trẻ em gái","trẻ em trai"]
-async function hanleGetCate(){
-    var dataNu = {
-      CateName:"Áo",
-      ObjectName:"nữ"
-    }
-    var dataNam = {
-      CateName:"Áo",
-      ObjectName:"nam"
-    }
-    var dataQuanNam = {
-      CateName:"Quần",
-      ObjectName:"nam"
-    }
-    var dataQuanNu = {
-      CateName:"Quần",
-      ObjectName:"nữ"
-    }
-    const QuanNam = new Promise((resolve,reject)=>{
-      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataQuanNam)
-    })
-    const QuanNu = new Promise((resolve,reject)=>{
-      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataQuanNu)
-    })
-    const AoNam = new Promise((resolve,reject)=>{
-      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataNam)
-    })
+// var listObject = ["nam","nữ","trẻ em gái","trẻ em trai"]
+// async function hanleGetCate(){
+//    
+//     const QuanNam = new Promise((resolve,reject)=>{
+//       httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,dataQuanNam)
+//     })
+ 
+//     const AoNam = new Promise((resolve,reject)=>{
+//       httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,dataNam)
+//     })
     
-    const AoNu = new Promise((resolve,reject)=>{
-      httpPostAsyncCate(urlApiGetCate,resolve,reject,dataNu)
-    })
-    // const TreEmGai = new Promise((resolve,reject)=>{
-    //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
-    // })
-    // const TreEmTrao = new Promise((resolve,reject)=>{
-    //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
-    // })
-    await AoNu.then(res => renderSubMenuAo(res,"Menu_nu"))
-    .catch(err =>alert(err.message))
-    await AoNam.then(res => renderSubMenuAo(res,"Menu_nam"))
-    .catch(err =>alert(err.message))
+   
+//     // const TreEmGai = new Promise((resolve,reject)=>{
+//     //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
+//     // })
+//     // const TreEmTrao = new Promise((resolve,reject)=>{
+//     //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
+//     // })
+//     await AoNu.then(res => renderSubMenuAo(res,"Menu_nu","ao"))
+//     .catch(err =>alert(err.message))
+//     await QuanNu.then(res =>{
+//       renderSubMenuAo(res,"Menu_nu","quan")
+//     })
+//     .catch(err =>alert(err.message))
 
-    await QuanNu.then(res =>{
-      renderSubMenuQuan(res,"Menu_nu")
-    })
-    .catch(err =>alert(err.message))
+//     await AoNam.then(res => renderSubMenuAo(res,"Menu_nam","ao"))
+//     .catch(err =>alert(err.message))
 
-    await QuanNam.then(res => renderSubMenuQuan(res,"Menu_nam"))
-    .catch(err =>alert(err.message))
+//     await QuanNam.then(res => renderSubMenuAo(res,"Menu_nam","quan"))
+//     .catch(err =>alert(err.message))
 
     
-}
-function renderSubMenuAo(data,className){
-  var html = data.map(ao=>{
-    return `
-      <li> <a href="#">${ao["cateName"]}</a></li>
-    `
-  })
-  $(`.${className} .ao .content `).html(html)
-}
+// }
+// function renderSubMenuAo(data,...rest){
+//   console.log(rest)
+//   var html = data.map(item=>{
+//     return `
+//       <li> <a href="#">${item["detailName"]}</a></li>
+//     `
+//   })
+//   $(`.${rest[0]} .${rest[1]}  .content `).html(html)
+// }
 
 
-function renderSubMenuQuan(data,className){
-  var html = data.map(ao=>{
-    return `
-      <li> <a href="#">${ao["cateName"]}</a></li>
-    `
-  })
-  $(`.${className} .quan .content`).html(html)
-  console.log(data);
-}
+// function renderSubMenuQuan(data,className){
+//   var html = data.map(item=>{
+//     return `
+//       <li> <a href="#">${item["detailName"]}</a></li>
+//     `
+//   })
+//   $(`.${className} .quan .content`).html(html)
+//   console.log(data);
+// }
 let ListGalery = new Array();
 const handleGetGalery = async (products)=>{
   var data =  products.map(product=>{
@@ -193,11 +314,7 @@ function GetProductByBST(data){
         handleGetGalery(response["data"]);
      })
 };
-function Start (){
-  handleGetByBST();
-  hanleGetCate();
-};
-Start();
+
 function GetLinkBSTHome (id){
   let link = ""
   const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));

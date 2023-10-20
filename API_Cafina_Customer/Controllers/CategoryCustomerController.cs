@@ -9,29 +9,15 @@ namespace API_Cafina_Customer.Controllers
     [ApiController]
     public class CategoryCustomerController : ControllerBase
     {
-        Cate_ObjectBUS cate_ob = new Cate_ObjectBUS();
-        [Route("Get_Cate_Ob")]
-        [HttpPost]
-        public IActionResult Get([FromBody] Dictionary<string,object> formData)
+        CategoryBUS cate= new CategoryBUS();
+        [Route("Get_List_Cate")]
+        [HttpGet]
+        public IActionResult Get()
         {
             try
             {
-                string CateName = "";
-                string ObjectName = "";
 
-                if(formData.Keys.Contains("CateName") && !string.IsNullOrEmpty(formData["CateName"].ToString())) 
-                {
-                    CateName = formData["CateName"].ToString();
-
-                }
-
-
-                if (formData.Keys.Contains("ObjectName") && !string.IsNullOrEmpty(formData["ObjectName"].ToString()))
-                {
-                    ObjectName = formData["ObjectName"].ToString();
-
-                }
-                List<Cate_ObjectModel> model = cate_ob.get(CateName, ObjectName);
+                List<CategoryModel> model = cate.GetList();
                 return model == null ? NotFound() : Ok(model);
 
             }catch (Exception ex)

@@ -6,16 +6,26 @@ WITH accent_sensitivity = off
 as default
 
 select * from [Object]  o inner join Category c on o.id = c.[Object_id]
-where contains(TenDoiTuong,'nam') and CateName LIKE N'Áo%'
-exec Pro_Get_By_CateName_And_ObjectName N'','	'
+where (contains(TenDoiTuong,'nam') or TenDoiTuong lIKE 'All' )and CateName LIKE N'Áo%'
+exec Pro_Get_By_CateName N'Áo',N'Nữ'
+
+Create Proc Pro_Get_By_CateName 
+	@catename nvarchar(50),
+	@objectname nvarchar(50)
+AS
+	Begin
+		Select cd.id , cd.DetailName, o.TenDoiTuong 
+		From Category c inner join CategoryDetails cd on c.id = cd.CateId inner join [Object] o on cd.Object_id = o.id
+		Where c.CateName Like @catename AND (TenDoiTuong Like 'All' or Contains (TenDoiTuong,@objectname))
+	End
 alter Proc Pro_Get_By_CateName_And_ObjectName
 	@catename nvarchar(100),
 	@objectname nvarchar(50)
 As
 	Begin
 		Select c.id, c.CateName,o.TenDoiTuong
-		From Category c inner join [Object] o on c.[Object_id] = o.id
-		Where CateName Like  @catename+'%' and (@objectname ='' or contains(TenDoiTuong,@objectname))
+		From CategoryDetails c inner join [Object] o on c.[Object_id] = o.id
+		Where CateName Like  @catename+'%' and (TenDoiTuong LIKE 'All'  or contains(TenDoiTuong,@objectname))
 	End
 Create Procedure Pro_Get_Cate_By_Id
 	@id int

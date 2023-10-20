@@ -13,6 +13,10 @@ namespace Businesss
         CategoryDAL cateDAL =new CategoryDAL();
         List<CategoryModel> listCate;
 
+        public List<CategoryModel> GetList()
+        {
+            return cateDAL.GetList();
+        }
         public CategoryModel Get(int id)
         {
             var result = cateDAL.GetCateById(id);

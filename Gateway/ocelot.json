@@ -155,6 +155,18 @@
       ],
       "UpstreamPathTemplate": "/api-customer/Object/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/CategoryDetailsCustomer/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7094
+        }
+      ],
+      "UpstreamPathTemplate": "/api-customer/CategoryDetails/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
     }
   ],
   "GlobalConfiguration": {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,31 @@ namespace DataAccessLayer
     public class CategoryDAL
     {
         DataHelper helper = new DataHelper();
+
+        public List<CategoryModel> GetList()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("GetCateAll");
+                if (tb != null)
+                {
+                    List<CategoryModel> list = new List<CategoryModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        CategoryModel model = new CategoryModel();
+                        model.id = int.Parse(tb.Rows[i]["id"].ToString());
+                        model.CateName = tb.Rows[i]["CateName"].ToString();
+                        list.Add(model);
+                    }
+                    return list;
+                }
+                else return null;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public CategoryModel GetCateById(int id)
         {
