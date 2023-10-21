@@ -25,5 +25,18 @@ namespace API_Cafina_Customer.Controllers
                 throw new Exception(ex.Message);
             }
         }
+        [Route("GetCate_ByObId")]
+        [HttpGet]
+        public IActionResult GetCateByObId(int obId)
+        {
+            try
+            {
+                List<CategoryModel> list = cate.GetCateByObId(obId);
+                return list == null ? NotFound() : Ok(list);
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

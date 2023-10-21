@@ -1,6 +1,12 @@
 ﻿create database Cafina
 use Cafina
 
+Create Table Category(
+	id int identity primary key,
+	CateName nvarchar(50)
+)
+Alter table CategoryDetails
+ADD CateId int foreign key references Category(id)
 cREATE TABLE [Role](
 	id int identity primary key,
 	RoName nvarchar(50) not null
@@ -16,10 +22,7 @@ Create table Users(
 	Role_Id int foreign key references [Role] (id)
 	on delete cascade on update cascade
 )
-Create table Category(
-	id int identity primary key,
-	CateName nvarchar(100) not null
-)
+
 Create table Product(
 	ProductId varchar(100) primary key,
 	title nvarchar(100) not null,

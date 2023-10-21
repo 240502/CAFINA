@@ -11,5 +11,7 @@ namespace Model
     {
         public int id { get; set; }
         public string CateName { get; set; }
+
+        public int Object_Id { get; set; }
     }
 }

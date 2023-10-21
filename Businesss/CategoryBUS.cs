@@ -17,6 +17,10 @@ namespace Businesss
         {
             return cateDAL.GetList();
         }
+        public List<CategoryModel> GetCateByObId(int obId)
+        {
+            return cateDAL.GetCateByObId(obId);
+        }
         public CategoryModel Get(int id)
         {
             var result = cateDAL.GetCateById(id);
@@ -28,9 +32,9 @@ namespace Businesss
             var result = cateDAL.Search(CateName);
             return result;
         }
-        public int Create(string  cateName)
+        public int Create(string  cateName,int obId)
         {
-            var result = cateDAL.Create(cateName);
+            var result = cateDAL.Create(cateName,obId);
             return result;
         }
 

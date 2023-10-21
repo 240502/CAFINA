@@ -45,11 +45,11 @@ namespace API_Cafina_Manage.Controllers
 
         [Route("Create_Cate")]
         [HttpPost]
-        public IActionResult Create(string cateName)
+        public IActionResult Create(string cateName,int obId)
         {
             try
             {
-                var result = cateBUS.Create(cateName);
+                var result = cateBUS.Create(cateName,obId);
                 return result >= 1 ? Ok(result) : BadRequest(result);
                
             }catch (Exception ex)

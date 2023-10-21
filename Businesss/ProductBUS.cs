@@ -46,7 +46,10 @@ namespace Businesss
             List<ProductModel> ProductList = prodDal.GetByBST(pageSize,pageIndex,out total,TenBST);
             return ProductList;
         }
-
+        public List<ProductModel> GetRecommend(int pageIndex,int PageSize ,out int  total)
+        {
+            return prodDal.GetRecommend(pageIndex, PageSize, out total);
+        }
 
     }
 }

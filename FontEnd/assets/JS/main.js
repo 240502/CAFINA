@@ -1,30 +1,32 @@
 
-const listProduct = $(".list")
-const inputSearch = $(".search-input")
-const btnSearch = $(".search-btn")
-const totalItemElement =$(".total-item")
-const nextBtn = $("#next")
-const prevBtn = $("#prev")
-const ProductItems = $(".product-items")
-const blockBST = $(".block-bst")
-const viewAllBST = $(".block-product .viewall")
-const  subMenuImage = $(".sub-menu-image")
+const listProduct = $(".list");
+const inputSearch = $(".search-input");
+const btnSearch = $(".search-btn");
+const totalItemElement =$(".total-item");
+const nextBtn = $("#next");
+const prevBtn = $("#prev");
+const ProductItems = $(".product-items");
+const blockBST = $(".block-bst");
+const viewAllBST = $(".block-product .viewall");
+const  subMenuImage = $(".sub-menu-image");
 
-const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId"
-const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails"
-const urlApiGetListCate = "https://localhost:7284/api-customer/Category/Get_List_Cate"
+const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
+const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
+const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
+const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
+
 let thisPage = 1;
 let pageSize = 10;
-let isSearch = false
+let isSearch = false;
 function Start (){
   handleGetByBST();
   getCategory();
-
+  handleGetRecommended();
 };
 Start();
 
 
-const list_menu_item =["cate-nu","cate-nam","cate-tre-em"]
+const list_menu_item =["cate-nu","cate-nam","cate-tre-em"];
 
 
 
@@ -65,11 +67,11 @@ viewAllBST.on("click", function(e) {
 
 });
 
-function httpGetCateAsync(url,resolve,reject) {
-  $.get(url)
+function httpGetCateAsync(url,resolve,reject,data) {
+  $.get(url,data)
   .done(response => resolve(response))
   .fail(error => reject(error))
-}
+};
 
 
 
@@ -77,58 +79,40 @@ function httpGetAsync(url,resolve,reject,data){
   $.get(url,data)
   .done(response => resolve(response))
   .fail(error => reject(error))
-}
+};
 async function getCategory(){
-  var dataNu = {
-       cateId:1,
-       objectName:"nữ"
-     }
-    //  var dataNam = {
-    //    cateName:"Áo",
-    //    objectName:"nam"
-    //  }
-    //  var dataQuanNam = {
-    //    cateName:"Quần",
-    //    objectName:"nam"
-    //  }
-     var dataQuanNu = {
-      cateId:1,
-       objectName:"nữ"
-     }
+  var data ={
+    obId:2
+  }
   const promise = new Promise((resolve,reject)=>{
-    httpGetCateAsync(urlApiGetListCate,resolve,reject)
+    httpGetCateAsync(urlApiGetListCate,resolve,reject,data)
   })
   
  
   var title = await promise
-  renderTitleSubMenu(title)
-}
+  renderTitleSubMenu(title,"Menu_nu")
+  renderTitleSubMenu(title,"Menu_be_gai")
 
- function getCateDetails(id) {
-  var data ={
-    cateId : 1,
-    objectName:"Nữ"
-  }
-  const promise = new Promise((resolve,reject)=>{
-    httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
-  })
+  console.log(title)
+
   
-  var result=  promise.then(res=>{
-    return res
+  
+  const promise1 = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject)
   })
-  return result;
-}
+  var result = await promise1
+  renderTitleSubMenu(result,"Menu_nam")
+  renderTitleSubMenu(result,"Menu_be_trai")
 
-function renderTitleSubMenu(title){
+};
+async function renderTitleSubMenu(title,clasName){
   var group_1 = ''
   title.forEach(item=>{
    if (item["id"] ==1)
    {
        
             group_1 +=`
-            <ul class="sub-menu-item" data-id = ${item["id"]}
-            
-            >
+            <ul class="sub-menu-item" data-id = ${item["id"]}>
               <li class="title">${item["cateName"]}</li>
               <div class="content">
                
@@ -179,35 +163,43 @@ function renderTitleSubMenu(title){
     }
   });
 
-  $(".group-1").html(group_1);
-  $(".group-2").html(group_2);
-  $(".group-3").html(group_3);
-  $(".group-4").html(group_4);
+  $(`.${clasName} .group-1`).html(group_1);
+  $(`.${clasName} .group-2`).html(group_2);
+  $(`.${clasName} .group-3`).html(group_3);
+  $(`.${clasName} .group-4`).html(group_4);
 
-  var subMenuContent =  [...document.querySelectorAll(".Menu_nu .sub-menu-item")]
-  console.log(subMenuContent.length)
-  async function renderSubMenuContent(){
-    let i =0;
-    while(i<subMenuContent.length){
-      var data = {
-        cateId : subMenuContent[i].dataset.id,
-        objectName:"Nữ"
-      }
-      const promise = new Promise((resolve,reject)=>{
-        httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
-      })
-      var res = await promise
-      var html =""
-      res.forEach(item=>{
-        html+= ` <li> <a href="#">${item["detailName"]}</a></li>`
-      })
-      subMenuContent[i].children[1].innerHTML = html
-      // subMenuContent[i].children.html(html)
-      i++;
-    }
-  }
-  renderSubMenuContent()
-} 
+  var subMenuContentNu =  [...document.querySelectorAll(".Menu_nu .sub-menu-item")]
+  var subMenuContentNam =  [...document.querySelectorAll(".Menu_nam .sub-menu-item")]
+  var subMenuContentBeTrai =  [...document.querySelectorAll(".Menu_be_trai .sub-menu-item")]
+  var subMenuContentBeGai =  [...document.querySelectorAll(".Menu_be_gai .sub-menu-item")]
+   async function renderSubMenuContent(subMenuContent,objectName) {
+     let i =0;
+     while(i<subMenuContent.length){
+       var data = {
+         cateId : subMenuContent[i].dataset.id,
+         objectName
+       }
+       const promise = new Promise((resolve,reject)=>{
+         httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
+       })
+       var res = await promise
+       var html =""
+       res.forEach(item=>{
+         html+= ` <li> <a href="#">${item["detailName"]}</a></li>`
+       })
+       subMenuContent[i].children[1].innerHTML = html
+       i++;
+     }
+   }
+   
+   renderSubMenuContent(subMenuContentNu,'Nữ')
+   renderSubMenuContent(subMenuContentNam,'Nam')
+   renderSubMenuContent(subMenuContentBeGai,'Trẻ em gái')
+   renderSubMenuContent(subMenuContentBeTrai,'Trẻ em trai')
+
+
+
+} ;
 function httpPostAsyncCate(url,resolve,reject,data){
   $.post({
     url: url,
@@ -224,59 +216,7 @@ function httpPostAsyncCate(url,resolve,reject,data){
   });
 
 };
-// var listObject = ["nam","nữ","trẻ em gái","trẻ em trai"]
-// async function hanleGetCate(){
-//    
-//     const QuanNam = new Promise((resolve,reject)=>{
-//       httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,dataQuanNam)
-//     })
- 
-//     const AoNam = new Promise((resolve,reject)=>{
-//       httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,dataNam)
-//     })
-    
-   
-//     // const TreEmGai = new Promise((resolve,reject)=>{
-//     //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
-//     // })
-//     // const TreEmTrao = new Promise((resolve,reject)=>{
-//     //   httpPostAsyncCate(urlApiGetCate,resolve,reject,data)
-//     // })
-//     await AoNu.then(res => renderSubMenuAo(res,"Menu_nu","ao"))
-//     .catch(err =>alert(err.message))
-//     await QuanNu.then(res =>{
-//       renderSubMenuAo(res,"Menu_nu","quan")
-//     })
-//     .catch(err =>alert(err.message))
 
-//     await AoNam.then(res => renderSubMenuAo(res,"Menu_nam","ao"))
-//     .catch(err =>alert(err.message))
-
-//     await QuanNam.then(res => renderSubMenuAo(res,"Menu_nam","quan"))
-//     .catch(err =>alert(err.message))
-
-    
-// }
-// function renderSubMenuAo(data,...rest){
-//   console.log(rest)
-//   var html = data.map(item=>{
-//     return `
-//       <li> <a href="#">${item["detailName"]}</a></li>
-//     `
-//   })
-//   $(`.${rest[0]} .${rest[1]}  .content `).html(html)
-// }
-
-
-// function renderSubMenuQuan(data,className){
-//   var html = data.map(item=>{
-//     return `
-//       <li> <a href="#">${item["detailName"]}</a></li>
-//     `
-//   })
-//   $(`.${className} .quan .content`).html(html)
-//   console.log(data);
-// }
 let ListGalery = new Array();
 const handleGetGalery = async (products)=>{
   var data =  products.map(product=>{
@@ -293,7 +233,7 @@ const handleGetGalery = async (products)=>{
       ListGalery.push(response)
       localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
   }
-}
+};
 
 function handleGetByBST(){
   var data = {
@@ -315,7 +255,7 @@ function GetProductByBST(data){
      })
 };
 
-function GetLinkBSTHome (id){
+function GetLinkBSTHome(id){
   let link = ""
   const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
   if(ImgBSTHome!=null){
@@ -325,7 +265,7 @@ function GetLinkBSTHome (id){
     }
   }
   return link;
-}
+};
 function RenderBST(products){
     var html = products["data"].map((product,index)=>{
       if(product["price"].toString().length>5)
@@ -404,6 +344,80 @@ function RenderBST(products){
   });
 };
 
+function handleGetRecommended(){
+
+};
+
+function handleGetRecommended(){
+  var data = {
+    pageIndex: thisPage
+  }
+  GetRecommended(data);
+};
+function GetRecommended(data){
+  $.get(urlApiGetRecommended,data)
+  .done(res=>renderProductRecommended(res));
+};
+function renderProductRecommended(Products){
+  const countPage = Math.ceil(Products["totalItems"]/8)
+  renderListPage(countPage);
+  var html = Products["data"].map(product =>{
+    return `
+    <div class="product-item col-4">
+                        <div class="item__image">
+                            <a href="#">
+                                <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+                            </a>
+                            <div class="product-item-button-tocart">
+                                <span>Thêm nhanh vào giỏ</span>
+                            </div>    
+                        </div>
+                        <div class="item__details">
+                            <div class="colors">
+                                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                                </div>
+
+                                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
+                                </div>
+
+                                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
+                                </div>
+                            </div>
+                            <h3 class="product-item-name">
+        
+                                <a href="#">
+                                    ${product["title"]}
+                                </a>
+                            </h3>
+                            <div class="price-box">
+                                <div class="normal-price">${
+                                  product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                                } </div>
+                            </div>
+                        </div>
+      </div>
+    `
+  })
+  $(".block-new-product .products").html(html.join(''));
+};
+function renderListPage(count){
+  console.log(count);
+  if(count >= 1){
+    var html = ""
+    for(var i=1; i<=count; i++){
+      html+= `
+      <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+      
+      `
+    }
+    $(".list-page div").html(html);
+  }
+};
+
+function changePage(index){
+  thisPage = index;
+  handleGetRecommended();
+}
 
 $(".nam").slick({
     slidesToShow: 3,

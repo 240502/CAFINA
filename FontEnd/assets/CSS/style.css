@@ -197,7 +197,8 @@ body{
 }
 .sub-menu .sub-menu-right li {
     padding: 3px 0;
-    text-transform: none !important;
+    font-size: 12px;
+    font-weight: 700;
 }
 .sub-menu .sub-menu-right li:hover{
     color: #da291c;
@@ -595,8 +596,39 @@ body{
     object-fit: cover;
     height: 498px;
 }
+.list-page{
+    margin: 80px 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.list-page li{
+    margin: 0 4px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: inherit;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+}
+.list-page li.active{
+    border: 1px solid #da291c;
+    border-radius: 5px;
+    color: #da291c;
+}
+.list-page #btn-page-next{
+    border: none;
+    background-color: #fff;
+}
+.list-page #btn-page-next i{
+    font-size: 16px;
+    color: #333f48 !important;
+    width: 32px;
 
 
+}
 /* End Block  New Product */
 /*  */
 /*  */

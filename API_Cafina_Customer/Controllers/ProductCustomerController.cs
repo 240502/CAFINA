@@ -95,5 +95,22 @@ namespace API_Cafina_Customer.Controllers
             }
         }
 
+        [Route("Recommend")]
+        [HttpGet]
+        public IActionResult GetRecommend( int pageIndex)
+        {
+            try
+            {
+                int pageSize = 8;
+                int total = 0;
+                List<ProductModel> list = proBus.GetRecommend(pageIndex,pageSize,out total);
+                return list!=null? Ok(new { Page = pageIndex, PageSize = pageSize, TotalItems = total,Data = list}) : NotFound();
+
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

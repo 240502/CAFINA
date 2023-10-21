@@ -29,7 +29,6 @@ namespace DataAccessLayer
                         cate.id = int.Parse(tb.Rows[i]["id"].ToString());
                         cate.DetailName = tb.Rows[i]["DetailName"].ToString();
                         cate.CateId = int.Parse(tb.Rows[i]["CateId"].ToString());
-                        cate.ObjectId = int.Parse(tb.Rows[i]["Object_id"].ToString());
                         list.Add(cate);
                     }
                     return list;

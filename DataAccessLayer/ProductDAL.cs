@@ -126,8 +126,8 @@ namespace DataAccessLayer
                         product.size = result.Rows[i]["size"].ToString();
                         product.color = result.Rows[i]["color"].ToString();
                         product.CateId = result.Rows[i]["CateId"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["CateId"].ToString());
-                        product.CateId = result.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Object_id"].ToString());
-                        product.CateId = result.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Bst_id"].ToString());
+                        product.Object_id = result.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Object_id"].ToString());
+                        product.Bst_id = result.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Bst_id"].ToString());
                         ProductList.Add(product);
                     }
                     return ProductList;
@@ -163,6 +163,42 @@ namespace DataAccessLayer
                         product.CateId = int.Parse(tb.Rows[i]["CateId"].ToString());
                         product.Object_id = int.Parse(tb.Rows[i]["Object_id"].ToString());
                         product.Bst_id = int.Parse(tb.Rows[i]["Bst_id"].ToString());
+                        ProductList.Add(product);
+                    }
+                    return ProductList;
+                }
+                else return null;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public List<ProductModel> GetRecommend(int pageIndex,int PageSize,out int total)
+        {
+             total = 0;
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Get_Recommend", "@pageIndex","@pageSize",pageIndex,PageSize);
+                if (tb != null)
+                {
+                    total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ProductModel product = new ProductModel();
+                        product.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        product.title = tb.Rows[i]["title"].ToString();
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
+                        product.description = tb.Rows[i]["description"].ToString();
+                        product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
+                        product.HuongDanSuDung = tb.Rows[i]["HuongDanSuDung"].ToString();
+                        product.size = tb.Rows[i]["size"].ToString();
+                        product.color = tb.Rows[i]["color"].ToString();
+                        product.CateId = tb.Rows[i]["CateId"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateId"].ToString());
+                        product.Object_id = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
+                        product.Bst_id = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
                         ProductList.Add(product);
                     }
                     return ProductList;
