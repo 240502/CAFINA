@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CAFINA</title>
+    <title>CANIFA</title>
     <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -200,18 +200,45 @@
 
             </ul>
             </div>
-            <div class="header-search">
+            <div class="header-search" >
                 <div class="search-input-group">
                     <button type="button" class="search-btn">
 
                         <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
                     </button>
-               
                     <input type="text" placeholder="Tìm kiếm" class="search-input">
                 </div>
-           
+                <div class="form-search" >
+                    <div class="search-top">
+                        <div class="container">
+                            <div class="search-input-group">
+                                <button type="button" class="search-btn">
+                                    <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
+                                </button>
+                           
+                                <input type="text" placeholder="Tìm kiếm" class="search-input">
+                            </div>
+                            <div class="search-close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-bottom container">
+                        <div class="search-suggested-heading">
+                            <h2>Lịch sử tìm kiếm</h2>
+                            <button type="button" class="remove__btn" id="remove__btn">Xóa</button>
+                        </div>
+                        <div class="search-suggested-content">
+                            <span>áo</span>
+                        </div>
+                        <div class="search-suggested-prouct">
+                            <h2 class="title">Gợi ý cho bạn</h2>
+                            <div class="product-items">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
-
             <div class="header-group-icon">
                 <div class="header-store header-icon" >
                     <i class="fa-solid fa-store" style="color: #000000;"></i>
@@ -237,436 +264,461 @@
     <!--  -->
     <!--Begin Block Content  -->
     <main id="content">
-        <!--  -->
-        <!--Begin Block Home Banner  -->
-        <div class="home-banner">
-            <div class="item">
-                <a href="#">
-                    <img style="width:100%" src="https://media.canifa.com/Simiconnector/BannerSlider/t/o/top_banner_desktop_2.webp" alt="">
-                </a>
-            </div>
-        </div>
-        <!--  -->
-        <!--End Block Home Banner  -->
-
-        <!--  -->
-        <!--Begin Block Service  -->
-        <div class="block-service">
-            <div class="container">
+        <div class="main-content active">
+            <!--  -->
+            <!--Begin Block Home Banner  -->
+            <div class="home-banner">
                 <div class="item">
-                    <div class="icon">
-                      <img src="https://media.canifa.com/Simiconnector/Service/s/e/service1.png" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>Thanh toán khi nhận hàng (COD)</h3>
-                        <span>Giao hàng toàn quốc.</span>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="icon">
-                      <img src="https://media.canifa.com/Simiconnector/Service/s/e/service2.png" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>Miễn phí giao hàng</h3>
-                        <span>Với đơn hàng trên 599.000đ.</span>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="icon">
-                      <img src="https://media.canifa.com/Simiconnector/Service/s/e/service3.png" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>Đổi trả miễn phí</h3>
-                        <span>Trong 30 ngày kể tử ngày mua.</span>
-                    </div>
+                    <a href="#">
+                        <img style="width:100%" src="https://media.canifa.com/Simiconnector/BannerSlider/t/o/top_banner_desktop_2.webp" alt="">
+                    </a>
                 </div>
             </div>
-        </div>
-         <!--  -->
-        <!--End Block Service  -->
-        
-         <!--  -->
-        <!--Begin Block Product  -->
-        <div class="block-product container">
-            <div class="block-heading">
-                <h2 class="title">
-                    BST Thu đông 2023
-                </h2>
-                <div class="viewall">Xêm thêm</div>
-            </div>
-            <div class="block-content">
-                <div class="products block-bst row">
-                </div>
-            </div>
-        </div>
-         <!--  -->
-        <!--End Block Product  -->
-        
-         <!--  -->
-        <!--Begin Block  Collection  -->
-        <div class="block-collection container">
-            <div class="block-title">
-                <h2>
-                    Sản phầm mới
-                </h2>
-                
-            </div>
+            <!--  -->
+            <!--End Block Home Banner  -->
 
-            <div class="block-content">
-                <div class="item-slide san__pham__moi row">
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/SanPhamMoi/nu.webp" alt="">
-                            </a>
+            <!--  -->
+            <!--Begin Block Service  -->
+            <div class="block-service">
+                <div class="container">
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service1.png" alt="">
+                        </div>
+                        <div class="content">
+                            <h3>Thanh toán khi nhận hàng (COD)</h3>
+                            <span>Giao hàng toàn quốc.</span>
                         </div>
                     </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/SanPhamMoi/nam.webp" alt="">
-                            </a>
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service2.png" alt="">
+                        </div>
+                        <div class="content">
+                            <h3>Miễn phí giao hàng</h3>
+                            <span>Với đơn hàng trên 599.000đ.</span>
                         </div>
                     </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/SanPhamMoi/be_gai.webp" alt="">
-                            </a>
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service3.png" alt="">
                         </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/SanPhamMoi/be_trai.webp" alt="">
-                            </a>
+                        <div class="content">
+                            <h3>Đổi trả miễn phí</h3>
+                            <span>Trong 30 ngày kể tử ngày mua.</span>
                         </div>
                     </div>
                 </div>
-                
             </div>
-        </div>
-         <!--  -->
-        <!--End Block  Collection  -->
-
-
-          <!--  -->
-        <!--Begin Block  Collection  -->
-        <div class="block-collection container">
-            <div class="block-title">
-                <h2>
-                    Nam
-                </h2>
-                
-            </div>
-
-            <div class="block-content">
-                <div class="item-slide nam row">
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNam/DoMacHangNgay.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNam/Do_Mac_Di_Lam.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNam/DoActive.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNam/DoMacTrongNha.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-         <!--  -->
-        <!--End Block  Collection  -->
-
-
-        <!--  -->
-        <!--Begin Block  Collection  -->
-        <div class="block-collection container">
-            <div class="block-title">
-                <h2>
-                    Nữ
-                </h2>
-                
-            </div>
-
-            <div class="block-content">
-                <div class="item-slide nu row">
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNu/DoMacHangNgay.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNu/OutfitDiChoi.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNu/DoMacONha.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/ImageNu/DoMacTrong.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-         <!--  -->
-        <!--End Block  Collection  -->
-
-           <!--  -->
-        <!--Begin Block  Collection  -->
-        <div class="block-collection container">
-            <div class="block-title">
-                <h2>
-                    Trẻ em
-                </h2>
-                
-            </div>
-
-            <div class="block-content">
-                <div class="item-slide tre_em row">
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/TreEm/DoMacNgoai.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/TreEm/OutFitToiTruong.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/TreEm/DoMacNha.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="item col-4">
-                        <div class="item__img">
-                            <a href="#">
-                                <img src="./assets/Image/TreEm/DoMacHangNgay.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-         <!--  -->
-        <!--End Block  Collection  -->
-
-
-        <!--  -->
-        <!--Begin Block  New Product  -->
-        <div class="block-new-product container">
-            <div class="block-heading">
-                <h2>Gợi ý cho bạn</h2>
-                <div class="viewall">Xêm thêm</div>
-            </div>
-            <div class="block-content">
-                <div class="products row">
-                    
-
-                    
-                </div>
-                <ul class="list-page">
-                    <div style="display: inherit; ">
-
-                    </div>
-                    <li class="item page-next">
-                        <button type="button" id="btn-page-next">
-                            <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
-                        </button>
-                    </li>
-                </div>
-            </div>
-        </div>
-        <!--  -->
-        <!--End Block  New Product  -->
-
-         <!--  -->
-        <!--Begin Block  Blog  -->
-        <div class="block-blog container">
-            <div class="block-title">
-                <div class="title">
-                    canifalife
-                </div>
-                <div class="viewall">
-                    Xem thêm
-                </div>
-            </div>
-            <div class="block-content">
-                <div class="row">
-                    <div class="home-post-item col-4">
-                        <div class="item__image">
-                            <a href="#">
-                                <img src="https://media.canifa.com/mageplaza/blog/post//r/o/route-tour-blog.webp" alt="">
-                            </a>
-                        </div>
-                        <div class="item__details">
-                            <h3 class="home-post-item-title">
-                                <a href="#">ĐỒNG GIÁ 149K - 199K TOÀN BỘ CỬA HÀNG</a>
-                            </h3>
-                            <div class="home-post-item-date">
-                                21:56 16/8/2023
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="home-post-item col-4">
-                        <div class="item__image">
-                            <a href="#">
-                                <img src="https://media.canifa.com/mageplaza/blog/post//b/t/bts-blog-cover.webp" alt="">
-                            </a>
-                        </div>
-                        <div class="item__details">
-                            <h3 class="home-post-item-title">
-                                <a href="#">CÙNG CANIFA VUI ĐẾN TRƯỜNG - KHUI NGÀN DEAL ẤN TƯỢNG</a>
-                            </h3>
-                            <div class="home-post-item-date">
-                                22:28 8/8/2023
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="home-post-item col-4">
-                        <div class="item__image">
-                            <a href="#">
-                                <img src="https://media.canifa.com/mageplaza/blog/post//2023/06/174cf8a740c5909bc9d4-1.webp" alt="">
-                            </a>
-                        </div>
-                        <div class="item__details">
-                            <h3 class="home-post-item-title">
-                                <a href="#">4 loại sợi vải nhân tạo “đột phá” và cuộc cách mạng của thời trang bền vững</a>
-                            </h3>
-                            <div class="home-post-item-date">
-                                
-                                23:17 28/6/2023
-              
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="home-post-item col-4">
-                        <div class="item__image">
-                            <a href="#">
-                                <img src="https://media.canifa.com/mageplaza/blog/post//2023/04/phong-cach-thoi-trang-vintage-5-1.webp" alt="">
-                            </a>
-                        </div>
-                        <div class="item__details">
-                            <div class="home-post-item-cart">
-                                Tin tức
-                            </div>
-                            <h3 class="home-post-item-title">
-                                <a href="#">Vintage là gì ? Toàn tập về phong cách thời trang Vintage</a>
-                            </h3>
-                            <div class="home-post-item-date">
-                                
-                                02:57 8/6/2023
-              
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--  -->
-        <!--End Block  Blog  -->
-
-
-
-         <!--  -->
-        <!--Begin Block Subscribe  -->
-        <div class="block-subscribe">
-            <div class="container">
-                <div class="block-title">Đăng ký nhận bản tin</div>
-                <div class="des">
-                    Cùng Canifa Blog cập nhật những thông tin mới nhất về thời trang và phong cách sống.
+            <!--  -->
+            <!--End Block Service  -->
+            
+            <!--  -->
+            <!--Begin Block Product  -->
+            <div class="block-product container">
+                <div class="block-heading">
+                    <h2 class="title">
+                        BST Thu đông 2023
+                    </h2>
+                    <div class="viewall">Xêm thêm</div>
                 </div>
                 <div class="block-content">
-                    <div class="form-subscribe">
-                        <input type="text" placeholder="Nhập email đăng ký của bạn" id="email">
-                        <button type="button" title="Gửi">Đăng ký</button>
-                    </div>
-                </div>
-                <div class="block-social">
-                    <div class="social-item">
-                        <i class="fa-brands fa-facebook-f" style="color: #000000;"></i>
-                    </div>
-
-                    <div class="social-item">
-                        <i class="fa-brands fa-instagram" style="color: #000000;"></i>
-                    </div>
-
-                    <div class="social-item">
-                        <i class="fa-brands fa-youtube" style="color: #000000;"></i>
-                    </div>
-
-                    <div class="social-item">
-                        <i class="fa-brands fa-tiktok" style="color: #000000;"></i>
+                    <div class="products block-bst row">
                     </div>
                 </div>
             </div>
-        </div>
+            <!--  -->
+            <!--End Block Product  -->
+            
+            <!--  -->
+            <!--Begin Block  Collection  -->
+            <div class="block-collection container">
+                <div class="block-title">
+                    <h2>
+                        Sản phầm mới
+                    </h2>
+                    
+                </div>
 
-         <!--  -->
-        <!--End Block Subscribe -->
+                <div class="block-content">
+                    <div class="item-slide san__pham__moi row">
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/SanPhamMoi/nu.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/SanPhamMoi/nam.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/SanPhamMoi/be_gai.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/SanPhamMoi/be_trai.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  Collection  -->
+
+
+            <!--  -->
+            <!--Begin Block  Collection  -->
+            <div class="block-collection container">
+                <div class="block-title">
+                    <h2>
+                        Nam
+                    </h2>
+                    
+                </div>
+
+                <div class="block-content">
+                    <div class="item-slide nam row">
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNam/DoMacHangNgay.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNam/Do_Mac_Di_Lam.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNam/DoActive.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNam/DoMacTrongNha.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  Collection  -->
+
+
+            <!--  -->
+            <!--Begin Block  Collection  -->
+            <div class="block-collection container">
+                <div class="block-title">
+                    <h2>
+                        Nữ
+                    </h2>
+                    
+                </div>
+
+                <div class="block-content">
+                    <div class="item-slide nu row">
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNu/DoMacHangNgay.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNu/OutfitDiChoi.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNu/DoMacONha.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/ImageNu/DoMacTrong.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  Collection  -->
+
+            <!--  -->
+            <!--Begin Block  Collection  -->
+            <div class="block-collection container">
+                <div class="block-title">
+                    <h2>
+                        Trẻ em
+                    </h2>
+                    
+                </div>
+
+                <div class="block-content">
+                    <div class="item-slide tre_em row">
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/TreEm/DoMacNgoai.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/TreEm/OutFitToiTruong.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/TreEm/DoMacNha.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item col-4">
+                            <div class="item__img">
+                                <a href="#">
+                                    <img src="./assets/Image/TreEm/DoMacHangNgay.webp" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  Collection  -->
+
+
+            <!--  -->
+            <!--Begin Block  New Product  -->
+            <div class="block-new-product container">
+                <div class="block-heading">
+                    <h2>Gợi ý cho bạn</h2>
+                    <div class="viewall">Xêm thêm</div>
+                </div>
+                <div class="block-content">
+                    <div class="products row">
+                        
+
+                        
+                    </div>
+                    <ul class="list-page">
+                        <div style="display: inherit; ">
+
+                        </div>
+                        <li class="item page-next">
+                            <button type="button" id="btn-page-next">
+                                <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <!--  -->
+            <!--End Block  New Product  -->
+
+            <!--  -->
+            <!--Begin Block  Blog  -->
+            <div class="block-blog container">
+                <div class="block-title">
+                    <div class="title">
+                        canifalife
+                    </div>
+                    <div class="viewall">
+                        Xem thêm
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="row">
+                        <div class="home-post-item col-4">
+                            <div class="item__image">
+                                <a href="#">
+                                    <img src="https://media.canifa.com/mageplaza/blog/post//r/o/route-tour-blog.webp" alt="">
+                                </a>
+                            </div>
+                            <div class="item__details">
+                                <h3 class="home-post-item-title">
+                                    <a href="#">ĐỒNG GIÁ 149K - 199K TOÀN BỘ CỬA HÀNG</a>
+                                </h3>
+                                <div class="home-post-item-date">
+                                    21:56 16/8/2023
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="home-post-item col-4">
+                            <div class="item__image">
+                                <a href="#">
+                                    <img src="https://media.canifa.com/mageplaza/blog/post//b/t/bts-blog-cover.webp" alt="">
+                                </a>
+                            </div>
+                            <div class="item__details">
+                                <h3 class="home-post-item-title">
+                                    <a href="#">CÙNG CANIFA VUI ĐẾN TRƯỜNG - KHUI NGÀN DEAL ẤN TƯỢNG</a>
+                                </h3>
+                                <div class="home-post-item-date">
+                                    22:28 8/8/2023
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="home-post-item col-4">
+                            <div class="item__image">
+                                <a href="#">
+                                    <img src="https://media.canifa.com/mageplaza/blog/post//2023/06/174cf8a740c5909bc9d4-1.webp" alt="">
+                                </a>
+                            </div>
+                            <div class="item__details">
+                                <h3 class="home-post-item-title">
+                                    <a href="#">4 loại sợi vải nhân tạo “đột phá” và cuộc cách mạng của thời trang bền vững</a>
+                                </h3>
+                                <div class="home-post-item-date">
+                                    
+                                    23:17 28/6/2023
+                
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="home-post-item col-4">
+                            <div class="item__image">
+                                <a href="#">
+                                    <img src="https://media.canifa.com/mageplaza/blog/post//2023/04/phong-cach-thoi-trang-vintage-5-1.webp" alt="">
+                                </a>
+                            </div>
+                            <div class="item__details">
+                                <div class="home-post-item-cart">
+                                    Tin tức
+                                </div>
+                                <h3 class="home-post-item-title">
+                                    <a href="#">Vintage là gì ? Toàn tập về phong cách thời trang Vintage</a>
+                                </h3>
+                                <div class="home-post-item-date">
+                                    
+                                    02:57 8/6/2023
+                
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  Blog  -->
+
+
+
+            <!--  -->
+            <!--Begin Block Subscribe  -->
+            <div class="block-subscribe">
+                <div class="container">
+                    <div class="block-title">Đăng ký nhận bản tin</div>
+                    <div class="des">
+                        Cùng Canifa Blog cập nhật những thông tin mới nhất về thời trang và phong cách sống.
+                    </div>
+                    <div class="block-content">
+                        <div class="form-subscribe">
+                            <input type="text" placeholder="Nhập email đăng ký của bạn" id="email">
+                            <button type="button" title="Gửi">Đăng ký</button>
+                        </div>
+                    </div>
+                    <div class="block-social">
+                        <div class="social-item">
+                            <i class="fa-brands fa-facebook-f" style="color: #000000;"></i>
+                        </div>
+
+                        <div class="social-item">
+                            <i class="fa-brands fa-instagram" style="color: #000000;"></i>
+                        </div>
+
+                        <div class="social-item">
+                            <i class="fa-brands fa-youtube" style="color: #000000;"></i>
+                        </div>
+
+                        <div class="social-item">
+                            <i class="fa-brands fa-tiktok" style="color: #000000;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!--  -->
+                <!--End Block Subscribe -->
+            </div>
+        </div>
+        <div class="site-main">
+            <div class="page-main-search">
+                <div class="total-items">
+                    <b style="font-weight:bold"> Kết quả tìm kiếm:</b>
+                    <span></span> sản phẩm  
+                </div>
+                <div class="main">
+                    <div class="product-items">
+                        
+                    </div>
+                    <ul class="list-page">
+                        <div style="display: inherit; ">
+    
+                        </div>
+                        <li class="item page-next">
+                            <button type="button" id="btn-page-next">
+                                <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+         
     </main> 
     <!--End Block Content  -->
     <!--  -->

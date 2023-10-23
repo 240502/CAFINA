@@ -9,29 +9,30 @@ const ProductItems = $(".product-items");
 const blockBST = $(".block-bst");
 const viewAllBST = $(".block-product .viewall");
 const  subMenuImage = $(".sub-menu-image");
-
+const searchInputHeader = $(".search-input");
+const searchInputModel = $(".form-search .search-input");
+const siteMain = $(".site-main");
+const searchClose = $(".search-close")
+const searchBtn = $(".search-btn");
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
 const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
-
+const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
 let thisPage = 1;
 let pageSize = 10;
 let isSearch = false;
+let isSearchContent = false;
+let isMainContent = false;
+
 function Start (){
+  ActiveMainContent();
+  HiddeSiteMain();
   handleGetByBST();
   getCategory();
   handleGetRecommended();
 };
 Start();
-
-
-const list_menu_item =["cate-nu","cate-nam","cate-tre-em"];
-
-
-
-
-
 subMenuImage.slick({
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -61,12 +62,133 @@ subMenuImage.slick({
   // autoplaySpeed: 1000,
 });
 
+searchBtn.on('click', () => {
+  var value = searchInputModel.val();
+  handleSearch(value);
+  ActiveSiteMain();
+  HiddeMainContent();
+  
+})
+searchClose.on('click', ()=>{
+  CloseModelSearch();
+})
+function ActiveModelSearch(){
+  isSearch=true;
+  $(".header-search").toggleClass("opened",isSearch);
+}
+function CloseModelSearch(){
 
+  isSearch = false;
+  $(".header-search").toggleClass("opened",isSearch);
+}
+searchInputHeader.on('click', ()=>{
+ ActiveModelSearch();
+})
+searchInputHeader.on('keypress',(e)=>{
+  if(e.key ==='Enter')
+  {
+    var value  =searchInputModel.val();
+    if( value ===''){
+      CloseModelSearch();
+    }
+    else{
+      searchInputHeader.val(searchInputModel.val());
+      CloseModelSearch();
+      handleSearch(value);
+      ActiveSiteMain();
+      HiddeMainContent();
+    }
+  }
 
+})
+function ActiveMainContent() {
+  isMainContent = true;
+  $(".main-content").toggleClass("active",isMainContent)
+} 
+function HiddeMainContent() {
+  isMainContent = false;
+  $(".main-content").toggleClass("active",isMainContent)
+} 
+function ActiveSiteMain(){
+  isSearchContent =true;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+}
+function HiddeSiteMain() {
+  isSearchContent =false;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+} 
 viewAllBST.on("click", function(e) { 
 
 });
+function handleSearch(productName){
+  
+  var data = {
+    page: thisPage,
+    pageSize: 8,
+    ProductName : productName
+  }
+  SearchProduct(data)
 
+}
+function SearchProduct(data){
+  $.post({
+    url:urlApiSearchProduct,
+    data:JSON.stringify(data),
+    contentType : 'application/json'
+  })
+  .done(res=>{
+    renderSearchProduct(res);
+    
+  })
+}
+
+function renderSearchProduct(response) {
+  var totalItems = response["totalItems"]
+  const countPage = Math.ceil(response["totalItems"]/8)
+  renderListPage(countPage);
+  $(".site-main .total-items span").text(totalItems)
+  var html = response["data"].map(product=>{
+    return `
+    <div class="product-item col-4">
+        <div class="item__image">
+            <a href="#">
+                <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+            </a>
+            <div class="product-item-button-tocart">
+                <span>Thêm nhanh vào giỏ</span>
+            </div>    
+        </div>
+        <div class="item__details">
+            <div class="colors">
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                </div>
+
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
+                </div>
+
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
+                </div>
+            </div>
+            <h3 class="product-item-name">
+
+                <a href="#">
+                    ${product["title"]}
+                </a>
+            </h3>
+            <div class="price-box">
+                <div class="normal-price">${
+                  product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                } </div>
+            </div>
+        </div>
+    </div>
+    `
+  });
+  $(".site-main .product-items").html(html)
+
+}
 function httpGetCateAsync(url,resolve,reject,data) {
   $.get(url,data)
   .done(response => resolve(response))
@@ -345,10 +467,6 @@ function RenderBST(products){
 };
 
 function handleGetRecommended(){
-
-};
-
-function handleGetRecommended(){
   var data = {
     pageIndex: thisPage
   }
@@ -402,21 +520,32 @@ function renderProductRecommended(Products){
 };
 function renderListPage(count){
   console.log(count);
-  if(count >= 1){
-    var html = ""
+  $(".list-page div").html("")
+  var html = ""
+  if(count > 1){
     for(var i=1; i<=count; i++){
       html+= `
       <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-      
       `
     }
     $(".list-page div").html(html);
+    $(".page-next").toggleClass("active-next-button",true)
+  }
+  else{
+    $(".page-next").toggleClass("active-next-button",false)
+
   }
 };
 
 function changePage(index){
   thisPage = index;
-  handleGetRecommended();
+  if(isMainContent){
+    handleGetRecommended();
+
+  }
+  if(isSearchContent){
+    handleSearch();
+  }
 }
 
 $(".nam").slick({
