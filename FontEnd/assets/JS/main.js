@@ -1,4 +1,4 @@
-
+const iconUser = $(".header-account")
 const listProduct = $(".list");
 const inputSearch = $(".search-input");
 const btnSearch = $(".search-btn");
@@ -14,16 +14,73 @@ const searchInputModel = $(".form-search .search-input");
 const siteMain = $(".site-main");
 const searchClose = $(".search-close")
 const searchBtn = $(".search-btn");
+const formUs = $(".form-us");
+const inputName = $("#name")
+const inputSdt = $("#sdt")
+const inputEmail = $(".email")
+const inputBirthDay = $("#birthday")
+const checkBoxNam = $("#radio1")
+const checkBoxNu = $("#radio2")
+const checkBoxKhac = $("#radio3")
+
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
 const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
+
 let thisPage = 1;
 let pageSize = 10;
 let isSearch = false;
 let isSearchContent = false;
 let isMainContent = false;
+let isFormUs = false;
+function OpenFormUs(){
+  isFormUs = true;
+  formUs.toggleClass("active",isFormUs)
+}
+function hiddeFormUs(){
+  isFormUs = false;
+  formUs.toggleClass("active",isFormUs)
+}
+const infoUs = JSON.parse(localStorage.getItem("login"));
+function fillDataToInput(){
+  if(infoUs["gioiTinh"] ==="Nam")
+  {
+    checkBoxNam.prop("checked",true);
+  }
+  else if(infoUs["gioiTinh"] ==="Nữ")
+  {
+    checkBoxNu.prop ("checked", true);
+  }
+  else checkBoxKhac.prop("checked", true);
+
+  inputName.val(infoUs["fullName"]);
+  inputSdt.val(infoUs["phone_number"]);
+  inputEmail.val(infoUs["email"]);
+  inputBirthDay.val(infoUs["birthDay"].slice(0,10));
+
+
+}
+
+
+iconUser.on("click",()=>{
+  if(infoUs){
+    if(infoUs["role"] ==1){
+      HiddeMainContent();
+      OpenFormUs();
+      fillDataToInput();
+
+    }
+    else{
+
+    }
+  }
+  else{
+    window.location = './login.html';
+
+  }
+})
 
 function Start (){
   ActiveMainContent();
@@ -31,6 +88,7 @@ function Start (){
   handleGetByBST();
   getCategory();
   handleGetRecommended();
+  hiddeFormUs();
 };
 Start();
 subMenuImage.slick({

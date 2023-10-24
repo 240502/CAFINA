@@ -121,7 +121,7 @@ namespace API_Cafina.Controllers
             try
             {
 
-                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email, password = result.PassWord, phone_number = result.phone_number, role = result.RoleId, token = result.token });
+                return result == null ? BadRequest(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" }) : Ok(new { email = result.email,fullName = result.FullName,birthDay = result.Birthday, GioiTinh = result.Gender,password = result.PassWord, phone_number = result.phone_number, role = result.RoleId, token = result.token });
             }
             catch (Exception ex)
             {
