@@ -27,7 +27,7 @@ namespace DataAccessLayer
                     us.phone_number = result.Rows[0]["Phone_Number"].ToString();
                     us.Birthday = DateTime.Parse(result.Rows[0]["BirthDay"].ToString());
                     us.Gender = result.Rows[0]["Gender"].ToString();
-                    us.RoleId = int.Parse(result.Rows[0]["Role_Id"].ToString());
+                    us.Address = result.Rows[0]["Address"].ToString();
                     return us;
                 }
                 else return null;   
@@ -55,7 +55,7 @@ namespace DataAccessLayer
                         us.phone_number = result.Rows[0]["Phone_Number"].ToString();
                         us.Birthday = DateTime.Parse(result.Rows[0]["BirthDay"].ToString());
                         us.Gender = result.Rows[0]["Gender"].ToString();
-                        us.RoleId = int.Parse(result.Rows[0]["Role_Id"].ToString());
+                        us.Address = result.Rows[0]["Address"].ToString();
                         listUs.Add(us);
                     }
                     return listUs;
@@ -76,8 +76,8 @@ namespace DataAccessLayer
             {
                 var result = helper.ExcuteNonQuery(
                     "Pro_Create_User",
-                    "@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord",
-                    us.FullName,us.email,us.phone_number,us.Birthday,us.Gender,us.RoleId,us.PassWord
+                    "@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Address",
+                    us.FullName,us.email,us.phone_number,us.Birthday,us.Gender,us.Address
                 );
                 return result;
               
@@ -93,8 +93,8 @@ namespace DataAccessLayer
             {
                 var result = helper.ExcuteNonQuery(
                    "Pro_Update_User",
-                   "User_id","@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord",
-                   us.Id,us.FullName, us.email, us.phone_number, us.Birthday, us.Gender, us.RoleId, us.PassWord
+                   "User_id","@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord", "@Address",
+                   us.Id,us.FullName, us.email, us.phone_number, us.Birthday, us.Gender, us.Address
                );
                 return result;
 

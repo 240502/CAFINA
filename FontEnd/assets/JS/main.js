@@ -19,9 +19,9 @@ const inputName = $("#name")
 const inputSdt = $("#sdt")
 const inputEmail = $(".email")
 const inputBirthDay = $("#birthday")
-const checkBoxNam = $("#radio1")
-const checkBoxNu = $("#radio2")
-const checkBoxKhac = $("#radio3")
+// const checkBoxNam = $("#radio1")
+// const checkBoxNu = $("#radio2")
+// const checkBoxKhac = $("#radio3")
 
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
@@ -59,8 +59,6 @@ function fillDataToInput(){
   inputSdt.val(infoUs["phone_number"]);
   inputEmail.val(infoUs["email"]);
   inputBirthDay.val(infoUs["birthDay"].slice(0,10));
-
-
 }
 
 
@@ -201,7 +199,6 @@ function SearchProduct(data){
     
   })
 }
-
 function renderSearchProduct(response) {
   var totalItems = response["totalItems"]
   const countPage = Math.ceil(response["totalItems"]/8)
@@ -342,7 +339,6 @@ async function renderTitleSubMenu(title,clasName){
       `
     }
   });
-
   $(`.${clasName} .group-1`).html(group_1);
   $(`.${clasName} .group-2`).html(group_2);
   $(`.${clasName} .group-3`).html(group_3);

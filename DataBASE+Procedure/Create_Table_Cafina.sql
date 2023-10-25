@@ -22,7 +22,15 @@ Create table Users(
 	Role_Id int foreign key references [Role] (id)
 	on delete cascade on update cascade
 )
-
+Create table Account(
+	id int identity primary key,
+	UserName varchar(100) not null,
+	[Password] varchar(200) not null,
+	[User_id] int foreign key references Users(id)
+	on delete cascade on update cascade, 
+	Role_Id int foreign key references [Role] (id)
+	on delete cascade on update cascade
+)
 Create table Product(
 	ProductId varchar(100) primary key,
 	title nvarchar(100) not null,

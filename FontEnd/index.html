@@ -7,6 +7,7 @@
     <title>CANIFA</title>
     <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="./assets/CSS/QuanTri.css">
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
@@ -264,7 +265,7 @@
     <!--  -->
     <!--Begin Block Content  -->
     <main id="content">
-        <div class="main-content">
+        <div class="main-content" style="display:none !important">
             <!--  -->
             <!--Begin Block Home Banner  -->
             <div class="home-banner">
@@ -276,7 +277,6 @@
             </div>
             <!--  -->
             <!--End Block Home Banner  -->
-
             <!--  -->
             <!--Begin Block Service  -->
             <div class="block-service">
@@ -329,7 +329,6 @@
             </div>
             <!--  -->
             <!--End Block Product  -->
-            
             <!--  -->
             <!--Begin Block  Collection  -->
             <div class="block-collection container">
@@ -379,8 +378,6 @@
             </div>
             <!--  -->
             <!--End Block  Collection  -->
-
-
             <!--  -->
             <!--Begin Block  Collection  -->
             <div class="block-collection container">
@@ -430,8 +427,6 @@
             </div>
             <!--  -->
             <!--End Block  Collection  -->
-
-
             <!--  -->
             <!--Begin Block  Collection  -->
             <div class="block-collection container">
@@ -542,9 +537,6 @@
                 </div>
                 <div class="block-content">
                     <div class="products row">
-                        
-
-                        
                     </div>
                     <ul class="list-page">
                         <div style="display: inherit; ">
@@ -557,9 +549,9 @@
                         </li>
                     </ul>
                 </div>
-                <!--  -->
+            </div>
+            <!--  -->
             <!--End Block  New Product  -->
-
             <!--  -->
             <!--Begin Block  Blog  -->
             <div class="block-blog container">
@@ -589,7 +581,6 @@
                             </div>
 
                         </div>
-
 
                         <div class="home-post-item col-4">
                             <div class="item__image">
@@ -655,9 +646,6 @@
             </div>
             <!--  -->
             <!--End Block  Blog  -->
-
-
-
             <!--  -->
             <!--Begin Block Subscribe  -->
             <div class="block-subscribe">
@@ -718,71 +706,411 @@
                 </div>
             </div>
         </div>
-    <!--  -->
-    <!-- Begin Form Manage User -->
-    <div class="form-us container" style="display: none;">
-        <nav aria-label="breadcrumb" >
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-              <li class="line"></li>
-              <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
-            </ol>
-        </nav>
-        <div class="account-main">
-            <h2 class="title">Thông tin tài khoản</h2>
-            <div class="form-group">
-                <h3 for="" class="label"> Giới tính</h3>
-                <div class="control">
-                    <div class="control_1">
-                        <input type="radio" id="radio1" value="Nam">
-                        <label for="">Nam</label>
+        <!--  -->
+        <!-- Begin Form Manage User -->
+        <div class="form-us container">
+            <nav aria-label="breadcrumb" >
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                  <li class="line"></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
+                </ol>
+            </nav>
+            <div class="content">
+                <div class="nav">
+                    <ul class="list-nav">
+                        <li class="nav-item ">
+                            Thông tin tài khoản
+                        </li>
+                        <li class="nav-item">
+                            Bảng điều khiển
+                        </li>
+                        <li class="nav-item active">
+                            Quản lý khách hàng
+                        </li>
+                        <li class="nav-item">
+                            Quản lý sản phẩm
+                        </li>
+                        <li class="nav-item">
+                            Quản lý đơn hàng
+                        </li>
+                        <li class="nav-item">
+                            Thống kê số lượng đơn hàng
+                        </li>
+                    </ul>
+                </div>
+                <div class="account-main">
+                    <!-- Begin form thông tin tài khoản người dùng -->
+                    <div class="form_info_us  form"  >
+                        <h2 class="title">Thông tin tài khoản</h2>
+                        <div class="form-group">
+                            <h3 for="" class="label"> Giới tính</h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="sdt" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                        </div>
+                        <div class="form-button">
+                            <button class="btnSave">Lưu thay đổi</button>
+                        </div>
                     </div>
-                    <div class="control_2">
-                        <input type="radio" id="radio2" value="Nữ">
-                        <label for="">Nữ</label>
+                     <!-- End form thông tin tài khoản người dùng -->
+                     <div class="dashboard form" >
+                        <h2 class="title">Bảng điều khiển</h2>
+                        <div class="form-group">
+                            <h3 for="" class="label"> Giới tính</h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="sdt" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                        </div>
+                        <div class="form-button">
+                            <button class="btnSave">Lưu thay đổi</button>
+                        </div>
                     </div>
-                    <div class="control_3">
-                        <input type="radio" id="radio3" value="Khác">
-                        <label for="">Khác</label>
+                     <!-- Begin form quản lý khách hàng -->
+                    <div class="form_manage_customer opened form"  >
+                        <h2 class="title">Quản lý khách hàng</h2>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="FullName" class="FullName">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="Phone_Number" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="date" id="birthday"class="birthday">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Giới tính
+                            </h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam" name="radio">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ"  checked name="radio">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác"  name="radio">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                               Địa chỉ
+                            </h3>
+                            <input type="text" id="Address"class="Address">
+                        </div>
+                       
+                        <div class="form-button">
+                            <button class="btnSave">Lưu</button>
+                        </div>
+                        <div class="list_user">
+                            <h3 class="title">Danh sách khách hàng</h3>
+                            <table>
+                                <thead class="tb-header">
+                                    <td>Id</td>
+                                   <td>
+                                       Họ tên
+                                   </td>
+                                   <td>
+                                       Số điện thoại
+                                   </td>
+                                   <td>
+                                       Email
+                                   </td>
+                                   <td>
+                                       Sinh nhật
+                                   </td>
+                                   <td>
+                                       Giới tính
+                                   </td>
+                                   <td>
+                                       Địa chỉ
+                                   </td>
+                                   <td>Chức năng</td>
+                                </thead>
+                                <tr class="tb-content">
+                                    <td>
+                                        0
+                                   </td>
+                                   <td>
+                                       Nguyễn Văn Sang
+                                   </td>
+                                   <td>
+                                      0942050188
+                                   </td>
+                                   <td>
+                                       sanghip200@gmail.com
+                                   </td>
+                                   <td>
+                                       24-05-2002
+                                   </td>
+                                   <td>
+                                       Nam
+                                   </td>
+                                   <td>
+                                       Hưng Yên
+                                   </td>
+                                   <td >
+                                        <div class="group-btn">
+                                            <div class="group-delete">
+                                                <button type="button" class="btnDelete btn">Xóa</button>
+                                            </div>
+                                        
+                                            <div class="group-delete">
+                                                <button type="button" class="btnUpdate btn">Sửa</button>
+                                            </div>
+                                        </div>
+                                   </td>
+                                </tr>
+                              
+                            </table>
+                           
+                        </div>
+                    </div>
+                     <!-- End form thông tin tài khoản người dùng -->
+                     <!-- Begin form thông tin tài khoản người dùng -->
+                    <div class="form_manage_product  form"  >
+                        <h2 class="title">Quản lý sản phẩm</h2>
+                        <div class="form-group">
+                            <h3 for="" class="label"> Giới tính</h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="sdt" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                        </div>
+                        <div class="form-button">
+                            <button class="btnSave">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                     <!-- End form thông tin tài khoản người dùng -->
+
+                     <!-- Begin form quản lý nhân viên -->
+                    <div class="form_manage_order form">
+                        <h2 class="title">Quản lý đơn hàng</h2>
+                        <div class="form-group">
+                            <h3 for="" class="label"> Giới tính</h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="sdt" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                        </div>
+                        <div class="form-button">
+                            <button class="btnSave">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                    <div class="form_thong_ke form" >
+                        <h2 class="title">Thống kê</h2>
+                        <div class="form-group">
+                            <h3 for="" class="label"> Giới tính</h3>
+                            <div class="control">
+                                <div class="control_1">
+                                    <input type="radio" id="radio1" value="Nam">
+                                    <label for="">Nam</label>
+                                </div>
+                                <div class="control_2">
+                                    <input type="radio" id="radio2" value="Nữ">
+                                    <label for="">Nữ</label>
+                                </div>
+                                <div class="control_3">
+                                    <input type="radio" id="radio3" value="Khác">
+                                    <label for="">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Họ tên
+                            </h3>
+                            <input type="text" id="name" class="name">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Số điện thoại
+                            </h3>
+                           <input type="text" id="sdt" class="sdt">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Email
+                            </h3>
+                            <input type="text" id="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Sinh nhật
+                            </h3>
+                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                        </div>
+                        <div class="form-button">
+                            <button class="btnSave">Lưu thay đổi</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <h3 class="label">
-                    Họ tên
-                </h3>
-                <input type="text" id="name" class="name">
-            </div>
-            <div class="form-group">
-                <h3 class="label">
-                    Số điện thoại
-                </h3>
-               <input type="text" id="sdt" class="sdt">
-            </div>
-            <div class="form-group">
-                <h3 class="label">
-                    Email
-                </h3>
-                <input type="text" id="email" class="email">
-            </div>
-            <div class="form-group">
-                <h3 class="label">
-                    Sinh nhật
-                </h3>
-                <input type="text" id="birthday" readonly="readonly" class="birthday">
-            </div>
-            <div class="form-button">
-                <button class="btnSave">Lưu thay đổi</button>
-            </div>
         </div>
-    </div>
-    <!--  -->
-    <!-- End Form Manage User -->
+        <!--  -->
+        <!-- End Form Manage User -->
          
     </main> 
     <!--End Block Content  -->
     <!--  -->
-
     <!--  -->
     <!-- Begin Block Footer -->
     <footer id="footer">
@@ -905,5 +1233,7 @@
       src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
     ></script>
     <script src="./assets/JS/main.js"></script>
+    <script src="./assets/JS/QuanTri.js"></script>
+    <script src="./assets/JS/ManageClass.js"></script>
   </body>
 </html>

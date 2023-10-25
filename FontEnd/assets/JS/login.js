@@ -1,7 +1,7 @@
 const emailInput = $("#email");
 const passWordInput = $("#password");
 const loginBtn = $("#btnLogin");
-const urlApiLogin ="https://localhost:7284/api-admin/User/Login";
+const urlApiLogin ="https://localhost:7284/api-admin/Account/Login";
 
 loginBtn.on("click", ()=>{
     handleLogin();
@@ -9,7 +9,7 @@ loginBtn.on("click", ()=>{
 
 function handleLogin(){
     var data={
-        Email:emailInput.val(),
+        UserName:emailInput.val(),
         Password:passWordInput.val()
     }
     Login(data);
