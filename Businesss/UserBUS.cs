@@ -21,6 +21,11 @@ namespace Businesss
         List<UserModel> userList ;
         private string secret;
 
+        public List<UserModel> GetList(int pageIndex,int pageSize, out int total)
+        {
+            return userDAL.GetListUs(pageIndex,pageSize,out total);
+        }
+
         public UserModel Get(int id)
         {
             var result = userDAL.GetUsById(id);

@@ -14,6 +14,12 @@ namespace Businesss
         {
             return obDAL.Get(obName);
         }
+
+        public List<ObjectModel> GetList()
+        {
+            return obDAL.GetList();
+        }
+
         public int Create (string ObName)
         {
             return obDAL.Create(ObName);

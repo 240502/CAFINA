@@ -265,7 +265,7 @@
     <!--  -->
     <!--Begin Block Content  -->
     <main id="content">
-        <div class="main-content" style="display:none !important">
+        <div class="main-content " style="display:none !important">
             <!--  -->
             <!--Begin Block Home Banner  -->
             <div class="home-banner">
@@ -679,9 +679,8 @@
                     </div>
                 </div>
             </div>
-                <!--  -->
-                <!--End Block Subscribe -->
-            </div>
+            <!--  -->
+            <!--End Block Subscribe -->
         </div>
         <div class="site-main">
             <div class="page-main-search">
@@ -725,10 +724,10 @@
                         <li class="nav-item">
                             Bảng điều khiển
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item ">
                             Quản lý khách hàng
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             Quản lý sản phẩm
                         </li>
                         <li class="nav-item">
@@ -837,8 +836,9 @@
                         </div>
                     </div>
                      <!-- Begin form quản lý khách hàng -->
-                    <div class="form_manage_customer opened form"  >
+                    <div class="form_manage_customer form"  >
                         <h2 class="title">Quản lý khách hàng</h2>
+
                         <div class="form-group">
                             <h3 class="label">
                                 Họ tên
@@ -873,7 +873,7 @@
                                     <label for="">Nam</label>
                                 </div>
                                 <div class="control_2">
-                                    <input type="radio" id="radio2" value="Nữ"  checked name="radio">
+                                    <input type="radio" id="radio2" value="Nữ" name="radio">
                                     <label for="">Nữ</label>
                                 </div>
                                 <div class="control_3">
@@ -892,8 +892,18 @@
                         <div class="form-button">
                             <button class="btnSave">Lưu</button>
                         </div>
-                        <div class="list_user">
+                        <div class="list_data">
+                           
                             <h3 class="title">Danh sách khách hàng</h3>
+                            <div class="search-input-group">
+                                <button type="button" class="search-btn">
+                                    <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
+                                </button>
+                                <input type="text" placeholder="Tìm kiếm" class="search-user-input">
+                            </div>
+                            <div class="clear">
+
+                            </div>
                             <table>
                                 <thead class="tb-header">
                                     <td>Id</td>
@@ -917,92 +927,156 @@
                                    </td>
                                    <td>Chức năng</td>
                                 </thead>
-                                <tr class="tb-content">
-                                    <td>
-                                        0
-                                   </td>
-                                   <td>
-                                       Nguyễn Văn Sang
-                                   </td>
-                                   <td>
-                                      0942050188
-                                   </td>
-                                   <td>
-                                       sanghip200@gmail.com
-                                   </td>
-                                   <td>
-                                       24-05-2002
-                                   </td>
-                                   <td>
-                                       Nam
-                                   </td>
-                                   <td>
-                                       Hưng Yên
-                                   </td>
-                                   <td >
-                                        <div class="group-btn">
-                                            <div class="group-delete">
-                                                <button type="button" class="btnDelete btn">Xóa</button>
-                                            </div>
-                                        
-                                            <div class="group-delete">
-                                                <button type="button" class="btnUpdate btn">Sửa</button>
-                                            </div>
-                                        </div>
-                                   </td>
-                                </tr>
+                                <tbody>
+
+                                </tbody>
                               
                             </table>
-                           
+                            <ul class="list-page">
+                                <div style="display: inherit; ">
+                                
+                                </div>
+                                <li class="item page-next">
+                                    <button type="button" id="btn-page-next">
+                                        <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                      <!-- End form thông tin tài khoản người dùng -->
                      <!-- Begin form thông tin tài khoản người dùng -->
-                    <div class="form_manage_product  form"  >
+                    <div class="form_manage_product  opened form"  >
                         <h2 class="title">Quản lý sản phẩm</h2>
                         <div class="form-group">
-                            <h3 for="" class="label"> Giới tính</h3>
-                            <div class="control">
-                                <div class="control_1">
-                                    <input type="radio" id="radio1" value="Nam">
-                                    <label for="">Nam</label>
-                                </div>
-                                <div class="control_2">
-                                    <input type="radio" id="radio2" value="Nữ">
-                                    <label for="">Nữ</label>
-                                </div>
-                                <div class="control_3">
-                                    <input type="radio" id="radio3" value="Khác">
-                                    <label for="">Khác</label>
-                                </div>
-                            </div>
+                            <h3 class="label">
+                                Mã sản phẩm
+                            </h3>
+                            <input type="text" id="productId" class="productId">
                         </div>
                         <div class="form-group">
                             <h3 class="label">
-                                Họ tên
+                                Tên sản phẩm
                             </h3>
-                            <input type="text" id="name" class="name">
+                           <input type="text" id="title" class="input_title">
                         </div>
                         <div class="form-group">
                             <h3 class="label">
-                                Số điện thoại
+                                Giá
                             </h3>
-                           <input type="text" id="sdt" class="sdt">
+                            <input type="text" id="price" class="price">
                         </div>
                         <div class="form-group">
                             <h3 class="label">
-                                Email
+                                Mô tả
                             </h3>
-                            <input type="text" id="email" class="email">
+                            <input type="text" id="description" class="description">
                         </div>
                         <div class="form-group">
                             <h3 class="label">
-                                Sinh nhật
+                                Chất liệu
                             </h3>
-                            <input type="text" id="birthday" readonly="readonly" class="birthday">
+                            <input type="text" id="chatLieu" class="chatLieu">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Hướng dẫn sử dụng
+                            </h3>
+                            <input type="text" id="huongDanSuDung" class="huongDanSuDung">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Size
+                            </h3>
+                            <input type="text" id="size" class="size">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Màu
+                            </h3>
+                            <input type="text" id="color" class="color">
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                                Loại sản phẩm
+                            </h3>
+                            <select id="Cate">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                               Đối tượng sản phẩm
+                            </h3>
+                            <select id="object">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <h3 class="label">
+                               Bộ sưu tập
+                            </h3>
+                            <select id="bst" class="bst">
+                            </select>
                         </div>
                         <div class="form-button">
-                            <button class="btnSave">Lưu thay đổi</button>
+                            <button class="btnSave"></button>
+                        </div>
+                        <div class="list_data">
+                           
+                            <h3 class="title">Danh sách khách hàng</h3>
+                            <div class="search-input-group">
+                                <button type="button" class="search-btn">
+                                    <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
+                                </button>
+                                <input type="text" placeholder="Tìm kiếm" class="search-user-input">
+                            </div>
+                            <div class="clear">
+
+                            </div>
+                            <table>
+                                <thead class="tb-header">
+                                    <td>Mã sản phẩm</td>
+                                   <td>
+                                       Tên sản phẩm
+                                   </td>
+                                   <td>
+                                       Giá
+                                   </td>
+                                   <td>
+                                       Mô tả
+                                   </td>
+                                   <td>
+                                       Chất liệu
+                                   </td>
+                                   <td>
+                                       Hướng dẫn sử dụng
+                                   </td>
+                                   <td>
+                                       Size
+                                   </td>
+                                    <td>
+                                        Màu
+                                    </td>
+                                    <td>Mã loại sản phẩm</td>
+                                    <td>Mã đối tượng sản phẩm</td>
+                                    <td>Mã bộ sưu tập</td>
+                                   
+                                   <td>Chức năng</td>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                              
+                            </table>
+                            <ul class="list-page">
+                                <div style="display: inherit; ">
+                                
+                                </div>
+                                <li class="item page-next">
+                                    <button type="button" id="btn-page-next">
+                                        <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                      <!-- End form thông tin tài khoản người dùng -->
@@ -1234,6 +1308,7 @@
     ></script>
     <script src="./assets/JS/main.js"></script>
     <script src="./assets/JS/QuanTri.js"></script>
-    <script src="./assets/JS/ManageClass.js"></script>
+    <script src="./assets/JS/ManageCustomer.js"></script>
+    <script src="./assets/JS/ManageProduct.js"></script>
   </body>
 </html>

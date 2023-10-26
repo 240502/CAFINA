@@ -51,3 +51,9 @@ As
 			Where id = @id
 		End
 	End
+Create Proc Pro_Get_List_Ob
+As
+	Begin
+		Select * From Object
+	End
+Exec Pro_Get_List_Ob

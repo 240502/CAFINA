@@ -18,6 +18,10 @@ namespace Businesss
             return bst;
         }
 
+        public List<BSTModel> GetList()
+        {
+            return bst_DAL.GetList();
+        }
         public BSTModel GetByName(string TenBST)
         {
             BSTModel bst = bst_DAL.GetByName(TenBST);

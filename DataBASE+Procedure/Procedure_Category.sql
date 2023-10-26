@@ -91,3 +91,9 @@ as
 			where id = @id
 		end
 	end
+
+Create Proc Pro_GetListCate
+As
+	Begin
+		Select  Category.id, Category.CateName From Category
+	End

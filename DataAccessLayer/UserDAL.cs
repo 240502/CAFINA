@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,38 @@ namespace DataAccessLayer
     public class UserDAL
     {
         DataHelper helper = new DataHelper();
+
+        public List<UserModel> GetListUs(int pageIndex, int pageSize,out int total)
+        {
+            total = 0;
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Get_ListUS", "@pageIndex", "@pageSize", pageIndex, pageSize);
+                if (tb != null)
+                {
+                    total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+                    List<UserModel> list = new List<UserModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        UserModel us = new UserModel();
+                        us.Id = int.Parse(tb.Rows[i]["id"].ToString());
+                        us.FullName = tb.Rows[i]["FullName"].ToString();
+                        us.email = tb.Rows[i]["email"].ToString();
+                        us.phone_number = tb.Rows[i]["Phone_Number"].ToString();
+                        us.Birthday = DateTime.Parse(tb.Rows[i]["BirthDay"].ToString());
+                        us.Gender = tb.Rows[i]["Gender"].ToString();
+                        us.Address = tb.Rows[i]["Address"].ToString();
+                        list.Add(us);
+                    }
+                    return list;
+                }
+                else return null;
+
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public UserModel GetUsById(int id)
         {
@@ -93,7 +126,7 @@ namespace DataAccessLayer
             {
                 var result = helper.ExcuteNonQuery(
                    "Pro_Update_User",
-                   "User_id","@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Role_Id", "@PassWord", "@Address",
+                   "User_id","@FullName", "@email", "@Phone_Number", "@BirthDay", "@Gender", "@Address",
                    us.Id,us.FullName, us.email, us.phone_number, us.Birthday, us.Gender, us.Address
                );
                 return result;

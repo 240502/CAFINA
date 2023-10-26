@@ -1,5 +1,8 @@
 const listNav = [...document.querySelectorAll(".nav-item")];
 const listForm = [...document.querySelectorAll(".form")]
+const btnSaveOpen = $(".opened .btnSave");
+let isCreate = true;
+let isUpdate = false;
 for (let i = 0; i < listNav.length;i++)
 {
     listNav[i].onclick =()=>{
@@ -11,4 +14,12 @@ for (let i = 0; i < listNav.length;i++)
         listForm[i].classList.add("opened");
     }
 }
-
+function handleTextSaveBtn(){
+    if(isCreate)
+    {
+        btnSaveOpen.text("Thêm mới")
+    }
+    else if(isUpdate){
+        btnSaveOpen.text("Lưu")
+    }
+}

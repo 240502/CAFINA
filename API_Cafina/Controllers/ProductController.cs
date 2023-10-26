@@ -25,6 +25,34 @@ namespace API_Cafina.Controllers
         ProductTKBUS proTK = new ProductTKBUS();
         List<ProductModel> Product_List;
         string _path;
+
+        [Route("PhanTrang_DSProduct")]
+        [HttpPost]
+        public IActionResult PhanTrang([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                int? page = null;
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                {
+                    page = int.Parse(formData["pageIndex"].ToString());
+                }
+                int? pageSize = null;
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                }
+                int total = 0;
+                Product_List = proBus.GetPhanTrang(page, pageSize, out total);
+                return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = page, PageSize = pageSize }) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         [Route("GetById")]
         [HttpGet]
         public IActionResult GetProductById(string productId)

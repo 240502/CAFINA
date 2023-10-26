@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Model;
 using DataAccessLayer.Helper;
 using System.Data;
+using System.Xml.Linq;
 
 namespace DataAccessLayer
 {
@@ -13,6 +14,31 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
         List<ObjectModel> list = new List<ObjectModel>();
+
+        public List<ObjectModel> GetList()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Get_List_Ob");
+                if (tb != null)
+                {
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ObjectModel model = new ObjectModel();
+                        model.id = int.Parse(tb.Rows[i]["id"].ToString());
+                        model.TenDoiTuong = tb.Rows[i]["TenDoiTuong"].ToString();
+                        list.Add(model);
+                    }
+                    return list;
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<ObjectModel> Get(string ObName)
         {
             try

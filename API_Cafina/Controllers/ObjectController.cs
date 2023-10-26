@@ -11,6 +11,23 @@ namespace API_Cafina_Manage.Controllers
     public class ObjectController : ControllerBase
     {
         ObjectBUS obBUS = new ObjectBUS();
+
+        [Route("Get_List_Ob")]
+        [HttpGet]
+        public IActionResult GetList ()
+        {
+            try
+            {
+                List<ObjectModel> ob = obBUS.GetList();
+                return ob != null ? Ok(ob) : NotFound();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         [Route("Get_Ob_ByName")]
         [HttpGet]
         public IActionResult Get(string obName)

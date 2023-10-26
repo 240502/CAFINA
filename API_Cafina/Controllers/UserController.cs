@@ -18,6 +18,29 @@ namespace API_Cafina.Controllers
         UserLoginBUS userLogin = new UserLoginBUS();
         List<UserModel> userList = new List<UserModel>();
 
+        [Route("Get_List")]
+        [HttpPost]
+        public IActionResult GetList([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int pageIndex = 0;
+                int pageSize = 0;
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                int total = 0;
+                List<UserModel> list = userBUS.GetList(pageIndex,pageSize,out total);
+                return list != null ? Ok(new { pageIndex = pageIndex, pageSize = pageSize, totalItems = total, data = list }) : NotFound();
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         [Route("Get_Us_By_id")]
         [HttpGet]
         public IActionResult Get(int id)

@@ -1,7 +1,12 @@
+.clear{
+    clear: both;
+}
 table{
     border: 1px solid #ccc;
     width: 100%;
     text-align: center;
+}
+.form_manage_customer .tb-content .btnDelete{
 }
 .tb-header { 
     font-size: 16px;
@@ -19,6 +24,13 @@ table{
     border-bottom:1px solid #ccc ;
     padding: 10px;
 
+}
+.tb-content{
+    transition: all 0.3s ease-in-out;
+}
+.tb-content:hover{
+    background-color: #ccd8dc;
+    cursor: pointer;
 }
 .group-btn{
     display: flex;
@@ -45,5 +57,20 @@ table{
 
 .btnCreate{
     background-color: #176B87;
-   
+}
+.opened .search-input-group{
+    float: right;
+    margin-bottom: 20px;
+}
+.opened .search-input-group input{
+    padding: 7px 7px 7px 36px;
+    border-radius: 40px;
+}
+.opened .btnSave{
+    background-color: #C70039 !important;
+    color: #fff !important;
+    transition: all 0.3s ease-in-out;
+}
+.opened .btnSave:hover{
+    opacity: 0.8;
 }

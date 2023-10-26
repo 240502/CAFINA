@@ -90,12 +90,13 @@ as
 		Where id  = @User_id
 	End
 
+exec Pro_Update_User 1,N'Nguyễn Văn Sang','sanghip200@gmail.com','0942050188','2002-05-24','Nam','An Vĩ - Khoái Châu - Hưng Yên'
 alter Procedure Pro_Update_User
 	@User_id int,
 	@FullName nvarchar(100),
 	@email varchar(100),
 	@Phone_Number varchar(20),
-	@BirthDay datetime,
+	@BirthDay date,
 	@Gender nvarchar(10),
 	@Address nvarchar(200)
 as
@@ -109,6 +110,41 @@ as
 			Address= @Address
 		Where id = @User_id
 	End
+select * From Users
+Alter Proc Pro_Get_ListUS
+	@pageIndex int,
+	@pageSize int
+As
+	Begin
+		Declare @RecordCount int;
+		If(@pageSize > 0 )
+		Begin
+			Select (Row_Number() Over(Order by Year(Birthday))) as RowNumber,
+			*
+			Into #Result1
+			From Users
+			Select @RecordCount = Count(*)
+			From #Result1
+			Select @RecordCount as RecordCount , *
+			From #Result1
+			where RowNumber between(@pageIndex-1) * @pageSize+1 and (((@pageIndex-1)*@pageSize+1)+@pageSize)-1
+				or @pageIndex =-1
+			Drop table #Reuslt1
+		End
+		Else 
+		Begin
+			Select * 
+			Into #Result2
+			From Users
+			Select @RecordCount = COUNT(*)
+			From #Result2
+			Select @RecordCount AS RecordCount,*
+			From #Result2
+			Drop table #Result2
+			
+		End
+	End
+Exec Pro_Get_ListUS 1,0
 
 
 

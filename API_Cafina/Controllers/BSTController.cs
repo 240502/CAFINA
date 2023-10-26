@@ -41,6 +41,23 @@ namespace API_Cafina_Manage.Controllers
         }
 
 
+        [Route("GetListBST")]
+        [HttpGet]
+        public IActionResult GetList()
+        {
+            try
+            {
+                List<BSTModel> bst = bst_BUS.GetList();
+                return bst != null ? Ok(bst) : NotFound();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         [Route("Create_BST")]
         [HttpPost]
         public IActionResult Create(string TenBST)

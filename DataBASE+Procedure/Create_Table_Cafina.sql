@@ -7,6 +7,7 @@ Create Table Category(
 )
 Alter table CategoryDetails
 ADD CateId int foreign key references Category(id)
+
 cREATE TABLE [Role](
 	id int identity primary key,
 	RoName nvarchar(50) not null
@@ -44,8 +45,9 @@ Create table Product(
 )
 
 alter table Product
-add  CateId int  foreign key references Category(id)
-on update cascade on delete cascade
+add  CateDt int  foreign key references CategoryDetails(id)
+on delete cascade on update cascade
+
 
 create table Galery(
 	id int identity primary key,
@@ -74,6 +76,7 @@ create table Order_Details(
 	Price int,
 	Amount int
 )
+
 Create table BoSuTap(
 	id int identity primary key,
 	TenBST  nvarchar(100) not null

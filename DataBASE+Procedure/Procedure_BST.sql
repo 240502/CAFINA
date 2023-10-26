@@ -1,5 +1,11 @@
 use Cafina
 
+Create Proc Pro_Get_ListBST
+As
+	Begin
+		Select * From BoSuTap
+	End
+
 Create Proc Pro_Get_BST_ById
 	@id int
 As

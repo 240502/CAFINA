@@ -12,6 +12,33 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
+
+        public List<BSTModel> GetList()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Get_ListBST");
+                if (tb != null)
+                {
+                    List<BSTModel> list = new List<BSTModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+
+                        BSTModel bst = new BSTModel();
+                        bst.id = int.Parse(tb.Rows[i]["id"].ToString());
+                        bst.TenBST = tb.Rows[i]["TenBST"].ToString();
+                        list.Add(bst);
+                    }
+                     return list;
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public BSTModel GetById(int id)
         {
             try

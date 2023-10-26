@@ -19,6 +19,9 @@ const inputName = $("#name")
 const inputSdt = $("#sdt")
 const inputEmail = $(".email")
 const inputBirthDay = $("#birthday")
+const formCustomer = document.querySelector(".opened.form_manage_customer")
+const formProduct = document.querySelector(".opened.form_manage_product")
+
 // const checkBoxNam = $("#radio1")
 // const checkBoxNu = $("#radio2")
 // const checkBoxKhac = $("#radio3")
@@ -81,12 +84,15 @@ iconUser.on("click",()=>{
 })
 
 function Start (){
-  ActiveMainContent();
-  HiddeSiteMain();
-  handleGetByBST();
+  // ActiveMainContent();
+  // HiddeSiteMain();
   getCategory();
-  handleGetRecommended();
   hiddeFormUs();
+  if(document.querySelector(".main-content.active")){
+    handleGetByBST();
+    handleGetRecommended();
+
+  }
 };
 Start();
 subMenuImage.slick({
@@ -250,8 +256,6 @@ function httpGetCateAsync(url,resolve,reject,data) {
   .fail(error => reject(error))
 };
 
-
-
 function httpGetAsync(url,resolve,reject,data){
   $.get(url,data)
   .done(response => resolve(response))
@@ -269,8 +273,7 @@ async function getCategory(){
   var title = await promise
   renderTitleSubMenu(title,"Menu_nu")
   renderTitleSubMenu(title,"Menu_be_gai")
-
-  console.log(title)
+  renderListCate(title)
 
   
   
@@ -411,131 +414,51 @@ const handleGetGalery = async (products)=>{
   }
 };
 
-function handleGetByBST(){
-  var data = {
-    pageIndex:thisPage,
-    pageSize:pageSize,
-    TenBST :"Thu đông 2023"
+
+
+  function handleGetByBST(){
+    var data = {
+      pageIndex:thisPage,
+      pageSize:pageSize,
+      TenBST :"Thu đông 2023"
+    };
+    GetProductByBST(data);
   };
-  GetProductByBST(data);
-};
-function GetProductByBST(data){
-  $.post({
-         url: "https://localhost:7284/api-customer/Product/Get_By_BST",
-         data:JSON.stringify(data),
-         contentType:"application/json"
-     })
-     .done(response=>{
-        RenderBST(response);
-        handleGetGalery(response["data"]);
-     })
-};
-
-function GetLinkBSTHome(id){
-  let link = ""
-  const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
-  if(ImgBSTHome!=null){
-  for (let i=0; i<ImgBSTHome.length;i++) {
-    if(ImgBSTHome[i]["productId"] === id)
-      link = ImgBSTHome[i]["thumbnail"]
+  function GetProductByBST(data){
+    $.post({
+           url: "https://localhost:7284/api-customer/Product/Get_By_BST",
+           data:JSON.stringify(data),
+           contentType:"application/json"
+       })
+       .done(response=>{
+          RenderBST(response);
+          handleGetGalery(response["data"]);
+       })
+  };
+  function GetLinkBSTHome(id){
+    let link = ""
+    const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
+    if(ImgBSTHome!=null){
+    for (let i=0; i<ImgBSTHome.length;i++) {
+      if(ImgBSTHome[i]["productId"] === id)
+        link = ImgBSTHome[i]["thumbnail"]
+      }
     }
-  }
-  return link;
-};
-function RenderBST(products){
-    var html = products["data"].map((product,index)=>{
-      if(product["price"].toString().length>5)
-      {
-          var price = product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6);
-          console.log(price)
-      }
-      else{
-        var price = product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5);
-      }
-      return `
-
-      <div class="product-item col-4">
-                      <div class="item__image">
-                          <a href="#">
-                              <img src="${GetLinkBSTHome(product["productId"])}" alt="">
-                          </a>
-                          <div class="product-item-button-tocart">
-                              <span>Thêm nhanh vào giỏ</span>
-                          </div>    
-                      </div>
-                      <div class="item__details">
-                          <div class="colors">
-                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
-                              </div>
-
-                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
-                              </div>
-
-                              <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
-                              </div>
-                          </div>
-                          <h3 class="product-item-name">
-      
-                              <a href="#">
-                                  ${product["title"]}
-                              </a>
-                          </h3>
-                          <div class="price-box">
-                              <div class="normal-price">${
-                                product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
-                              } đ</div>
-                          </div>
-                      </div>
-                  </div>
-      `
-    })
-    blockBST.html(html);
-    blockBST.slick({
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    infinite: true,
-    arrows: true,
-    draggable: false,
-    prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
-    nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
-    dots: false,
-    responsive: [
-      {
-        breakpoint: 1025,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          arrows: false,
-          infinite: false,
-        },
-      },
-    ],
-    // autoplay: true,
-    // autoplaySpeed: 1000,
-  });
-};
-
-function handleGetRecommended(){
-  var data = {
-    pageIndex: thisPage
-  }
-  GetRecommended(data);
-};
-function GetRecommended(data){
-  $.get(urlApiGetRecommended,data)
-  .done(res=>renderProductRecommended(res));
-};
-function renderProductRecommended(Products){
-  const countPage = Math.ceil(Products["totalItems"]/8)
-  renderListPage(countPage);
-  var html = Products["data"].map(product =>{
-    return `
-    <div class="product-item col-4">
+    return link;
+  };
+  function RenderBST(products){
+      var html = products["data"].map((product,index)=>{
+        if(product["price"].toString().length>5)
+        {
+            var price = product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6);
+            console.log(price)
+        }
+        else{
+          var price = product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5);
+        }
+        return `
+  
+        <div class="product-item col-4">
                         <div class="item__image">
                             <a href="#">
                                 <img src="${GetLinkBSTHome(product["productId"])}" alt="">
@@ -548,10 +471,10 @@ function renderProductRecommended(Products){
                             <div class="colors">
                                 <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
                                 </div>
-
+  
                                 <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
                                 </div>
-
+  
                                 <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
                                 </div>
                             </div>
@@ -564,44 +487,130 @@ function renderProductRecommended(Products){
                             <div class="price-box">
                                 <div class="normal-price">${
                                   product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
-                                } </div>
+                                } đ</div>
                             </div>
                         </div>
-      </div>
-    `
-  })
-  $(".block-new-product .products").html(html.join(''));
-};
-function renderListPage(count){
-  console.log(count);
-  $(".list-page div").html("")
-  var html = ""
-  if(count > 1){
-    for(var i=1; i<=count; i++){
-      html+= `
-      <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-      `
+                    </div>
+        `
+      })
+      blockBST.html(html);
+      blockBST.slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      infinite: true,
+      arrows: true,
+      draggable: false,
+      prevArrow: `<button type='button' class='slick-prev slick-arrow'><ion-icon name="arrow-back-outline"></ion-icon></button>`,
+      nextArrow: `<button type='button' class='slick-next slick-arrow'><ion-icon name="arrow-forward-outline"></ion-icon></button>`,
+      dots: false,
+      responsive: [
+        {
+          breakpoint: 1025,
+          settings: {
+            slidesToShow: 3,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            arrows: false,
+            infinite: false,
+          },
+        },
+      ],
+      // autoplay: true,
+      // autoplaySpeed: 1000,
+    });
+  };
+  
+  function handleGetRecommended(){
+    var data = {
+      pageIndex: thisPage
     }
-    $(".list-page div").html(html);
-    $(".page-next").toggleClass("active-next-button",true)
+    GetRecommended(data);
+  };
+  function GetRecommended(data){
+    $.get(urlApiGetRecommended,data)
+    .done(res=>renderProductRecommended(res));
+  };
+  function renderProductRecommended(Products){
+    const countPage = Math.ceil(Products["totalItems"]/8)
+    renderListPage(countPage);
+    var html = Products["data"].map(product =>{
+      return `
+      <div class="product-item col-4">
+                          <div class="item__image">
+                              <a href="#">
+                                  <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+                              </a>
+                              <div class="product-item-button-tocart">
+                                  <span>Thêm nhanh vào giỏ</span>
+                              </div>    
+                          </div>
+                          <div class="item__details">
+                              <div class="colors">
+                                  <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                                  </div>
+  
+                                  <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
+                                  </div>
+  
+                                  <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
+                                  </div>
+                              </div>
+                              <h3 class="product-item-name">
+          
+                                  <a href="#">
+                                      ${product["title"]}
+                                  </a>
+                              </h3>
+                              <div class="price-box">
+                                  <div class="normal-price">${
+                                    product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                                  } </div>
+                              </div>
+                          </div>
+        </div>
+      `
+    })
+    $(".block-new-product .products").html(html.join(''));
+  };
+  function renderListPage(count){
+    console.log(count);
+    $(".list-page div").html("")
+    var html = ""
+    if(count > 1){
+      for(var i=1; i<=count; i++){
+        html+= `
+        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+        `
+      }
+      $(".list-page div").html(html);
+      $(".page-next").toggleClass("active-next-button",true)
+    }
+    else{
+      $(".page-next").toggleClass("active-next-button",false)
+  
+    }
+  };
+  
+  function changePage(index){
+    thisPage = index;
+    if(isMainContent){
+      handleGetRecommended();
+  
+    }
+    if(isSearchContent){
+      handleSearch();
+    }
+    if(formCustomer){
+      handlegetListUs();
+    }
+    if(formProduct){
+      handleGetListProduct();
+    }
   }
-  else{
-    $(".page-next").toggleClass("active-next-button",false)
-
-  }
-};
-
-function changePage(index){
-  thisPage = index;
-  if(isMainContent){
-    handleGetRecommended();
-
-  }
-  if(isSearchContent){
-    handleSearch();
-  }
-}
-
 $(".nam").slick({
     slidesToShow: 3,
     slidesToScroll: 1,
