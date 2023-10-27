@@ -141,5 +141,23 @@ namespace API_Cafina_Customer.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+
+        [Route("Get_ByID")]
+        [HttpGet]
+        public IActionResult GetByID(string id)
+        {
+            try
+            {
+                ProductModel model = proBus.GetProductById(id);
+                return model != null ? Ok(model) : NotFound();
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

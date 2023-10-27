@@ -14,41 +14,24 @@ const searchInputModel = $(".form-search .search-input");
 const siteMain = $(".site-main");
 const searchClose = $(".search-close")
 const searchBtn = $(".search-btn");
-const formUs = $(".form-us");
-const inputName = $(".opened #name")
-const inputSdt = $(".opened #sdt")
-const inputEmail = $(".opened .email")
-const inputBirthDay = $(".opened #birthday")
-const checkBoxNam = $(".opened #radio1");
-const checkBoxNu = $(" .opened #radio2");
-const checkBoxKhac = $(".opened #radio3");
-const formCustomer = document.querySelector(".opened.form_manage_customer")
-const formProduct = document.querySelector(".opened.form_manage_product")
-
-// const checkBoxNam = $("#radio1")
-// const checkBoxNu = $("#radio2")
-// const checkBoxKhac = $("#radio3")
+const headerIcon = $(".header-icon");
+const iconShopping = $(".header-icon")
+headerIcon.on("click",()=>{
+  
+})
+let thisPage =1;
+let pageSize = 10
 
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
-const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
-const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
-
+const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUsId"
+const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
 let isSearch = false;
 let isSearchContent = false;
-let isMainContent = false;
-let isFormUs = false;
+let isMainContent = true;
+const infoUs = JSON.parse(localStorage.getItem("login"));
 
-function OpenFormUs(){
-  isFormUs = true;
-  formUs.toggleClass("active",isFormUs)
-};
-
-function hiddeFormUs(){
-  isFormUs = false;
-  formUs.toggleClass("active",isFormUs)
-};
 
 function ActiveModelSearch(){
   isSearch=true;
@@ -84,31 +67,11 @@ function HiddeSiteMain() {
   $(".site-main").toggleClass("active",isSearchContent)
 
 };
-const infoUs = JSON.parse(localStorage.getItem("login"));
-
-
-function fillDataToInput(us){
-  if(us["gender"] ==="Nam")
-  {
-    checkBoxNam.prop("checked",true);
-  }
-  else if(us["gender"] ==="Nữ")
-  {
-    checkBoxNu.prop ("checked", true);
-  }
-  else checkBoxKhac.prop("checked", true);
-
-  inputName.val(us["fullName"]);
-  inputSdt.val(us["phone_number"]);
-  inputEmail.val(us["email"]);
-  inputBirthDay.val(us["birthday"].slice(0,10));
-}
-
 
 iconUser.on("click",()=>{
   if(infoUs){
     if(infoUs["role_id"] ==1){
-      window.location="./QuanTri.html"
+      window.location="./infoUser.html"
 
     }
     else{
@@ -121,17 +84,10 @@ iconUser.on("click",()=>{
 })
 
 function Start (){
-  ActiveMainContent();
-  HiddeSiteMain();
-  getCategory();
-  hiddeFormUs();
-
-  if(document.querySelector(".main-content.active")){
-    handleGetByBST();
-    handleGetRecommended();
-  }
-  handlegetListUs();
- 
+  handleGetRecommended();
+  handleGetByBST();
+  getOrder();
+  renderOrder();
 };
 Start();
 subMenuImage.slick({
@@ -163,6 +119,48 @@ subMenuImage.slick({
   // autoplaySpeed: 1000,
 });
 
+function getOrder(){
+  listorder = []
+  $.get(urlApiGetOrder+'?usid='+infoUs["user_id"])
+  .done(res=>{
+    handleProduct(res);
+    listorder.push(res["data"]);
+    localStorage.setItem("listorder",JSON.stringify(listorder))
+  })
+  .fail(err=>{
+    alert(err.statusText);
+  })
+}
+
+async function getCategory(productid){
+  var data ={
+    productid:2
+  }
+  const promise = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject,data)
+  })
+  
+ 
+  var title = await promise
+  renderTitleSubMenu(title,"Menu_nu")
+  renderTitleSubMenu(title,"Menu_be_gai")
+  
+  const promise1 = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject)
+  })
+  var result = await promise1
+  renderTitleSubMenu(result,"Menu_nam")
+  renderTitleSubMenu(result,"Menu_be_trai")
+
+};
+
+function handleProduct(data){
+  $(".count").html(data["totalItems"])
+  var html = data["data"].forEach(item=>{
+    getProductById(item["productId"])
+    
+  })
+}
 searchBtn.on('click', () => {
   var value = searchInputModel.val();
   handleSearch(value);
@@ -198,6 +196,24 @@ searchInputHeader.on('keypress',(e)=>{
 viewAllBST.on("click", function(e) { 
 
 });
+$(".container-minicart").on("click", (e)=> {
+  CloseMinicart();
+});
+$(".block-minicart").on("click", (e)=>{
+  e.stopPropagation();
+
+})
+iconShopping.on("click", ()=> {
+  OpenMinicart();
+});
+
+function CloseMinicart(){
+  $(".container-minicart").removeClass("opened")
+}
+function OpenMinicart(){
+
+  $(".container-minicart").addClass("opened")
+}
 function handleSearch(productName){
   
   var data = {
@@ -219,6 +235,95 @@ function SearchProduct(data){
     
   })
 }
+function getProductById(productid){
+  listproductOrder = [];
+  $.get(urlGetProductById+"?id="+productid)
+  .done(res=>{
+    listproductOrder.push(res)
+    localStorage.setItem("ListProductOrder",JSON.stringify(listproductOrder));
+  })
+}
+function getGalaryProductOrder(productid){
+  ListGaleryOrder= [];
+    $.get(urlApiGetByProductId+"?productId="+productid)
+    .done(res=>{
+      ListGaleryOrder.push(res)
+      localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
+    })
+    .fail(err=>{
+    })
+}
+function getLinkProductOrder(productid){
+  var ListGaleryOrder = JSON.parse(localStorage.getItem("galaryProductOrder"));
+  var link= ListGaleryOrder.find(item=>{
+    return item["productId"] === productid
+  })
+  if(typeof link !== "undefined"){
+    console.log(link["thumbnail"])
+
+  }
+  return  typeof link === "undefined" ? "" : link["thumbnail"]
+
+
+}
+function renderOrder(){
+  var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
+  var listOrder = JSON.parse(localStorage.getItem("listorder"))
+  var html =listProductOrder.map((item,index)=>{
+    getGalaryProductOrder(item["productId"])
+    return `
+
+  <li class="minucart-item" data-id = ${item["productId"]}>
+  <div class="mini-cart-info">
+   <div class="minicart-item-photo">
+       <a href="#">
+           <img src="${getLinkProductOrder(item["productId"])}" alt="">
+       </a>
+       <button class="minicart-item-remove"></button>
+
+   </div>
+   <div class="minicart-item-details">
+       <h3 class="minicart-item-name">
+           <a href="#">
+              ${item["title"]}
+           </a>
+       </h3>
+       <div class="minicart-item-options">
+           <div class="minicart-item-option">
+               <div class="colors">
+                   <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                   </span>
+                   <span> ${item["color"]} </span>
+               </div>
+           </div>
+           <div class="minicart-item-option">
+               L
+           </div>
+       </div>
+       <div class="minicart-item-bottom">
+           <div class="minicart-item-price">
+               <div class="normal-price">
+               ${
+                item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+               }
+               đ </div>
+           </div>
+           <div class="minicart-item-qty">
+               <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
+               <span class="amount">${listOrder[0][index]["amount"]}</span>
+               <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
+               
+           </div>
+       </div>
+   </div>
+  </div>
+</li>
+  
+  `
+
+})
+$(".minicart-items").html(html.join(''))
+}
 function renderSearchProduct(response) {
   var totalItems = response["totalItems"]
   const countPage = Math.ceil(response["totalItems"]/8)
@@ -226,6 +331,7 @@ function renderSearchProduct(response) {
   $(".site-main .total-items span").text(totalItems)
   var html = response["data"].map(product=>{
     return `
+    
     <div class="product-item col-4">
         <div class="item__image">
             <a href="#">
@@ -264,148 +370,9 @@ function renderSearchProduct(response) {
   $(".site-main .product-items").html(html)
 
 }
-function httpGetCateAsync(url,resolve,reject,data) {
-  $.get(url,data)
-  .done(response => resolve(response))
-  .fail(error => reject(error))
-};
-
-function httpGetAsync(url,resolve,reject,data){
-  $.get(url,data)
-  .done(response => resolve(response))
-  .fail(error => reject(error))
-};
-async function getCategory(){
-  var data ={
-    obId:2
-  }
-  const promise = new Promise((resolve,reject)=>{
-    httpGetCateAsync(urlApiGetListCate,resolve,reject,data)
-  })
-  
- 
-  var title = await promise
-  renderTitleSubMenu(title,"Menu_nu")
-  renderTitleSubMenu(title,"Menu_be_gai")
-  
-  const promise1 = new Promise((resolve,reject)=>{
-    httpGetCateAsync(urlApiGetListCate,resolve,reject)
-  })
-  var result = await promise1
-  renderTitleSubMenu(result,"Menu_nam")
-  renderTitleSubMenu(result,"Menu_be_trai")
-
-};
-async function renderTitleSubMenu(title,clasName){
-  var group_1 = ''
-  title.forEach(item=>{
-   if (item["id"] ==1)
-   {
-       
-            group_1 +=`
-            <ul class="sub-menu-item" data-id = ${item["id"]}>
-              <li class="title">${item["cateName"]}</li>
-              <div class="content">
-               
-              </div>
-            </ul>`
-      
-   }
- });
-  var group_2 = ''
-   title.forEach(item=>{
-    if (item["id"] >1 && item["id"] <5)
-    {
-      group_2+= `
-          <ul class="sub-menu-item" data-id = ${item["id"]}>
-            <li class="title">${item["cateName"]}</li>
-            <div class="content">
-            </div>
-          </ul>
-        `
-    }
-  });
- 
-  var group_3 = ''
-  title.forEach(item=>{
-   if (item["id"] >4 && item["id"] <7)
-   {
-     group_3+= `
-         <ul class="sub-menu-item" data-id = ${item["id"]}>
-           <li class="title">${item["cateName"]}</li>
-           <div class="content">
-           </div>
-         </ul>
-       `
-   }
- });
-  
-  var group_4 = ''
-  title.forEach(item=>{
-    if (item["id"] >6 )
-    {
-      group_4+= `
-        <ul class="sub-menu-item" data-id = ${item["id"]}>
-          <li class="title">${item["cateName"]}</li>
-          <div class="content">
-          </div>
-        </ul>
-      `
-    }
-  });
-  $(`.${clasName} .group-1`).html(group_1);
-  $(`.${clasName} .group-2`).html(group_2);
-  $(`.${clasName} .group-3`).html(group_3);
-  $(`.${clasName} .group-4`).html(group_4);
-
-  var subMenuContentNu =  [...document.querySelectorAll(".Menu_nu .sub-menu-item")]
-  var subMenuContentNam =  [...document.querySelectorAll(".Menu_nam .sub-menu-item")]
-  var subMenuContentBeTrai =  [...document.querySelectorAll(".Menu_be_trai .sub-menu-item")]
-  var subMenuContentBeGai =  [...document.querySelectorAll(".Menu_be_gai .sub-menu-item")]
-   async function renderSubMenuContent(subMenuContent,objectName) {
-     let i =0;
-     while(i<subMenuContent.length){
-       var data = {
-         cateId : subMenuContent[i].dataset.id,
-         objectName
-       }
-       const promise = new Promise((resolve,reject)=>{
-         httpPostAsyncCate(urlApiGetCateDetails,resolve,reject,data)
-       })
-       var res = await promise
-       var html =""
-       res.forEach(item=>{
-         html+= ` <li> <a href="#">${item["detailName"]}</a></li>`
-       })
-       subMenuContent[i].children[1].innerHTML = html
-       i++;
-     }
-   }
-   
-   renderSubMenuContent(subMenuContentNu,'Nữ')
-   renderSubMenuContent(subMenuContentNam,'Nam')
-   renderSubMenuContent(subMenuContentBeGai,'Trẻ em gái')
-   renderSubMenuContent(subMenuContentBeTrai,'Trẻ em trai')
 
 
 
-} ;
-function httpPostAsyncCate(url,resolve,reject,data){
-  $.post({
-    url: url,
-    data:JSON.stringify(data),
-    contentType : 'application/json'
-  })
-  .done((res,status,xhr) => {
-    if(xhr.status === 200) {
-      resolve(res)
-    }
-  })
-  .fail(err =>{ 
-    reject(err)
-  });
-
-};
 
 let ListGalery = new Array();
 const handleGetGalery = async (products)=>{
@@ -449,6 +416,7 @@ const handleGetGalery = async (products)=>{
   function GetLinkBSTHome(id){
     let link = ""
     const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
+
     if(ImgBSTHome!=null){
     for (let i=0; i<ImgBSTHome.length;i++) {
       if(ImgBSTHome[i]["productId"] === id)
@@ -579,39 +547,17 @@ const handleGetGalery = async (products)=>{
     })
     $(".block-new-product .products").html(html.join(''));
   };
-  function renderListPage(count){
-    $(".list-page div").html("")
-    var html = ""
-    if(count > 1){
-      for(var i=1; i<=count; i++){
-        html+= `
-        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-        `
-      }
-      $(".list-page div").html(html);
-      $(".page-next").toggleClass("active-next-button",true)
-    }
-    else{
-      $(".page-next").toggleClass("active-next-button",false)
-  
-    }
-  };
+
   
   function changePage(index){
     thisPage = index;
     if(isMainContent){
       handleGetRecommended();
-  
     }
     if(isSearchContent){
       handleSearch();
     }
-    if(formCustomer){
-      handlegetListUs();
-    }
-    if(formProduct){
-      handleGetListProduct();
-    }
+   
   }
 
   

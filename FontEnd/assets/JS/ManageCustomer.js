@@ -1,20 +1,56 @@
-const listInput1 = [...document.querySelectorAll("account-main input")]
 const inputNameUs =$(".opened #FullName");
 const inputPhoneNumberUs =$(".opened #Phone_Number");
 const inputEmailUs =$(".opened #email");
 const inputBirthdaylUs =$(".opened #birthday");
 const inputAddressUs = $(".opened #Address");
-const checkBoxNam1 = $(".opened #radio1");
-const checkBoxNu1 = $(" .opened #radio2");
-const checkBoxKhac1 = $(".opened #radio3");
+const checkBoxNam = $(".opened #radio1");
+const checkBoxNu = $(" .opened #radio2");
+const checkBoxKhac = $(".opened #radio3");
+const btnSaveOpen = $(".opened .btnSave");
 const urlApiCreateUser = "https://localhost:7284/api-admin/User/Create_User";
 const urlApiGetListUser ="https://localhost:7284/api-admin/User/Get_List";
 const urlApiDeleteUser = "https://localhost:7284/api-admin/User/Delete_User";
-const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User"
+const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User";
 let thisPage = 1;
 let pageSize = 10;
+let isCreate = true;
+let isUpdate = false;
+function handleTextSaveBtn(){
+  if(isCreate)
+  {
+      btnSaveOpen.toggleClass("active",isCreate);
+      btnSaveOpen.text("Thêm mới")
+  }
+  else if(isUpdate){
+      btnSaveOpen.text("Lưu")
+      btnSaveOpen.toggleClass("active",isUpdate);
+  }
+};
+
+function changePage(index){
+    thisPage = index;
     handlegetListUs();
-    handleTextSaveBtn();
+  };
+function renderListPage(count){
+    $(".list-page div").html("")
+    var html = ""
+    if(count > 1){
+      for(var i=1; i<=count; i++){
+        html+= `
+        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+        `
+      }
+      $(".list-page div").html(html);
+      $(".page-next").toggleClass("active-next-button",true)
+    }
+    else{
+      $(".page-next").toggleClass("active-next-button",false)
+  
+    }
+  };
+
+handlegetListUs();
+handleTextSaveBtn();
     function handlegetListUs(){
         var data = {
             pageIndex:thisPage ,

@@ -24,8 +24,7 @@ function Login(data){
     .done(res=>{
         if(res["email"] !=="undefined"){
             localStorage.setItem("login",JSON.stringify(res));
-            OpenFormUs();
-            HiddeMainContent();
+            window.location="./infoUser.html";
         }
     })
     .fail(err=>{
