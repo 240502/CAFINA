@@ -15,5 +15,22 @@ namespace Businesss
         {
             return cateDAL.Get(cateId, objectName);
         }
+
+        public List<CategoryDetailsModel> GetList()
+        {
+            return cateDAL.GetList();
+        }
+        public int Create(CategoryDetailsModel cate)
+        {
+            return cateDAL.Create(cate);
+        }
+        public int Update (CategoryDetailsModel cate)
+        {
+            return cateDAL.Update(cate);
+        }    
+        public int Delete(int id)
+        {
+            return cateDAL.Delete(id);
+        }
     }
 }

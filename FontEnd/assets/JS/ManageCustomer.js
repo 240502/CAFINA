@@ -1,22 +1,18 @@
-const listInput = [...document.querySelectorAll("account-main input")]
+const listInput1 = [...document.querySelectorAll("account-main input")]
 const inputNameUs =$(".opened #FullName");
 const inputPhoneNumberUs =$(".opened #Phone_Number");
 const inputEmailUs =$(".opened #email");
 const inputBirthdaylUs =$(".opened #birthday");
 const inputAddressUs = $(".opened #Address");
-const checkBoxNam = $(".opened #radio1");
-const checkBoxNu = $(" .opened #radio2");
-const checkBoxKhac = $(".opened #radio3");
+const checkBoxNam1 = $(".opened #radio1");
+const checkBoxNu1 = $(" .opened #radio2");
+const checkBoxKhac1 = $(".opened #radio3");
 const urlApiCreateUser = "https://localhost:7284/api-admin/User/Create_User";
 const urlApiGetListUser ="https://localhost:7284/api-admin/User/Get_List";
 const urlApiDeleteUser = "https://localhost:7284/api-admin/User/Delete_User";
 const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User"
-
-if(document.querySelector(".form_manage_customer.opened")){
-    listInput.forEach(input=>{
-        input.onkeyup = ()=>{
-        }
-    });
+let thisPage = 1;
+let pageSize = 10;
     handlegetListUs();
     handleTextSaveBtn();
     function handlegetListUs(){
@@ -96,7 +92,6 @@ if(document.querySelector(".form_manage_customer.opened")){
         else if(isUpdate)
         {
             var id = btnSaveOpen.attr("data-id")
-    
            handleUpdateUser(id);
         }
         
@@ -211,9 +206,11 @@ if(document.querySelector(".form_manage_customer.opened")){
              alert(res)
              handlegetListUs();
              clearDataCustomer();
+             isCreate = true;
+             isUpdate=false;
+             handleTextSaveBtn();
          }).fail(err =>{
             alert(err.statusText)
          })
     }
-}
 

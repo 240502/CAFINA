@@ -27,6 +27,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/api/CategoryDetails/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/CategoryDetails/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/api/Account/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

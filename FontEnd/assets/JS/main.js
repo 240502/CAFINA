@@ -15,10 +15,13 @@ const siteMain = $(".site-main");
 const searchClose = $(".search-close")
 const searchBtn = $(".search-btn");
 const formUs = $(".form-us");
-const inputName = $("#name")
-const inputSdt = $("#sdt")
-const inputEmail = $(".email")
-const inputBirthDay = $("#birthday")
+const inputName = $(".opened #name")
+const inputSdt = $(".opened #sdt")
+const inputEmail = $(".opened .email")
+const inputBirthDay = $(".opened #birthday")
+const checkBoxNam = $(".opened #radio1");
+const checkBoxNu = $(" .opened #radio2");
+const checkBoxKhac = $(".opened #radio3");
 const formCustomer = document.querySelector(".opened.form_manage_customer")
 const formProduct = document.querySelector(".opened.form_manage_product")
 
@@ -32,49 +35,83 @@ const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
 
-let thisPage = 1;
-let pageSize = 10;
 let isSearch = false;
 let isSearchContent = false;
 let isMainContent = false;
 let isFormUs = false;
+
 function OpenFormUs(){
   isFormUs = true;
   formUs.toggleClass("active",isFormUs)
-}
+};
+
 function hiddeFormUs(){
   isFormUs = false;
   formUs.toggleClass("active",isFormUs)
-}
+};
+
+function ActiveModelSearch(){
+  isSearch=true;
+  $(".header-search").toggleClass("opened",isSearch);
+};
+
+function CloseModelSearch(){
+
+  isSearch = false;
+  $(".header-search").toggleClass("opened",isSearch);
+};
+
+
+
+function ActiveMainContent() {
+  isMainContent = true;
+  $(".main-content").toggleClass("active",isMainContent)
+};
+
+function HiddeMainContent() {
+  isMainContent = false;
+  $(".main-content").toggleClass("active",isMainContent)
+};
+
+function ActiveSiteMain(){
+  isSearchContent =true;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+};
+
+function HiddeSiteMain() {
+  isSearchContent =false;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+};
 const infoUs = JSON.parse(localStorage.getItem("login"));
-function fillDataToInput(){
-  if(infoUs["gioiTinh"] ==="Nam")
+
+
+function fillDataToInput(us){
+  if(us["gender"] ==="Nam")
   {
     checkBoxNam.prop("checked",true);
   }
-  else if(infoUs["gioiTinh"] ==="Nữ")
+  else if(us["gender"] ==="Nữ")
   {
     checkBoxNu.prop ("checked", true);
   }
   else checkBoxKhac.prop("checked", true);
 
-  inputName.val(infoUs["fullName"]);
-  inputSdt.val(infoUs["phone_number"]);
-  inputEmail.val(infoUs["email"]);
-  inputBirthDay.val(infoUs["birthDay"].slice(0,10));
+  inputName.val(us["fullName"]);
+  inputSdt.val(us["phone_number"]);
+  inputEmail.val(us["email"]);
+  inputBirthDay.val(us["birthday"].slice(0,10));
 }
 
 
 iconUser.on("click",()=>{
   if(infoUs){
-    if(infoUs["role"] ==1){
-      HiddeMainContent();
-      OpenFormUs();
-      fillDataToInput();
+    if(infoUs["role_id"] ==1){
+      window.location="./QuanTri.html"
 
     }
     else{
-
     }
   }
   else{
@@ -84,15 +121,17 @@ iconUser.on("click",()=>{
 })
 
 function Start (){
-  // ActiveMainContent();
-  // HiddeSiteMain();
+  ActiveMainContent();
+  HiddeSiteMain();
   getCategory();
   hiddeFormUs();
+
   if(document.querySelector(".main-content.active")){
     handleGetByBST();
     handleGetRecommended();
-
   }
+  handlegetListUs();
+ 
 };
 Start();
 subMenuImage.slick({
@@ -134,15 +173,7 @@ searchBtn.on('click', () => {
 searchClose.on('click', ()=>{
   CloseModelSearch();
 })
-function ActiveModelSearch(){
-  isSearch=true;
-  $(".header-search").toggleClass("opened",isSearch);
-}
-function CloseModelSearch(){
 
-  isSearch = false;
-  $(".header-search").toggleClass("opened",isSearch);
-}
 searchInputHeader.on('click', ()=>{
  ActiveModelSearch();
 })
@@ -163,24 +194,7 @@ searchInputHeader.on('keypress',(e)=>{
   }
 
 })
-function ActiveMainContent() {
-  isMainContent = true;
-  $(".main-content").toggleClass("active",isMainContent)
-} 
-function HiddeMainContent() {
-  isMainContent = false;
-  $(".main-content").toggleClass("active",isMainContent)
-} 
-function ActiveSiteMain(){
-  isSearchContent =true;
-  $(".site-main").toggleClass("active",isSearchContent)
 
-}
-function HiddeSiteMain() {
-  isSearchContent =false;
-  $(".site-main").toggleClass("active",isSearchContent)
-
-} 
 viewAllBST.on("click", function(e) { 
 
 });
@@ -273,9 +287,6 @@ async function getCategory(){
   var title = await promise
   renderTitleSubMenu(title,"Menu_nu")
   renderTitleSubMenu(title,"Menu_be_gai")
-  renderListCate(title)
-
-  
   
   const promise1 = new Promise((resolve,reject)=>{
     httpGetCateAsync(urlApiGetListCate,resolve,reject)
@@ -401,38 +412,38 @@ const handleGetGalery = async (products)=>{
   var data =  products.map(product=>{
      return {productId:product["productId"]}
   })
-  
-  let i = 0;
-  while (i<data.length) {
-      const promise = new Promise((resolve, reject) => {
-        httpGetAsync(urlApiGetByProductId,resolve,reject,data[i])
-      });
-      var response = await promise;
-      i++;
-      ListGalery.push(response)
-      localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
-  }
+   let i = 0;
+   while (i<data.length) {
+       const promise = new Promise((resolve, reject) => {
+         httpGetAsync(urlApiGetByProductId,resolve,reject,data[i])
+       });
+       var response = await promise;
+          i+=1
+          ListGalery.push(response)
+          localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
+        
+       
+   }
 };
-
-
 
   function handleGetByBST(){
     var data = {
       pageIndex:thisPage,
-      pageSize:pageSize,
-      TenBST :"Thu đông 2023"
+      pageSize,
+      TenBST:"Thu đông 2023"
     };
     GetProductByBST(data);
   };
   function GetProductByBST(data){
     $.post({
-           url: "https://localhost:7284/api-customer/Product/Get_By_BST",
+           url: "https://localhost:7284/api-customer/Product/GetByBst",
            data:JSON.stringify(data),
            contentType:"application/json"
        })
        .done(response=>{
           RenderBST(response);
-          handleGetGalery(response["data"]);
+          if(!localStorage.getItem("GaleryHome")) 
+            handleGetGalery(response["data"]);
        })
   };
   function GetLinkBSTHome(id){
@@ -448,20 +459,12 @@ const handleGetGalery = async (products)=>{
   };
   function RenderBST(products){
       var html = products["data"].map((product,index)=>{
-        if(product["price"].toString().length>5)
-        {
-            var price = product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6);
-            console.log(price)
-        }
-        else{
-          var price = product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5);
-        }
         return `
   
         <div class="product-item col-4">
                         <div class="item__image">
                             <a href="#">
-                                <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+                                <img src="${GetLinkBSTHome(product["productId"]) != null ? GetLinkBSTHome(product["productId"]):""}" alt="">
                             </a>
                             <div class="product-item-button-tocart">
                                 <span>Thêm nhanh vào giỏ</span>
@@ -542,7 +545,7 @@ const handleGetGalery = async (products)=>{
       <div class="product-item col-4">
                           <div class="item__image">
                               <a href="#">
-                                  <img src="${GetLinkBSTHome(product["productId"])}" alt="">
+                                  <img src="${GetLinkBSTHome(product["productId"]) != null ? GetLinkBSTHome(product["productId"]):""}" alt="">
                               </a>
                               <div class="product-item-button-tocart">
                                   <span>Thêm nhanh vào giỏ</span>
@@ -577,7 +580,6 @@ const handleGetGalery = async (products)=>{
     $(".block-new-product .products").html(html.join(''));
   };
   function renderListPage(count){
-    console.log(count);
     $(".list-page div").html("")
     var html = ""
     if(count > 1){
@@ -611,6 +613,8 @@ const handleGetGalery = async (products)=>{
       handleGetListProduct();
     }
   }
+
+  
 $(".nam").slick({
     slidesToShow: 3,
     slidesToScroll: 1,

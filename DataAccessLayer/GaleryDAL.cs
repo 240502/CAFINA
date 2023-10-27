@@ -19,7 +19,7 @@ namespace DataAccessLayer
             try
             {
                 DataTable tb = helper.ExcuteReader("Pro_Get_Galery_By_ProductId","@ProductId",productId);
-                if (tb != null)
+                if (tb != null && tb.Rows.Count>0)
                 {
                     GaleryModel galery = new GaleryModel();
                     galery.id = int.Parse(tb.Rows[0]["id"].ToString());
@@ -29,7 +29,7 @@ namespace DataAccessLayer
 
 
                 }
-                else return null;
+                return null;
             }
             catch (Exception ex)
             {

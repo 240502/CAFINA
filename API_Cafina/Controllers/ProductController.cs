@@ -62,7 +62,7 @@ namespace API_Cafina.Controllers
         }
         [Route("Create_Product")]
         [HttpPost]
-        public IActionResult CreateProduct([FromBody]ProductModel product)
+        public IActionResult CreateProduct([FromBody] ProductModel product)
         {
             
             var result = proBus.CreateProduct(product);

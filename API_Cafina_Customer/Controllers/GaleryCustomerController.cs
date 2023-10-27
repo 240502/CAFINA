@@ -13,9 +13,9 @@ namespace API_Cafina_Customer.Controllers
         [HttpGet]
         public IActionResult GetByProductId(string productId)
         {
+                GaleryModel galery = galeryBUS.GetByProductId(productId);
             try
             {
-                GaleryModel galery = galeryBUS.GetByProductId(productId);
                 return galery == null ? NotFound() : Ok(galery);
 
             }catch(Exception ex)

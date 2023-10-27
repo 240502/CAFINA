@@ -11,6 +11,7 @@ namespace Model
         public int id { get; set; }
         public string DetailName { get; set; }
         public int CateId { get; set; }
+        public int Object_id { get; set; }
 
     }
 }
