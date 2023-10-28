@@ -31,9 +31,9 @@ namespace Businesss
             var result = prodDal.DeleteProduct(productId);
             return result;
         } 
-        public List<ProductModel> Search(int pageIndex, int pageSize, out long total, string ProductName, string CateName)
+        public List<ProductModel> Search(int pageIndex, int pageSize, out long total, string ProductName)
         {
-            List<ProductModel> ProductList = prodDal.Search(pageIndex,pageSize,out total,ProductName, CateName);
+            List<ProductModel> ProductList = prodDal.Search(pageIndex,pageSize,out total,ProductName );
             return ProductList;
         }
        public List<ProductModel> GetPhanTrang(int?pageIndex, int ? pageSize, out int total)

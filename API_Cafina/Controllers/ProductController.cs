@@ -97,13 +97,8 @@ namespace API_Cafina.Controllers
                 if (formData.Keys.Contains("ProductName") && !string.IsNullOrEmpty(Convert.ToString(formData["ProductName"]))) { 
                     proName = Convert.ToString(formData["ProductName"]); 
                 }
-                string CateName = "";
-                if (formData.Keys.Contains("CateName") && !string.IsNullOrEmpty(formData["CateName"].ToString())) 
-                {
-                    CateName = formData["CateName"].ToString(); 
-                }
                 long total = 0;
-                Product_List = proBus.Search(page, pageSize, out total, proName, CateName);
+                Product_List = proBus.Search(page, pageSize, out total, proName);
                 if (Product_List.Count > 0)
                 {
                     return Ok(

@@ -15,18 +15,15 @@ const siteMain = $(".site-main");
 const searchClose = $(".search-close")
 const searchBtn = $(".search-btn");
 const headerIcon = $(".header-icon");
-const iconShopping = $(".header-icon")
 headerIcon.on("click",()=>{
   
 })
 let thisPage =1;
 let pageSize = 10
 
-const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
-const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUsId"
-const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
+
 let isSearch = false;
 let isSearchContent = false;
 let isMainContent = true;
@@ -68,26 +65,15 @@ function HiddeSiteMain() {
 
 };
 
-iconUser.on("click",()=>{
-  if(infoUs){
-    if(infoUs["role_id"] ==1){
-      window.location="./infoUser.html"
 
-    }
-    else{
-    }
-  }
-  else{
-    window.location = './login.html';
 
-  }
-})
 
 function Start (){
   handleGetRecommended();
   handleGetByBST();
-  getOrder();
-  renderOrder();
+  
+  ActiveMainContent();
+  HiddeSiteMain();
 };
 Start();
 subMenuImage.slick({
@@ -119,18 +105,7 @@ subMenuImage.slick({
   // autoplaySpeed: 1000,
 });
 
-function getOrder(){
-  listorder = []
-  $.get(urlApiGetOrder+'?usid='+infoUs["user_id"])
-  .done(res=>{
-    handleProduct(res);
-    listorder.push(res["data"]);
-    localStorage.setItem("listorder",JSON.stringify(listorder))
-  })
-  .fail(err=>{
-    alert(err.statusText);
-  })
-}
+
 
 async function getCategory(productid){
   var data ={
@@ -154,13 +129,7 @@ async function getCategory(productid){
 
 };
 
-function handleProduct(data){
-  $(".count").html(data["totalItems"])
-  var html = data["data"].forEach(item=>{
-    getProductById(item["productId"])
-    
-  })
-}
+
 searchBtn.on('click', () => {
   var value = searchInputModel.val();
   handleSearch(value);
@@ -179,6 +148,10 @@ searchInputHeader.on('keypress',(e)=>{
   if(e.key ==='Enter')
   {
     var value  =searchInputModel.val();
+    if(thisPage >1){
+      thisPage =1
+    }
+    console.log(thisPage);
     if( value ===''){
       CloseModelSearch();
     }
@@ -188,6 +161,7 @@ searchInputHeader.on('keypress',(e)=>{
       handleSearch(value);
       ActiveSiteMain();
       HiddeMainContent();
+
     }
   }
 
@@ -196,24 +170,10 @@ searchInputHeader.on('keypress',(e)=>{
 viewAllBST.on("click", function(e) { 
 
 });
-$(".container-minicart").on("click", (e)=> {
-  CloseMinicart();
-});
-$(".block-minicart").on("click", (e)=>{
-  e.stopPropagation();
 
-})
-iconShopping.on("click", ()=> {
-  OpenMinicart();
-});
 
-function CloseMinicart(){
-  $(".container-minicart").removeClass("opened")
-}
-function OpenMinicart(){
 
-  $(".container-minicart").addClass("opened")
-}
+
 function handleSearch(productName){
   
   var data = {
@@ -231,99 +191,13 @@ function SearchProduct(data){
     contentType : 'application/json'
   })
   .done(res=>{
+
+    console.log(res);
     renderSearchProduct(res);
     
   })
 }
-function getProductById(productid){
-  listproductOrder = [];
-  $.get(urlGetProductById+"?id="+productid)
-  .done(res=>{
-    listproductOrder.push(res)
-    localStorage.setItem("ListProductOrder",JSON.stringify(listproductOrder));
-  })
-}
-function getGalaryProductOrder(productid){
-  ListGaleryOrder= [];
-    $.get(urlApiGetByProductId+"?productId="+productid)
-    .done(res=>{
-      ListGaleryOrder.push(res)
-      localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
-    })
-    .fail(err=>{
-    })
-}
-function getLinkProductOrder(productid){
-  var ListGaleryOrder = JSON.parse(localStorage.getItem("galaryProductOrder"));
-  var link= ListGaleryOrder.find(item=>{
-    return item["productId"] === productid
-  })
-  if(typeof link !== "undefined"){
-    console.log(link["thumbnail"])
 
-  }
-  return  typeof link === "undefined" ? "" : link["thumbnail"]
-
-
-}
-function renderOrder(){
-  var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
-  var listOrder = JSON.parse(localStorage.getItem("listorder"))
-  var html =listProductOrder.map((item,index)=>{
-    getGalaryProductOrder(item["productId"])
-    return `
-
-  <li class="minucart-item" data-id = ${item["productId"]}>
-  <div class="mini-cart-info">
-   <div class="minicart-item-photo">
-       <a href="#">
-           <img src="${getLinkProductOrder(item["productId"])}" alt="">
-       </a>
-       <button class="minicart-item-remove"></button>
-
-   </div>
-   <div class="minicart-item-details">
-       <h3 class="minicart-item-name">
-           <a href="#">
-              ${item["title"]}
-           </a>
-       </h3>
-       <div class="minicart-item-options">
-           <div class="minicart-item-option">
-               <div class="colors">
-                   <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
-                   </span>
-                   <span> ${item["color"]} </span>
-               </div>
-           </div>
-           <div class="minicart-item-option">
-               L
-           </div>
-       </div>
-       <div class="minicart-item-bottom">
-           <div class="minicart-item-price">
-               <div class="normal-price">
-               ${
-                item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
-               }
-               đ </div>
-           </div>
-           <div class="minicart-item-qty">
-               <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
-               <span class="amount">${listOrder[0][index]["amount"]}</span>
-               <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
-               
-           </div>
-       </div>
-   </div>
-  </div>
-</li>
-  
-  `
-
-})
-$(".minicart-items").html(html.join(''))
-}
 function renderSearchProduct(response) {
   var totalItems = response["totalItems"]
   const countPage = Math.ceil(response["totalItems"]/8)
@@ -555,7 +429,7 @@ const handleGetGalery = async (products)=>{
       handleGetRecommended();
     }
     if(isSearchContent){
-      handleSearch();
+      handleSearch(searchInputHeader.val());
     }
    
   }

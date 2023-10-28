@@ -26,6 +26,9 @@ function handleTextSaveBtn(){
       btnSaveOpen.toggleClass("active",isUpdate);
   }
 };
+hanleNavManager();
+
+
 
 function changePage(index){
     thisPage = index;

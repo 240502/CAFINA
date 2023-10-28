@@ -9,6 +9,7 @@ const inputBirthDay = $(".opened #birthday")
 const checkBoxNam = $(".opened #radio1");
 const checkBoxNu = $(" .opened #radio2");
 const checkBoxKhac = $(".opened #radio3");
+
 let isFormActive = false;
 isUpdate = false;
 var infoUs = JSON.parse(localStorage.getItem("login"))
@@ -45,16 +46,7 @@ function fillDataToInput(us){
 }
 getUser();
 
-    for (let i = 0; i < listNav.length;i++)
-    {
-        listNav[i].onclick =()=>{
-            document.querySelector(".nav-item.active").classList.remove("active");
-            document.querySelector(".form.opened").classList.remove("opened");
-            listNav[i].classList.add("active");
-            listForm[i].classList.add("opened");
-            $("#link").attr("src","./assets/JS/ManageCustomer.js")
-        }
-    }
+   
 function handleTextSaveBtn(){
     
     if(isUpdate){

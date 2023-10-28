@@ -111,11 +111,9 @@ namespace API_Cafina_Customer.Controllers
                 string productName = string.Empty;
                 if(formData.Keys.Contains("ProductName") && !string.IsNullOrEmpty(formData["ProductName"].ToString()))
                     productName = formData["ProductName"].ToString();
-                string CateName="";
-                if (formData.Keys.Contains("CateName") && !string.IsNullOrEmpty(formData["CateName"].ToString()))
-                    CateName = formData["CateName"].ToString();
+              
                 long total = 0;
-                Product_List =  proBus.Search(page,pageSize,out total,productName,CateName);
+                Product_List =  proBus.Search(page,pageSize,out total,productName);
                 return Product_List != null ? Ok(new { Page = page, pageSize = pageSize, TotalItems = total, Data = Product_List }) : NotFound();
 
             }catch(Exception ex)

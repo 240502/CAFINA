@@ -316,6 +316,7 @@ body{
     display: flex;
     padding: 0 !important;
     flex-grow: 1;
+    align-items: center;
 }
 .form-search .search-top .search-input-group{
     max-width: 592px !important;
@@ -326,7 +327,9 @@ body{
     width: 100%;
 }
 .search-close{
+    margin-bottom: 20px;
     width: 15%;
+    height: 38px;
     display: inherit;
     justify-content: center;
     align-items: center;
