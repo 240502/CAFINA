@@ -10,36 +10,6 @@ namespace API_Cafina_Customer.Controllers
     {
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List ;
-        //[Route("Get_By_BST")]
-        //[HttpPost]
-        //public IActionResult GetByBST([FromBody] Dictionary<string,object> formData)
-        //{
-        //    try
-        //    {
-        //        int pageSize = 0;
-        //        int pageIndex = 0;
-        //        string TenBST = "";
-        //        if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString())) 
-        //        {
-        //            pageSize = int.Parse(formData["pageSize"].ToString());
-        //        }
-        //        if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
-        //        {
-        //            pageIndex = int.Parse(formData["pageIndex"].ToString());
-        //        }
-        //        if (formData.Keys.Contains("TenBST") && !string.IsNullOrEmpty(formData["TenBST"].ToString()))
-        //        {
-        //            TenBST = formData["TenBST"].ToString();
-        //        }
-        //        int total = 0;
-        //        Product_List= proBus.GetByBST(pageSize,pageIndex,out total, TenBST);
-        //        return Product_List != null ? Ok(new { TotalItems = total, Data = Product_List, Page = pageIndex,PageSize =pageSize }) : NotFound();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
         [Route("GetByBst")]
         [HttpPost]
         public IActionResult GetByBST([FromBody] Dictionary<string,object> formData)
@@ -156,6 +126,33 @@ namespace API_Cafina_Customer.Controllers
             {
                 throw new Exception(ex.Message);
             }
+        }
+        [Route("GetProductByObjectName_BstName")]
+        [HttpPost]
+        public IActionResult GetByObName_BstName([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int pageIndex = 0;
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                int pageSize = 0;
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                string BstName = "";
+                if (formData.Keys.Contains("bstName") && !string.IsNullOrEmpty(formData["bstName"].ToString()))
+                    BstName = formData["bstName"].ToString();
+                string objectName = "";
+                if (formData.Keys.Contains("objectName") && !string.IsNullOrEmpty(formData["objectName"].ToString()))
+                    objectName = formData["objectName"].ToString();
+                int total = 0;
+                List<ProductModel> list = proBus.GetByObName_BstName(pageIndex, pageSize, out total, BstName, objectName);
+                return list != null ? Ok(new { pageIndex = pageIndex, pageSize = pageSize, totalItems = total, data = list }) : NotFound();
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

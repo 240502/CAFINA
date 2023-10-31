@@ -20,7 +20,6 @@ const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Produc
 const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product"
 let thisPage =1;
 let pageSize =10;
-
 let isCreate = true;
 let isUpdate = false;
 function Start(){
@@ -29,6 +28,8 @@ function Start(){
     handleTextSaveBtn();
     handleGetListProduct();
     getListCateDetails();
+    handleGetListProduct();
+
 }
 Start();
 
@@ -66,7 +67,7 @@ function renderListPage(count){
       $(".page-next").toggleClass("active-next-button",false)
   
     }
-  };
+};
 
 function getListCateDetails(){
     $.get(urlGetListCategoryDetails)
@@ -77,6 +78,7 @@ function getListCateDetails(){
         alert("Error: " + err.statusText)
     })
 };
+
 function renderListCateDetails(listcate){
     var html = listcate.map((cate,index)=>{
         return `
@@ -85,12 +87,14 @@ function renderListCateDetails(listcate){
     })
     $("#Cate").html(html.join(""));
 };
+
 function GetListObject(){
     $.get(urlGetListObject)
     .done(res=>{
         renderListOb(res)
     })
 };
+
 function renderListOb(Listob){
     var html = Listob.map((ob,index)=>{
         return `
@@ -99,12 +103,14 @@ function renderListOb(Listob){
     })
     $("#object").html(html.join(""));
 };
+
 function GetListBST(){
     $.get(urlGetListBST)
     .done(res=>{
         renderListBST(res)
     })
 };
+
 function renderListBST(ListBst){
    var html = ListBst.map((item,index)=>{
     return `
@@ -121,6 +127,7 @@ function handleGetListProduct(){
     };
     GetListProduct(data);
 };
+
 function GetListProduct(data) {
     $.post({
         url:urlGetListProduct,
@@ -131,7 +138,7 @@ function GetListProduct(data) {
         renderListProduct(res);
     })
 };
-handleGetListProduct();
+
 function renderListProduct (data){
     var count = Math.ceil(data["totalItems"] / pageSize);
     renderListPage(count)
@@ -188,6 +195,7 @@ function renderListProduct (data){
     })
     $(".opened tbody").html(html.join(""));
 };
+
 function handleCreateProduct() {
     var data = {
         "productId": inputProductId.val().trim(),
@@ -205,6 +213,7 @@ function handleCreateProduct() {
     }
     CreateProduct(data);
 };
+
 function CreateProduct(data){
     $.post({
         url:urlCreateProduct,
@@ -221,6 +230,7 @@ function CreateProduct(data){
     })
     
 };
+
 function fillToInput(index){
     isCreate = false;
     isUpdate = true;
@@ -242,6 +252,7 @@ function fillToInput(index){
      inputCate.val(tb_content.querySelector(".cateId").textContent.trim());
      inputBst.val(tb_content.querySelector(".bst_id").textContent.trim());
 };
+
 function clearDataProduct(){
     inputProductId.val("")
     inputTitle.val("")
@@ -252,6 +263,7 @@ function clearDataProduct(){
     inputSize.val("")
     inputColor.val("")
 };
+
 function handleUpdateProduct(id){
     var data = {    
         "productId": id,
@@ -269,6 +281,7 @@ function handleUpdateProduct(id){
     }
     UpdateProduct(data);
 };
+
 function UpdateProduct(data){
     $.ajax({
         type: "PUT",
@@ -289,6 +302,7 @@ function UpdateProduct(data){
         alert(err.statusText);
     })
 };
+
 function DeleteProduct(id){
     console.log(id)
     $.ajax({
@@ -303,6 +317,7 @@ function DeleteProduct(id){
         alert(err.statusText);
     })
 };
+
 btnSaveOpen.on("click", ()=>{
     if(isCreate)
         handleCreateProduct();

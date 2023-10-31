@@ -50,6 +50,9 @@ namespace Businesss
         {
             return prodDal.GetRecommend(pageIndex, PageSize, out total);
         }
-
+        public List<ProductModel> GetByObName_BstName(int pageIndex , int pageSize ,out int total,string BstName,string ObjectName)
+        {
+            return prodDal.GetByObName_BstName(pageIndex,pageSize,out total,BstName,ObjectName);
+        }
     }
 }

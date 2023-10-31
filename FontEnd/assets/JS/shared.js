@@ -4,7 +4,17 @@ const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_
 const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUsId"
 const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
-const iconUserHeader =$(".header-account.header-icon")
+const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
+
+const iconUserHeader =$(".header-account.header-icon");
+const searchClose = $(".search-close");
+const searchBtn = $(".search-btn");
+const searchInputHeader = $(".search-input");
+const searchInputModel = $(".form-search .search-input");
+let isSearchContent = false;
+let isMainContent = true;
+
+
 const iconShopping = $(".shopping-cart")
 const logOut = $(".logout")
 logOut.on("click",()=>{
@@ -14,164 +24,316 @@ logOut.on("click",()=>{
 })
 const infoUsLocal = JSON.parse(localStorage.getItem("login"));
 
-console.log(infoUsLocal)
+function ActiveModelSearch(){
+  isSearch=true;
+  $(".header-search").toggleClass("opened",isSearch);
+};
+
+function CloseModelSearch(){
+
+  isSearch = false;
+  $(".header-search").toggleClass("opened",isSearch);
+};
+
+
+
+function ActiveMainContent() {
+  isMainContent = true;
+  $(".main-content").toggleClass("active",isMainContent)
+};
+
+function HiddeMainContent() {
+  isMainContent = false;
+  $(".main-content").toggleClass("active",isMainContent)
+};
+
+function ActiveSiteMain(){
+  isSearchContent =true;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+};
+
+function HiddeSiteMain() {
+  isSearchContent =false;
+  $(".site-main").toggleClass("active",isSearchContent)
+
+};
+
+
+
+
 async function Run (){
     getCategory();
     if(infoUsLocal !==null){
       hanleNavManager();
-      await getOrder();
-      await renderOrder();
+      ActiveMainContent();
+      HiddeSiteMain();
+      await getListOrder();
+      await renderListOrder();
+   
     }
   };
-  Run();
-  function hanleNavManager(){
-    if(infoUsLocal["role_id"]==1){
-      openNavManage();
-    }else{
-        hiddleNavManage();
-    }
+Run();
+
+function handleSearchProduct(productName){
+  
+  var data = {
+    page: thisPage,
+    pageSize: 8,
+    ProductName : productName
+  }
+  SearchProduct(data)
+
 }
+searchBtn.on('click', () => {
+  var value = searchInputModel.val();
+  handleSearchProduct(value);
+  ActiveSiteMain();
+  HiddeMainContent();
+  
+});
+
+
+searchClose.on('click', ()=>{
+  CloseModelSearch();
+});
+
+searchInputHeader.on('click', ()=>{
+ ActiveModelSearch();
+});
+searchInputHeader.on('keypress',(e)=>{
+  if(e.key ==='Enter')
+  {
+    var value  =searchInputModel.val();
+    if(thisPage >1){
+      thisPage =1
+    }
+    if( value ===''){
+      CloseModelSearch();
+    }
+    else{
+      searchInputHeader.val(searchInputModel.val());
+      CloseModelSearch();
+      handleSearchProduct(value);
+      ActiveSiteMain();
+      HiddeMainContent();
+
+    }
+  }
+
+});
+
+
+function hanleNavManager(){
+  if(infoUsLocal["role_id"]==1){
+    openNavManage();
+  }else{
+      hiddleNavManage();
+  }
+};
 
 
 $(".block-minicart").on("click", (e)=>{
   e.stopPropagation();
 
-})
+});
 function hiddleNavManage(){
   $(".content .nav").removeClass("active");
-}
+};
+
 function openNavManage(){
     $(".content .nav").addClass("active");
-}
+};
+
 iconShopping.on("click", ()=> {
   OpenMinicart();
 });
+
 $(".container-minicart").on("click", (e)=> {
   CloseMinicart();
 });
 
 function CloseMinicart(){
   $(".container-minicart").removeClass("opened")
-}
+};
+
 function OpenMinicart(){
 
   $(".container-minicart").addClass("opened")
-}
-  function getOrder(){
-    listorder = []
-    $.get(urlApiGetOrder+'?usid='+infoUsLocal["user_id"])
+};
+
+function getListOrder(){
+  listorder = []
+  $.get(urlApiGetOrder+'?usid='+infoUsLocal["user_id"])
+  .done(res=>{
+    handleProduct(res);
+    listorder.push(res["data"]);
+    localStorage.setItem("listorder",JSON.stringify(listorder))
+  })
+  .fail(err=>{
+    alert(err.statusText);
+  })
+};
+
+function handleProduct(data){
+  $(".count").html(data["totalItems"])
+  var html = data["data"].forEach(item=>{
+    getProductById(item["productId"])
+    
+  })
+};
+
+function SearchProduct(data){
+  $.post({
+    url:urlApiSearchProduct,
+    data:JSON.stringify(data),
+    contentType : 'application/json'
+  })
+  .done(res=>{
+    renderProductSearch(res);
+  })
+};
+
+function renderProductSearch(response) {
+  var totalItems = response["totalItems"]
+  const countPage = Math.ceil(response["totalItems"]/8)
+  renderListPage(countPage);
+  $(".site-main .total-items span").text(totalItems)
+  var html = response["data"].map(product=>{
+    return `
+    
+    <div class="product-item col-4">
+        <div class="item__image">
+            <a href="#">
+                <img src="${GetLinkImgBSTHome(product["productId"])}" alt="">
+            </a>
+            <div class="product-item-button-tocart">
+                <span>Thêm nhanh vào giỏ</span>
+            </div>    
+        </div>
+        <div class="item__details">
+            <div class="colors">
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                </div>
+
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sa010.png)">
+                </div>
+
+                <div class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sk010.png)">
+                </div>
+            </div>
+            <h3 class="product-item-name">
+
+                <a href="#">
+                    ${product["title"]}
+                </a>
+            </h3>
+            <div class="price-box">
+                <div class="normal-price">${
+                  product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                } </div>
+            </div>
+        </div>
+    </div>
+    `
+  });
+  $(".site-main .product-items").html(html)
+
+};
+
+iconUserHeader.on("click",()=>{
+  if(infoUsLocal){
+    if(infoUsLocal){
+      window.location="./infoUser.html"
+      
+    }
+  }
+  else{
+    window.location = './login.html';
+  }
+});
+
+function getProductById(productid){
+  listproductOrder = [];
+  $.get(urlGetProductById+"?id="+productid)
+  .done(res=>{
+    listproductOrder.push(res)
+    localStorage.setItem("ListProductOrder",JSON.stringify(listproductOrder));
+  })
+};
+
+function getGalaryProductOrder(productid){
+  ListGaleryOrder= [];
+    $.get(urlApiGetByProductId+"?productId="+productid)
     .done(res=>{
-      handleProduct(res);
-      listorder.push(res["data"]);
-      localStorage.setItem("listorder",JSON.stringify(listorder))
+      ListGaleryOrder.push(res)
+      localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
     })
     .fail(err=>{
-      alert(err.statusText);
     })
-  }
-  function handleProduct(data){
-    $(".count").html(data["totalItems"])
-    var html = data["data"].forEach(item=>{
-      getProductById(item["productId"])
-      
-    })
-  }
-  iconUserHeader.on("click",()=>{
-    if(infoUsLocal){
-      if(infoUsLocal){
-        window.location="./infoUser.html"
-        
-      }
-    }
-    else{
-      window.location = './login.html';
-    }
+};
+
+function getLinkProductOrder(productid){
+  var ListGaleryOrder = JSON.parse(localStorage.getItem("galaryProductOrder"));
+  var link= ListGaleryOrder.find(item=>{
+    return item["productId"] === productid
   })
-  function getProductById(productid){
-    listproductOrder = [];
-    $.get(urlGetProductById+"?id="+productid)
-    .done(res=>{
-      listproductOrder.push(res)
-      localStorage.setItem("ListProductOrder",JSON.stringify(listproductOrder));
-    })
-  }
-  function getGalaryProductOrder(productid){
-    ListGaleryOrder= [];
-      $.get(urlApiGetByProductId+"?productId="+productid)
-      .done(res=>{
-        ListGaleryOrder.push(res)
-        localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
-      })
-      .fail(err=>{
-      })
-  }
-  function getLinkProductOrder(productid){
-    var ListGaleryOrder = JSON.parse(localStorage.getItem("galaryProductOrder"));
-    var link= ListGaleryOrder.find(item=>{
-      return item["productId"] === productid
-    })
-    if(typeof link !== "undefined"){
-    }
-    return  typeof link === "undefined" ? "" : link["thumbnail"]
-  
-  
-  }
-  function renderOrder(){
-    var listOrder = JSON.parse(localStorage.getItem("listorder"))
-    var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
-    var totalprice = 0;
-    var html =listProductOrder.map((item,index)=>{
-      totalprice += item["price"]
-      getGalaryProductOrder(item["productId"])
-      return `
-  
-    <li class="minucart-item" data-id = ${item["productId"]}>
-    <div class="mini-cart-info">
-     <div class="minicart-item-photo">
-         <a href="#">
-             <img src="${getLinkProductOrder(item["productId"])}" alt="">
-         </a>
-         <button class="minicart-item-remove"></button>
-  
-     </div>
-     <div class="minicart-item-details">
-         <h3 class="minicart-item-name">
-             <a href="#">
-                ${item["title"]}
-             </a>
-         </h3>
-         <div class="minicart-item-options">
-             <div class="minicart-item-option">
-                 <div class="colors">
-                     <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
-                     </span>
-                     <span> ${item["color"]} </span>
-                 </div>
-             </div>
-             <div class="minicart-item-option">
-                 L
-             </div>
-         </div>
-         <div class="minicart-item-bottom">
-             <div class="minicart-item-price">
-                 <div class="normal-price">
-                 ${
-                  item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
-                 }
-                 đ </div>
-             </div>
-             <div class="minicart-item-qty">
-                 <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
-                 <span class="amount">${listOrder[0][index]["amount"]}</span>
-                 <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
-             </div>
-         </div>
-     </div>
-    </div>
-  </li>
-    
-    `
-  
+  return  typeof link === "undefined" ? "" : link["thumbnail"]
+};
+
+function renderListOrder(){
+  var listOrder = JSON.parse(localStorage.getItem("listorder"))
+  var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
+  var totalprice = 0;
+  var html =listProductOrder.map((item,index)=>{
+    totalprice += item["price"]
+    getGalaryProductOrder(item["productId"])
+    return `
+        <li class="minucart-item" data-id = ${item["productId"]}>
+          <div class="mini-cart-info">
+           <div class="minicart-item-photo">
+               <a href="#">
+                   <img src="${getLinkProductOrder(item["productId"])}" alt="">
+               </a>
+               <button class="minicart-item-remove"></button>
+
+           </div>
+           <div class="minicart-item-details">
+               <h3 class="minicart-item-name">
+                   <a href="#">
+                      ${item["title"]}
+                   </a>
+               </h3>
+               <div class="minicart-item-options">
+                   <div class="minicart-item-option">
+                       <div class="colors">
+                           <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                           </span>
+                           <span> ${item["color"]} </span>
+                       </div>
+                   </div>
+                   <div class="minicart-item-option">
+                       L
+                   </div>
+               </div>
+               <div class="minicart-item-bottom">
+                   <div class="minicart-item-price">
+                       <div class="normal-price">
+                       ${
+                        item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                       }
+                       đ </div>
+                   </div>
+                   <div class="minicart-item-qty">
+                       <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
+                       <span class="amount">${listOrder[0][index]["amount"]}</span>
+                       <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
+                   </div>
+               </div>
+           </div>
+          </div>
+        </li>
+  `
   })
   $(".minicart-items").html(html.join(''))
   var stringTotalPrice= ""
@@ -188,7 +350,8 @@ function OpenMinicart(){
   }
   console.log(totalprice)
   $(".totalPrice").html(stringTotalPrice+' đ')
-}
+};
+
 function httpGetCateAsync(url,resolve,reject,data) {
   $.get(url,data)
   .done(response => resolve(response))
@@ -239,46 +402,46 @@ function renderListPage(count){
       $(".page-next").toggleClass("active-next-button",false)
   
     }
-  };
+};
 
-  async function getCategory(){
-    var data ={
+async function getCategory(){
+  var data ={
       obId:2
-    }
-    const promise = new Promise((resolve,reject)=>{
-      httpGetCateAsync(urlApiGetListCate,resolve,reject,data)
-    })
-    
-   
-    var title = await promise
-    renderTitleSubMenu(title,"Menu_nu")
-    renderTitleSubMenu(title,"Menu_be_gai")
-    
-    const promise1 = new Promise((resolve,reject)=>{
-      httpGetCateAsync(urlApiGetListCate,resolve,reject)
-    })
-    var result = await promise1
-    renderTitleSubMenu(result,"Menu_nam")
-    renderTitleSubMenu(result,"Menu_be_trai")
-  
-  };
+    };
 
-  async function renderTitleSubMenu(title,clasName){
-    var group_1 = ''
-    title.forEach(item=>{
-     if (item["id"] ==1)
-     {
-         
-              group_1 +=`
-              <ul class="sub-menu-item" data-id = ${item["id"]}>
-                <li class="title">${item["cateName"]}</li>
-                <div class="content">
-                 
-                </div>
-              </ul>`
-        
-     }
-   });
+  const promise = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject,data);
+  });
+    
+  var title = await promise;
+  renderTitleSubMenu(title,"Menu_nu");
+  renderTitleSubMenu(title,"Menu_be_gai");
+  
+  const promise1 = new Promise((resolve,reject)=>{
+    httpGetCateAsync(urlApiGetListCate,resolve,reject)
+  });
+  var result = await promise1;
+  renderTitleSubMenu(result,"Menu_nam");
+  
+  renderTitleSubMenu(result,"Menu_be_trai");
+  
+};
+
+async function renderTitleSubMenu(title,clasName){
+  var group_1 = ''
+  title.forEach(item=>{
+   if (item["id"] ==1)
+   {
+       
+            group_1 +=`
+            <ul class="sub-menu-item" data-id = ${item["id"]}>
+              <li class="title">${item["cateName"]}</li>
+              <div class="content">
+               
+              </div>
+            </ul>`
+      
+   }});
     var group_2 = ''
      title.forEach(item=>{
       if (item["id"] >1 && item["id"] <5)
@@ -353,5 +516,33 @@ function renderListPage(count){
      renderSubMenuContent(subMenuContentNam,'Nam')
      renderSubMenuContent(subMenuContentBeGai,'Trẻ em gái')
      renderSubMenuContent(subMenuContentBeTrai,'Trẻ em trai')
+};
+
+let ListGalery = new Array();
+const handleGetGalery = async (products)=>{
+  var data =  products.map(product=>{
+     return {productId:product["productId"]}
+  })
+   let i = 0;
+   while (i<data.length) {
+       const promise = new Promise((resolve, reject) => {
+         httpGetAsync(urlApiGetByProductId,resolve,reject,data[i])
+       });
+       var response = await promise;
+          i+=1
+          ListGalery.push(response)
+          localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
+   }
+};
+function GetLinkImgBSTHome(id){
+  let link = ""
+  const ImgBSTHome=JSON.parse(localStorage.getItem("GaleryHome"));
+  if(ImgBSTHome!=null){
+    for (let i=0; i<ImgBSTHome.length;i++) {
+      if(ImgBSTHome[i]["productId"] === id)
+        link = ImgBSTHome[i]["thumbnail"]
+      }
+    }
+  return link;
 };
 
