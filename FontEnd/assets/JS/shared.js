@@ -5,12 +5,19 @@ const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUs
 const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
 const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
-
+const minicartClose = $(".minicart-close");
 const iconUserHeader =$(".header-account.header-icon");
 const searchClose = $(".search-close");
 const searchBtn = $(".search-btn");
 const searchInputHeader = $(".search-input");
 const searchInputModel = $(".form-search .search-input");
+const btnPageNext  = $("#btn-page-next")
+const btnPagePrev  = $("#btn-page-prev")
+
+const  subMenuImage = $(".sub-menu-image");
+
+
+
 let isSearchContent = false;
 let isMainContent = true;
 
@@ -74,6 +81,38 @@ async function Run (){
     }
   };
 Run();
+
+subMenuImage.slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  infinite: true,
+  arrows: false,
+  draggable: false,
+  dots: true,
+  responsive: [
+    {
+      breakpoint: 1025,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        arrows: false,
+        infinite: false,
+      },
+    },
+  ],
+  // autoplay: true,
+  // autoplaySpeed: 1000,
+});
+
+
+
 
 function handleSearchProduct(productName){
   
@@ -145,14 +184,6 @@ function openNavManage(){
     $(".content .nav").addClass("active");
 };
 
-iconShopping.on("click", ()=> {
-  OpenMinicart();
-});
-
-$(".container-minicart").on("click", (e)=> {
-  CloseMinicart();
-});
-
 function CloseMinicart(){
   $(".container-minicart").removeClass("opened")
 };
@@ -161,6 +192,17 @@ function OpenMinicart(){
 
   $(".container-minicart").addClass("opened")
 };
+
+iconShopping.on("click", ()=> {
+  OpenMinicart();
+});
+
+$(".container-minicart").on("click", (e)=> {
+  CloseMinicart();
+});
+minicartClose.on("click",()=>{
+  CloseMinicart();
+});
 
 function getListOrder(){
   listorder = []
@@ -201,7 +243,6 @@ function renderProductSearch(response) {
   $(".site-main .total-items span").text(totalItems)
   var html = response["data"].map(product=>{
     return `
-    
     <div class="product-item col-4">
         <div class="item__image">
             <a href="#">
@@ -289,7 +330,7 @@ function renderListOrder(){
     totalprice += item["price"]
     getGalaryProductOrder(item["productId"])
     return `
-        <li class="minucart-item" data-id = ${item["productId"]}>
+        <li class="minicart-item" data-id = ${item["productId"]}>
           <div class="mini-cart-info">
            <div class="minicart-item-photo">
                <a href="#">
@@ -389,20 +430,47 @@ function httpPostAsyncCate(url,resolve,reject,data){
 function renderListPage(count){
     $(".list-page div").html("")
     var html = ""
+    console.log(count)
+    console.log(thisPage)
+
     if(count > 1){
-      for(var i=1; i<=count; i++){
-        html+= `
-        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-        `
+      if(thisPage<count )
+      {
+        if(thisPage>=2)
+        {
+          for(var i=thisPage-1; i<=thisPage+1; i++){
+            html+= `
+              <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+            `
+          }
+        }
+        else{
+          for(var i=1; i<=thisPage+1; i++){
+            html+= `
+              <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+            `
+          }
+        }
+      }
+      else{
+        for(var i=thisPage-2; i<=thisPage; i++){
+          html+= `
+            <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+          `
+        }
       }
       $(".list-page div").html(html);
-      $(".page-next").toggleClass("active-next-button",true)
+      $(".page-next").toggleClass("active-button",true)
+
     }
     else{
-      $(".page-next").toggleClass("active-next-button",false)
-  
+      $(".page-next").toggleClass("active-button",false)
+      $(".page-prev").toggleClass("active-button",true)
     }
 };
+
+
+
 
 async function getCategory(){
   var data ={

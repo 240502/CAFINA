@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/CSS/ViewAll.css">
     <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0-web/css/all.min.css">
     <link rel="stylesheet" href="./assets/CSS/reset.css">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+      />
+    <link rel="stylesheet" href="./assets/CSS/ViewAll.css">
     <title>Document</title>
 </head>
 <body>
@@ -19,10 +24,10 @@
             <div id="header-menu">
             <ul class="header-menu-list">
                 <li class="menu-item active">
-                    <a href="#"> Hàng mới</a>
+                    <a href="./ViewAllBST.html"> Hàng mới</a>
                 </li>
                 <li class="menu-item cate-nu">
-                    <a href="#"> Nữ</a>
+                    <a href="./PageProductNu.html"> Nữ</a>
                     <div class="sub-menu">
                         <div class="sub-menu-content container">
                             <div class="sub-menu-left">
@@ -318,11 +323,16 @@
                         
                     </div>
                     <ul class="list-page">
+                        <li class="item page-prev">
+                            <button type="button" id="btn-page-prev" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>
+                            </button>
+                        </li>
                         <div style="display: inherit; ">
     
                         </div>
                         <li class="item page-next">
-                            <button type="button" id="btn-page-next">
+                            <button type="button" id="btn-page-next" style="cursor: pointer;">
                                 <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
                             </button>
                         </li>
@@ -341,7 +351,12 @@
                         
                     </div>
                     <ul class="list-page">
-                        <div style="display: inherit; ">
+                        <li class="item page-prev">
+                            <button type="button" id="btn-page-prev" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>
+                            </button>
+                        </li>
+                        <div style="display: inherit;">
     
                         </div>
                         <li class="item page-next">
@@ -349,6 +364,7 @@
                                 <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
                             </button>
                         </li>
+                    
                     </ul>
                 </div>
             </div>
@@ -463,9 +479,21 @@
     </footer>
     <!--  -->
     <!-- End Block Footer -->
-  
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.11.0.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"
+    ></script>
+    <script src="./assets/JS/Jquery/jquery.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <script src="./assets/JS/shared.js"></script>
+    <script src="./assets/JS/ViewAllBST.js"></script>
 </body>
-<script src="./assets/JS/Jquery/jquery.js"></script>
-<script src="./assets/JS/shared.js"></script>
-<script src="./assets/JS/ViewAllBST.js"></script>
+
 </html>

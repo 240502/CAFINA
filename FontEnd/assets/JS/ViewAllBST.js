@@ -3,6 +3,8 @@ const listLink =[... document.querySelectorAll(".link li")];
 let thisPage = 1;
 let pageSize = 8;
 
+const pagePrev = $(".page-prev");
+console.log(pagePrev)
 let isInclueObjectName = false;
 function Start(){
     handleGetAllProductByBSTName_ObjectName();
@@ -10,20 +12,31 @@ function Start(){
 Start();
 
 
+
 listLink.forEach(item=>{
     item.onclick = (e)=>{
         var linkitem =  e.target
         $("li.active").removeClass("active");
         linkitem.parentElement.classList.add("active");
-        var data = {
-            pageIndex : thisPage,
-            pageSize : pageSize,
-            bstName : "Thu đông 2023",
-            objectName: linkitem.textContent.trim()
-        };
-        isInclueObjectName =true;
-        GetAllProductByBSTName_ObjectName(data);
-        localStorage.setItem("ObjectName",JSON.stringify(linkitem.textContent.trim()));
+        if(linkitem.textContent.trim().toLowerCase() !=='tất cả'){
+            if(thisPage > 1){
+                thisPage = 1
+            }
+            var data = {
+                pageIndex : thisPage,
+                pageSize : pageSize,
+                bstName : "Thu đông 2023",
+                objectName: linkitem.textContent.trim()
+            };
+            GetAllProductByBSTName_ObjectName(data);
+            localStorage.setItem("ObjectName",JSON.stringify(linkitem.textContent.trim()));
+            isInclueObjectName =true;
+        }
+        else{
+            handleGetAllProductByBSTName_ObjectName();
+            isInclueObjectName = false;
+        }
+        
     }
 });
 
@@ -91,8 +104,28 @@ function renderListProduct(products){
     `
   });
   $(".block-hot-deal-listing .product-items").html(html.join(""))
+  btnPageNext.on("click",()=>{
+        if(thisPage === totalItems){
+
+        }
+        else{
+            thisPage = thisPage + 1;
+
+        }
+        changePage(thisPage);
+    });
 };
 
+btnPagePrev.on("click",()=>{
+    if(thisPage === 1){
+
+    }
+    else{
+        thisPage = thisPage - 1;
+
+    }
+    changePage(thisPage);
+});
 function changePage(index){
     thisPage = index;
     if(isSearchContent){
@@ -113,6 +146,12 @@ function changePage(index){
         GetAllProductByBSTName_ObjectName(data);
 
     }
-};
+    if(thisPage !=1){
+        $(".page-prev").toggleClass("active-button",true)
+    }
+    else{
+        $(".page-prev").toggleClass("active-button",false)
 
+    }
+};
 

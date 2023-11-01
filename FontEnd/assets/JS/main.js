@@ -7,7 +7,6 @@ const prevBtn = $("#prev");
 const ProductItems = $(".product-items");
 const blockBST = $(".block-bst");
 const viewAllBST = $(".block-product .viewall");
-const  subMenuImage = $(".sub-menu-image");
 const siteMain = $(".site-main");
 let thisPage =1;
 let pageSize = 10
@@ -29,34 +28,7 @@ function Start (){
  
 };
 Start();
-subMenuImage.slick({
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  infinite: true,
-  arrows: false,
-  draggable: false,
-  dots: true,
-  responsive: [
-    {
-      breakpoint: 1025,
-      settings: {
-        slidesToShow: 2,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        arrows: false,
-        infinite: false,
-      },
-    },
-  ],
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-});
+
 
 
 
@@ -243,6 +215,16 @@ function renderProductRecommended(Products){
     `
   })
   $(".block-new-product .products").html(html.join(''));
+  btnPageNext.on("click",()=>{
+    if(thisPage === countPage){
+
+    }
+    else{
+        thisPage = thisPage + 1;
+
+    }
+    changePage(thisPage);
+  });
 };
 
 function changePage(index){
@@ -253,9 +235,24 @@ function changePage(index){
   if(isSearchContent){
     handleSearchProduct(searchInputHeader.val());
   }
+  if(thisPage !=1){
+      $(".page-prev").toggleClass("active-button",true)
+  }
+  else{
+      $(".page-prev").toggleClass("active-button",false)
+  }
  
 };
+btnPagePrev.on("click",()=>{
+  if(thisPage === 1){
 
+  }
+  else{
+      thisPage = thisPage - 1;
+
+  }
+  changePage(thisPage);
+});
   
 $(".nam").slick({
     slidesToShow: 3,

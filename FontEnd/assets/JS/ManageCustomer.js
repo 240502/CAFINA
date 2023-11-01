@@ -11,6 +11,8 @@ const urlApiCreateUser = "https://localhost:7284/api-admin/User/Create_User";
 const urlApiGetListUser ="https://localhost:7284/api-admin/User/Get_List";
 const urlApiDeleteUser = "https://localhost:7284/api-admin/User/Delete_User";
 const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User";
+const  subMenuImage = $(".sub-menu-image");
+
 let thisPage = 1;
 let pageSize = 10;
 let isCreate = true;
@@ -30,7 +32,34 @@ function handleTextSaveBtn(){
 hanleNavManager();
 handlegetListUs();
 handleTextSaveBtn();
-
+subMenuImage.slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    infinite: true,
+    arrows: false,
+    draggable: false,
+    dots: true,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          infinite: false,
+        },
+      },
+    ],
+    // autoplay: true,
+    // autoplaySpeed: 1000,
+  });
 function changePage(index){
     thisPage = index;
     handlegetListUs();
