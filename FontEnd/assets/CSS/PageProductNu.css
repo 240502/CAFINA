@@ -891,6 +891,7 @@ body{
     line-height: 24px;
     background-color: #da291c;
     color: #fff;
+    border: none;
 
 }
 .product-item .product-item-name a{

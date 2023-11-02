@@ -93,14 +93,20 @@ namespace API_Cafina_Customer.Controllers
         }
 
         [Route("Recommend")]
-        [HttpGet]
-        public IActionResult GetRecommend( int pageIndex)
+        [HttpPost]
+        public IActionResult GetRecommend([FromBody] Dictionary<string,object>formData)
         {
             try
             {
+                int pageIndex = 0;
+                string gender = "";
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                if (formData.Keys.Contains("gender") && !string.IsNullOrEmpty(formData["gender"].ToString()))
+                    gender = (formData["gender"].ToString());
                 int pageSize = 8;
                 int total = 0;
-                List<ProductModel> list = proBus.GetRecommend(pageIndex,pageSize,out total);
+                List<ProductModel> list = proBus.GetRecommend(pageIndex,pageSize,out total, gender);
                 return list!=null? Ok(new { Page = pageIndex, PageSize = pageSize, TotalItems = total,Data = list}) : NotFound();
 
 
@@ -153,6 +159,35 @@ namespace API_Cafina_Customer.Controllers
                 throw new Exception(ex.Message);
             }
 
+        }
+
+        [Route("GetProductByCateName")]
+        [HttpGet]
+        public IActionResult GetProductByCateName(string cateName)
+        {
+            try
+            {
+                List<ProductModel> list = proBus.GetProductByCateName(cateName);
+                return list != null ? Ok(list) : NotFound(); 
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("GetProductByCateDetailName")]
+        [HttpGet]
+        public IActionResult GetProductByCateDetailName(string cateDetailName)
+        {
+            try
+            {
+                List<ProductModel> list = proBus.GetProductByCateDetailName(cateDetailName);
+                return list != null ? Ok(list) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

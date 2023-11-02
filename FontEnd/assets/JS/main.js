@@ -171,7 +171,11 @@ function handleGetProductRecommended(){
   GetProductRecommended(data);
 };
 function GetProductRecommended(data){
-  $.get(urlApiGetRecommended,data)
+  $.post({
+    url : urlApiGetRecommended,
+    data : JSON.stringify(data),
+    contentType : 'application/json'
+  })
   .done(res=>renderProductRecommended(res));
 };
 function renderProductRecommended(Products){

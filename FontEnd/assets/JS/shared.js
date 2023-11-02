@@ -601,6 +601,7 @@ const handleGetGalery = async (products)=>{
           ListGalery.push(response)
           localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
    }
+
 };
 function GetLinkImgBSTHome(id){
   let link = ""
