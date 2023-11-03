@@ -68,9 +68,9 @@ function renderListProduct(products){
     var html = products["data"].map(product=>{
 
         return `
-        <div class="product-item col-4">
+        <div class="product-item col-4" onclick = setProductId(${product["productId"]})>
                         <div class="item__image">
-                            <a href="#">
+                            <a href="./ChiTietSanPham.html">
                                 <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
                             <div class="product-item-button-tocart">

@@ -76,12 +76,11 @@ namespace API_Cafina_Customer.Controllers
                 if(formData.Keys.Contains("page") && int.TryParse(formData["page"].ToString(), out int num1))
                     page = num1;
                 int pageSize = 0;
-                if(formData.Keys.Contains("pageSize") && int.TryParse(formData["pageSize"].ToString(),out int num2))
-                    pageSize = num2;
+                if(formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                    pageSize = int.Parse(formData["pageSize"].ToString());
                 string productName = string.Empty;
                 if(formData.Keys.Contains("ProductName") && !string.IsNullOrEmpty(formData["ProductName"].ToString()))
                     productName = formData["ProductName"].ToString();
-              
                 long total = 0;
                 Product_List =  proBus.Search(page,pageSize,out total,productName);
                 return Product_List != null ? Ok(new { Page = page, pageSize = pageSize, TotalItems = total, Data = Product_List }) : NotFound();
@@ -104,7 +103,9 @@ namespace API_Cafina_Customer.Controllers
                     pageIndex = int.Parse(formData["pageIndex"].ToString());
                 if (formData.Keys.Contains("gender") && !string.IsNullOrEmpty(formData["gender"].ToString()))
                     gender = (formData["gender"].ToString());
-                int pageSize = 8;
+                int pageSize = 0;
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                    pageSize = int.Parse(formData["pageSize"].ToString());
                 int total = 0;
                 List<ProductModel> list = proBus.GetRecommend(pageIndex,pageSize,out total, gender);
                 return list!=null? Ok(new { Page = pageIndex, PageSize = pageSize, TotalItems = total,Data = list}) : NotFound();

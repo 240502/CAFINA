@@ -4,8 +4,9 @@ const productItemSlide = $(".block-product .product-items");
 const urlApiGetProductByCateName = "https://localhost:7284/api-customer/Product/GetProductByCateName";
 const urlApiGetProductByCateDetailName = "https://localhost:7284/api-customer/Product/GetProductByCateDetailName";
 const urlApiGetRecommended = "https://localhost:7284/api-customer/Product/Recommend";
+
 let thisPage =1;
-let pageSize = 10
+let pageSize = 12;
 categoryItemsSlide.slick({
     slidesToShow: 7,
     slidesToScroll: 7,
@@ -75,13 +76,12 @@ async function GetProductByCateDetailName(){
 
 
 function renderBlockProduct(products,index) {
-  console.log(index)
     var html =products.map(product=>{
       return`
-        <div class="product-item col-3">
+        <div class="product-item col-3" data-id = ${product["productId"]} >
           <div class="item__image">
-              <a href="#">
-                  <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
+              <a href="./ChiTietSanPham.html" >
+                  <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" onclick = setProductId(${product["productId"]}) alt="">
               </a>
               <div class="product-item-button-tocart">
                   <span>Thêm nhanh vào giỏ</span>
@@ -100,7 +100,7 @@ function renderBlockProduct(products,index) {
               </div>
               <h3 class="product-item-name">
 
-                  <a href="#">
+                  <a href="./ChiTietSanPham.html" onclick = setProductId(${product["productId"]})>
 
                        ${product["title"]}
 
@@ -151,7 +151,8 @@ function renderBlockProduct(products,index) {
 function handleGetProductRecommended(){
   var data = {
     pageIndex: thisPage,
-    gender:"Nữ"
+    gender:"Nữ",
+    pageSize
   }
   GetProductRecommended(data);
 };
@@ -162,18 +163,17 @@ function GetProductRecommended(data){
     contentType : 'application/json'
   })
   .done(res=> {renderProductRecommended(res)
-    console.log(res);
   });
 };
 function renderProductRecommended(Products){
-  const countPage = Math.ceil(Products["totalItems"]/8)
+  const countPage = Math.ceil(Products["totalItems"]/pageSize)
   renderListPage(countPage);
   var html = Products["data"].map(product =>{
     return `
-    <div class="product-item col-4">
+    <div class="product-item col-4" data-id = ${product["productId"]} >
                         <div class="item__image">
-                            <a href="#">
-                                <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
+                            <a href="./ChiTietSanPham.html" >
+                                <img onclick = setProductId(${product["productId"]}) src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
                             <div class="product-item-button-tocart">
                                 <span>Thêm nhanh vào giỏ</span>
@@ -192,7 +192,7 @@ function renderProductRecommended(Products){
                             </div>
                             <h3 class="product-item-name">
         
-                                <a href="#">
+                                <a href="./ChiTietSanPham.html" onclick = setProductId(${product["productId"]})>
                                     ${product["title"]}
                                 </a>
                             </h3>
@@ -218,5 +218,20 @@ function renderProductRecommended(Products){
   });
 };
 
+function changePage(index){
+  thisPage = index;
+  if(isMainContent){
+    handleGetProductRecommended();
 
+  }
+  if(isSearchContent){
+    handleSearchProduct(searchInputHeader.val());
+  }
+  if(thisPage !=1){
+      $(".page-prev").toggleClass("active-button",true)
+  }
+  else{
+      $(".page-prev").toggleClass("active-button",false)
+  }
+}
  

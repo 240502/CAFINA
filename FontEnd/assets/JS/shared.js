@@ -17,7 +17,6 @@ const btnPagePrev  = $("#btn-page-prev")
 const  subMenuImage = $(".sub-menu-image");
 
 
-
 let isSearchContent = false;
 let isMainContent = true;
 
@@ -118,7 +117,7 @@ function handleSearchProduct(productName){
   
   var data = {
     page: thisPage,
-    pageSize: 8,
+    pageSize: pageSize,
     ProductName : productName
   }
   SearchProduct(data)
@@ -238,7 +237,7 @@ function SearchProduct(data){
 
 function renderProductSearch(response) {
   var totalItems = response["totalItems"]
-  const countPage = Math.ceil(response["totalItems"]/8)
+  const countPage = Math.ceil(response["totalItems"]/pageSize);
   renderListPage(countPage);
   $(".site-main .total-items span").text(totalItems)
   var html = response["data"].map(product=>{
@@ -389,7 +388,6 @@ function renderListOrder(){
   else{
     stringTotalPrice =  totalprice.toString().slice(0,2)+"."+totalprice.toString().slice(2,5)
   }
-  console.log(totalprice)
   $(".totalPrice").html(stringTotalPrice+' đ')
 };
 
@@ -430,9 +428,6 @@ function httpPostAsyncCate(url,resolve,reject,data){
 function renderListPage(count){
     $(".list-page div").html("")
     var html = ""
-    console.log(count)
-    console.log(thisPage)
-
     if(count > 1){
       if(thisPage<count )
       {
@@ -453,11 +448,14 @@ function renderListPage(count){
         }
       }
       else{
-        for(var i=thisPage-2; i<=thisPage; i++){
-          html+= `
-            <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-          `
+        if(thisPage === count){
+          for(var i=thisPage-2; i<=thisPage; i++){
+            html+= `
+              <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+            `
+          }
         }
+       
       }
       $(".list-page div").html(html);
       $(".page-next").toggleClass("active-button",true)
@@ -615,3 +613,7 @@ function GetLinkImgBSTHome(id){
   return link;
 };
 
+
+function setProductId(productId){
+  localStorage.setItem("productId", JSON.stringify(productId));
+}
