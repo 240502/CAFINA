@@ -1,5 +1,5 @@
 
-const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetails";
+const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetails/Get_CateDetailsBycCateid_ObjectName";
 const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
 const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUsId"
 const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
@@ -616,4 +616,21 @@ function GetLinkImgBSTHome(id){
 
 function setProductId(productId){
   localStorage.setItem("productId", JSON.stringify(productId));
+
+}
+
+function handlePrice(price){
+  var result= ""
+  if(price.toString().length > 5 && price.toString().length <7) {
+    result =  price.toString().slice(0,3)+"."+price.toString().slice(3,6)
+  }
+  else if (price.toString().length >=7)
+  {
+
+    result =  price.toString().slice(0,1)+"."+price.toString().slice(1,4)+"."+price.toString().slice(4,7)
+  }
+  else{
+    result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)
+  }
+  return result
 }

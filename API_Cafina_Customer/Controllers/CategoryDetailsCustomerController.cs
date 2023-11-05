@@ -9,7 +9,7 @@ namespace API_Cafina_Customer.Controllers
     public class CategoryDetailsCustomerController : ControllerBase
     {
         CategoryDetailsBUS cateBUS = new CategoryDetailsBUS();
-        [Route("Get_CateDetails")]
+        [Route("Get_CateDetailsBycCateid_ObjectName")]
         [HttpPost]
         public IActionResult Get([FromBody]Dictionary<string,object> formData)
         {
@@ -25,6 +25,21 @@ namespace API_Cafina_Customer.Controllers
                 return list !=null ? Ok(list):NotFound();
 
             }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("GetCateDetailById")]
+        [HttpGet]
+        public IActionResult GetById(int id)
+       {
+            try
+            {
+                CategoryDetailsModel cadetail = cateBUS.GetById(id);
+                return cadetail !=null ? Ok(cadetail) : NotFound();
+
+            }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }

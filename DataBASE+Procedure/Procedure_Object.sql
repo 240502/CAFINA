@@ -1,3 +1,14 @@
+
+Use Cafina
+
+Create Proc GetObjectById
+	@id int
+As
+	Begin
+		Select * From [Object]
+		Where id = @id
+	End
+exec GetObjectById 2
 Create Proc GetObjectByName
 	@name nvarchar(50)
 as

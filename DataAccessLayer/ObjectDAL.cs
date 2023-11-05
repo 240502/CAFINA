@@ -62,14 +62,37 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+
+        public ObjectModel GetByID(int id)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("GetObjectById", "@id", id);
+                if (tb != null)
+                {
+                    ObjectModel model = new ObjectModel();
+                    model.id = int.Parse(tb.Rows[0]["id"].ToString());
+                    model.TenDoiTuong = tb.Rows[0]["TenDoiTuong"].ToString();
+                    list.Add(model);
+                    return model;
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public int Create(string obName)
         {
             try
             {
-                int reuslt = helper.ExcuteNonQuery("Pro_Create_Ob","@TenDoiTuong",obName);
+                int reuslt = helper.ExcuteNonQuery("Pro_Create_Ob", "@TenDoiTuong", obName);
                 return reuslt;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -93,7 +116,7 @@ namespace DataAccessLayer
         {
             try
             {
-                int reuslt = helper.ExcuteNonQuery("Pro_Update_Ob", "@id","@TenDoiTuong", ob.id,ob.TenDoiTuong);
+                int reuslt = helper.ExcuteNonQuery("Pro_Update_Ob", "@id", "@TenDoiTuong", ob.id, ob.TenDoiTuong);
                 return reuslt;
 
             }

@@ -104,5 +104,28 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+        public CategoryDetailsModel GetById(int id)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_GetCateDetailById", "@id", id);
+                if (tb != null)
+                {
+                    CategoryDetailsModel result = new CategoryDetailsModel();
+                    result.id = int.Parse(tb.Rows[0]["id"].ToString());
+                    result.DetailName = tb.Rows[0]["DetailName"].ToString();
+                    result.Object_id = int.Parse(tb.Rows[0]["Object_id"].ToString());
+                    result.CateId = int.Parse(tb.Rows[0]["CateId"].ToString());
+
+                    return result;
+                }
+                else return null;   
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

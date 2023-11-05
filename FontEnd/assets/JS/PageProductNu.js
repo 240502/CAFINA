@@ -108,7 +108,8 @@ function renderBlockProduct(products,index) {
               </h3>
               <div class="price-box">
                   <div class="normal-price"> ${
-                    product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                    handlePrice(product["price"])
+
                   }
                   đ</div>
               </div>
@@ -198,7 +199,8 @@ function renderProductRecommended(Products){
                             </h3>
                             <div class="price-box">
                                 <div class="normal-price">${
-                                  product["price"].toString().length>5 ? product["price"].toString().slice(0,3)+"."+product["price"].toString().slice(3,6): product["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                                  handlePrice(product["price"])
+
                                 } </div>
                             </div>
                         </div>

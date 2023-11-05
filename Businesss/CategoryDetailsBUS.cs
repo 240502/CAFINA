@@ -32,5 +32,10 @@ namespace Businesss
         {
             return cateDAL.Delete(id);
         }
+
+        public CategoryDetailsModel GetById(int id)
+        {
+            return cateDAL.GetById(id);
+        }
     }
 }

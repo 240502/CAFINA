@@ -315,6 +315,41 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+
+        public List<ProductModel> GetProductByObjectId_CateDtId (int objectId,int cateId,string productId)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_GetProductByCateDt_Object", "@catedtid", "@objectid","@productId",cateId,objectId,productId);
+                if (tb != null)
+                {
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ProductModel product = new ProductModel();
+                        product.ProductId = tb.Rows[i]["ProductId"].ToString();
+                        product.title = tb.Rows[i]["title"].ToString();
+                        product.price = int.Parse(tb.Rows[i]["price"].ToString());
+                        product.discount = int.Parse(tb.Rows[i]["discount"].ToString());
+                        product.description = tb.Rows[i]["description"].ToString();
+                        product.ChatLieu = tb.Rows[i]["ChatLieu"].ToString();
+                        product.HuongDanSuDung = tb.Rows[i]["HuongDanSuDung"].ToString();
+                        product.size = tb.Rows[i]["size"].ToString();
+                        product.color = tb.Rows[i]["color"].ToString();
+                        product.Object_id = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
+                        product.Bst_id = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
+                        product.CateDetailId = tb.Rows[i]["CateDt"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateDt"].ToString());
+                        product.Created = tb.Rows[i]["Created"] == DBNull.Value ? DateTime.MinValue : DateTime.Parse(tb.Rows[i]["Created"].ToString());
+                        ProductList.Add(product);
+                    }
+                    return ProductList;
+                }
+                return null;
+
+            }catch(Exception ex){
+                throw ex;
+            }
+        }
     }
 
 }

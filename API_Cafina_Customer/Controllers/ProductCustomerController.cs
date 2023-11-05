@@ -190,5 +190,20 @@ namespace API_Cafina_Customer.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+        [Route("GetProductByObjectId_CateDtId")]
+        [HttpGet]
+        public IActionResult GetProductByObjectId_CateDtId(int objectId, int cateDtId,string productId)
+        {
+            try
+            {
+                List<ProductModel> list = proBus.GetProductByObjectId_CateDtId(objectId,cateDtId,productId);
+                return list != null ? Ok(list) :NotFound();
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

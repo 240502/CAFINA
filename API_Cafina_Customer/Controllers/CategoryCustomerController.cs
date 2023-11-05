@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Businesss;
+using System.Security.Cryptography;
+
 namespace API_Cafina_Customer.Controllers
 {
 
@@ -34,6 +36,20 @@ namespace API_Cafina_Customer.Controllers
                 List<CategoryModel> list = cate.GetCateByObId(obId);
                 return list == null ? NotFound() : Ok(list);
             }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        [Route("GetCateById")]
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                CategoryModel cateModel = cate.Get(id);
+                return cateModel == null ? NotFound() : Ok(cateModel);
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

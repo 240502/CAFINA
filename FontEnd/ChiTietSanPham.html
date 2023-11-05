@@ -11,6 +11,19 @@
         type="text/css"
         href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
       />
+      <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <link rel="stylesheet" href="./assets/CSS/reset.css" />
     <link rel="stylesheet" href="./assets/CSS/shared.css">
     <link rel="stylesheet" href="./assets/CSS/ChiTietSanPham.css">
 </head>
@@ -283,76 +296,78 @@
         <div class="main-content container">
             <nav aria-label="breadcrumb" >
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="./index.html">Trang chủ</a></li>
-                  <li class="line"></li>
-                  <li class="breadcrumb-item active" aria-current="page">Nữ</li>
-                  <li class="line"></li>
-                  <li class="breadcrumb-item active" aria-current="page">Áo</li>
-                  <li class="line"></li>
-                  <li class="breadcrumb-item active" aria-current="page">Áo len</li>
-                  <li class="line"></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tên áo</li>
+                 
                 </ol>
             </nav>
             <div class="product-info">
-                <div class="product-media">
-                    <div class="img-display">
-                        <img src="./assets/Image/ImageProduct/1TL23W011_1.webp" alt="">
+             
+            </div>
+            <!--  -->
+            <!--Begin Block Service  -->
+            <div class="block-service">
+                <div class="container">
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service1.png" alt="">
+                        </div>
+                        <div class="content">
+                            <h3>Thanh toán khi nhận hàng (COD)</h3>
+                            <span>Giao hàng toàn quốc.</span>
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="product-detail">
-                    <h2 class="product-title">
-                        Áo sơ mi nam cotton flannel họa tiết kẻ
-                    </h2>
-                    <p class="productId"><span>
-                        Mã sp:
-                    </span> <span>dskjdsfkljds</span></p>
-                    <div class="product-price">
-                        <span class="discount">599.000 đ</span>
-                        <span class="normal-price">400.000 đ</span>
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service2.png" alt="">
+                        </div>
+                        <div class="content">
+                            <h3>Miễn phí giao hàng</h3>
+                            <span>Với đơn hàng trên 599.000đ.</span>
+                        </div>
                     </div>
-                    <div class="color" style="margin-bottom:5px">
-                        Màu sắc: <span>C0046</span>
-                    </div>
-                    <p>Kích cỡ:</p>
-                    <ul class="size">
-                        <li>S</li>
-                        <li>M</li>
-                        <li>L</li>
-                        <li>XL</li>
-                    </ul>
-                    <div class="group-btn">
-                        <button type="button" class="addtocart">Thêm vào giỏ</button>
-                        <button type="button" class="findatstore">Tìm tại cửa hàng</button>
-                    </div>
-                    <div class="des item active">
-                        <h4 class="title ">
-                           <span>Mô tả</span>
-                            <i class="fa-solid fa-minus" style="color: #000000;"></i>
-                        </h4>
-                        <p> 
-                            áo sơ mi nam
-                        </p>
-                    </div>
-                    <div class="chat-lieu item">
-                        <h4 class="title">
-                            <span>Chất liệu</span>
-                            <i class="fa-solid fa-plus" style="color: #000000;"></i>
-                        </h4>
-
-                        <p>100% nylon</p>
-                    </div>
-                    <div class="hd item">
-                        <h4 class="title">
-                            <span>Hướng dẫn sử dụng</span>
-                            <i class="fa-solid fa-plus" style="color: #000000;"></i>
-
-                        </h4>
-                        <p style="display: none;"> Không có</p>
+                    <div class="item">
+                        <div class="icon">
+                        <img src="https://media.canifa.com/Simiconnector/Service/s/e/service3.png" alt="">
+                        </div>
+                        <div class="content">
+                            <h3>Đổi trả miễn phí</h3>
+                            <span>Trong 30 ngày kể tử ngày mua.</span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!--  -->
+            <!--End Block Service  -->
+            
+            <!--  -->
+            <!--  -->
+            <!--Begin Block  New Product  -->
+            <div class="block-new-product">
+                <div class="block-heading">
+                    <h2>Gợi ý cho bạn</h2>
+                  
+                </div>
+                <div class="block-content">
+                    <div class="products row">
+                    </div>
+                    <ul class="list-page">
+                        <li class="item page-prev">
+                            <button type="button" id="btn-page-prev" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>
+                            </button>
+                        </li>
+                        <div style="display: inherit; ">
+
+                        </div>
+                        <li class="item page-next">
+                            <button type="button" id="btn-page-next" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-right" style="color: #000000;"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--  -->
+            <!--End Block  New Product  -->
            
         </div>
 

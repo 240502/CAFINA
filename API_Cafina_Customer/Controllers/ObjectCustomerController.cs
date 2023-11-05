@@ -9,9 +9,9 @@ namespace API_Cafina_Customer.Controllers
     public class ObjectCustomerController : ControllerBase
     {
         ObjectBUS obBUS = new ObjectBUS();
-        [Route("Get_Object")]
+        [Route("Get_ObjectByName")]
         [HttpGet]
-        public IActionResult Get(string obName)
+        public IActionResult GetByName(string obName)
         {
             try
             {
@@ -22,6 +22,22 @@ namespace API_Cafina_Customer.Controllers
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        [Route("Get_ObjectById")]
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                ObjectModel ob = obBUS.GetByID(id);
+                return ob != null ? Ok(ob) : NotFound();
+
+            }catch(Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
+
         }
     }
 }

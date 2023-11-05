@@ -66,5 +66,10 @@ namespace Businesss
             return prodDal.GetProductByCateDetailName(cateDetailName);
         }
 
+        public List<ProductModel> GetProductByObjectId_CateDtId(int objectId,int cateDtId,string productId)
+        {
+            return prodDal.GetProductByObjectId_CateDtId(objectId,cateDtId,productId);
+        }
+
     }
 }

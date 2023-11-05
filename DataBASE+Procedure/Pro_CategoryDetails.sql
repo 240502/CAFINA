@@ -61,3 +61,11 @@ As
 		Where id = @id
 	End
 
+Alter Proc Pro_GetCateDetailById
+	@id int
+As
+	Begin
+		Select * From CategoryDetails Where id = @id
+	End
+Exec Pro_GetCateDetailById 26
+Select * From Product

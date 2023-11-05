@@ -16,6 +16,7 @@ As
 	End
 Exec Pro_GetCate_ByObId 
 
+exec Pro_Get_Cate_By_Id 5
 Create Procedure Pro_Get_Cate_By_Id
 	@id int
 As

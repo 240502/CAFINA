@@ -15,6 +15,11 @@ namespace Businesss
             return obDAL.Get(obName);
         }
 
+        public ObjectModel GetByID(int id)
+        {
+            return obDAL.GetByID(id);
+        }
+
         public List<ObjectModel> GetList()
         {
             return obDAL.GetList();
