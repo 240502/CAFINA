@@ -3,7 +3,7 @@ const urlApiGetCateDetails = "https://localhost:7284/api-customer/CategoryDetail
 const urlApiGetListCate = "https://localhost:7284/api-customer/Category/GetCate_ByObId";
 const urlApiGetOrder = "https://localhost:7284/api-customer/Order/Get_Order_ByUsId"
 const urlGetProductById = "https://localhost:7284/api-customer/Product/Get_ByID"
-const urlApiGetByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
+const urlApiGetGaleryByProductId ="https://localhost:7284/api-customer/Galery/GetByProductId";
 const urlApiSearchProduct = "https://localhost:7284/api-customer/Product/Search";
 const minicartClose = $(".minicart-close");
 const iconUserHeader =$(".header-account.header-icon");
@@ -278,7 +278,18 @@ function renderProductSearch(response) {
     `
   });
   $(".site-main .product-items").html(html)
-
+  document.querySelectorAll(".site-main .product-items .product-item .item__image a").forEach(item=>{
+    item.onclick= (e)=>{
+      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+      window.location="./ChiTietSanPham.html";
+    }
+    })
+    document.querySelectorAll(".site-main .product-items .product-item .product-item-name a").forEach(item=>{
+      item.onclick= (e)=>{
+        localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.dataset.id))
+        window.location="./ChiTietSanPham.html";
+      }
+   })
 };
 
 iconUserHeader.on("click",()=>{
@@ -304,7 +315,7 @@ function getProductById(productid){
 
 function getGalaryProductOrder(productid){
   ListGaleryOrder= [];
-    $.get(urlApiGetByProductId+"?productId="+productid)
+    $.get(urlApiGetGaleryByProductId+"?productId="+productid)
     .done(res=>{
       ListGaleryOrder.push(res)
       localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
@@ -376,6 +387,18 @@ function renderListOrder(){
   `
   })
   $(".minicart-items").html(html.join(''))
+  document.querySelectorAll(".minicart-items  .minicart-item-photo").forEach(item=>{
+    item.onclick= (e)=>{
+      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+      window.location="./ChiTietSanPham.html";
+    }
+    })
+    document.querySelectorAll(".minicart-items  .minicart-item-details a").forEach(item=>{
+      item.onclick= (e)=>{
+        localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.parentElement.dataset.id))
+        window.location="./ChiTietSanPham.html";
+      }
+   })
   var stringTotalPrice= ""
   if(totalprice.toString().length > 5 && totalprice.toString().length <7) {
     stringTotalPrice =  totalprice.toString().slice(0,3)+"."+totalprice.toString().slice(3,6)
@@ -592,7 +615,7 @@ const handleGetGalery = async (products)=>{
    let i = 0;
    while (i<data.length) {
        const promise = new Promise((resolve, reject) => {
-         httpGetAsync(urlApiGetByProductId,resolve,reject,data[i])
+         httpGetAsync(urlApiGetGaleryByProductId,resolve,reject,data[i])
        });
        var response = await promise;
           i+=1
@@ -614,10 +637,7 @@ function GetLinkImgBSTHome(id){
 };
 
 
-function setProductId(productId){
-  localStorage.setItem("productId", JSON.stringify(productId));
 
-}
 
 function handlePrice(price){
   var result= ""
@@ -633,4 +653,36 @@ function handlePrice(price){
     result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)
   }
   return result
+};
+
+async function getGalaryProductDetail(productId){
+  var data =   {productId:productId}
+  const promise = new Promise((resolve, reject) => {
+    httpGetAsync(urlApiGetGaleryByProductId,resolve,reject,data)
+  });
+  try{
+    var response = await promise;
+    console.log(response)
+    localStorage.setItem("GaleryProductDetail",JSON.stringify(response));
+  }
+  catch(err){
+    console.log("lỗi")
+    localStorage.setItem("GaleryProductDetail",JSON.stringify(null));
+  }
+  // if(response.statusCode === 200){
+
+  //   localStorage.setItem("GaleryProductDetail",JSON.stringify(response));
+  // }
+  // else{
+
+  //   console.log(response.status);
+  //   localStorage.setItem("GaleryProductDetail",JSON.stringify(null));
+  // }
+  
+};
+function getLinkThumbnailProductDetail()
+{
+  var thumbnail = "";
+  thumbnail= JSON.parse(localStorage.getItem("GaleryProductDetail"));
+  return thumbnail;
 }

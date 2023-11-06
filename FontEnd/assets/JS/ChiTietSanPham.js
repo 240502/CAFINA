@@ -7,17 +7,25 @@ const productId =JSON.parse(localStorage.getItem('productId'));
 
 function Start(){
     GetProduct();
-    renderBreadcrumb();
 }
 Start();
 function GetProduct(){
     $.get(urlApiGetProductById+'?id='+productId)
-    .done(res=>{
+    .done(async (res)=>{
+       try{
+            await getGalaryProductDetail(productId);
+            await GetObject(res["object_id"])
+            await GetCateDetailName(res["cateDetailId"])
+            await renderBreadcrumb(res["title"])
+            await renderProduct(res)
+            GetProductByObjectId_CateDtId(res["object_id"],res["cateDetailId"],res["productId"])
+       }catch(err){
         renderProduct(res)
         renderBreadcrumb(res["title"])
         GetCateDetailName(res["cateDetailId"])
         GetObject(res["object_id"])
         GetProductByObjectId_CateDtId(res["object_id"],res["cateDetailId"],res["productId"])
+       }
     })
     .fail(err=>{
         console.log(err.statusCode);
@@ -25,7 +33,10 @@ function GetProduct(){
 
 };
 
-
+function getThumbnail(){
+    const  thumbnail =  JSON.parse(localStorage.getItem("GaleryProductDetail")) !==null ? JSON.parse(localStorage.getItem("GaleryProductDetail")):null;
+    return thumbnail;
+}
 function GetCateDetailName(id){
     $.get(urlApiGetCateDetailsByID+"?id="+id)
     .done(res=>{
@@ -88,11 +99,13 @@ function  renderSize(listSize){
 
 
 function renderProduct(product){
-    var listSize = [...product["size"].replaceAll(",","")]
+    var listSize =product["size"].replaceAll(","," ").split(" ")
+    
+    let thumbnail =  getLinkThumbnailProductDetail()
     var html = `
     <div class="product-media">
         <div class="img-display">
-            <img src="${JSON.parse(localStorage.getItem("productImage")) ==null? GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):"":JSON.parse(localStorage.getItem("productImage"))}" alt="">
+            <img src="${ thumbnail!==null ? thumbnail["thumbnail"]:"" }" alt="">
         </div>
     
         </div>
@@ -107,7 +120,7 @@ function renderProduct(product){
             <span class="discount" style = "display: ${product["discount"]==0? "none":"block"}">${
                 handlePrice(product["discount"])
             } đ</span>
-            <span class="normal-price" style="color:${product["discount"]==0? "#000":"da291c"},text-decoration:${product["discount"]==0? "none":"line-through"}">${
+            <span class="normal-price" style="color:${product["discount"]==0? "#000":"#da291c"};text-decoration:${product["discount"]==0? "none":"line-through"}">${
                 handlePrice(product["price"])
             } đ</span>
         </div>
@@ -207,15 +220,18 @@ function renderProduct(product){
 
 
 function GetProductByObjectId_CateDtId(obid,catedtid,productId){
-    console.log(catedtid,obid)
     $.get(urlApiGetProductRecommend+"?objectId="+obid+"&"+"cateDtId="+catedtid+"&"+"productId="+productId)
-    
     .done( async(res)=>{
-        await handleGetGalery(res);
-        await renderProductRecommend(res)
+        try{
+            await handleGetGalery(res);
+             renderProductRecommend(res)
+        }catch(e){
+            renderProductRecommend(res)
+        }    
     })
     .fail(err=>{
-        console.log(err)
+        console.log(err.status)
+
     })
 }
 
@@ -225,7 +241,7 @@ function renderProductRecommend(products){
         return `
         <div class="product-item col-4" data-id = ${product["productId"]} >
             <div class="item__image">
-                <a href="#"  onclick = setProductId(${product["productId"]})>
+                <a href="#">
                     <img  src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                 </a>
                 <div class="product-item-button-tocart">
@@ -245,7 +261,7 @@ function renderProductRecommend(products){
                 </div>
                 <h3 class="product-item-name">
 
-                    <a href="#" onclick = setProductId(${product["productId"]})>
+                    <a href="#">
                         ${product["title"]}
                     </a>
                 </h3>
@@ -259,6 +275,18 @@ function renderProductRecommend(products){
         `
     })
     $(".products").html(html.join(""))
+    document.querySelectorAll(".product-item .item__image a").forEach(item=>{
+        item.onclick= (e)=>{
+          localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+          window.location="./ChiTietSanPham.html";
+        }
+        })
+        document.querySelectorAll(".product-item .product-item-name a").forEach(item=>{
+          item.onclick= (e)=>{
+            localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.dataset.id))
+            window.location="./ChiTietSanPham.html";
+          }
+       })
     if(products.length<4){
 
     }else{

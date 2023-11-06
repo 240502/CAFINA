@@ -54,9 +54,9 @@ function GetAllProductByBSTName_ObjectName(data) {
         data :JSON.stringify(data),
         contentType :"application/json"
     })
-    .done(res=>{
-        renderListProduct(res)
-        handleGetGalery(res["data"]);
+    .done(async( res)=>{
+        await handleGetGalery(res["data"]);
+        await renderListProduct(res)
     })
     .fail(err=>{
         console.log(err.statusCode);
@@ -68,9 +68,9 @@ function renderListProduct(products){
     var html = products["data"].map(product=>{
 
         return `
-        <div class="product-item col-4" onclick = setProductId(${product["productId"]})>
+        <div class="product-item col-4" data-id = ${product["productId"]}>
                         <div class="item__image">
-                            <a href="./ChiTietSanPham.html">
+                            <a href="#">
                                 <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
                             <div class="product-item-button-tocart">
@@ -104,6 +104,18 @@ function renderListProduct(products){
     `
   });
   $(".block-hot-deal-listing .product-items").html(html.join(""))
+  document.querySelectorAll(".block-hot-deal-listing .product-item .item__image a").forEach(item=>{
+    item.onclick= (e)=>{
+      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+      window.location="./ChiTietSanPham.html";
+    }
+    })
+    document.querySelectorAll(".block-hot-deal-listing .product-item .product-item-name a").forEach(item=>{
+      item.onclick= (e)=>{
+        localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.dataset.id))
+        window.location="./ChiTietSanPham.html";
+      }
+   })
   btnPageNext.on("click",()=>{
         if(thisPage === totalItems){
 

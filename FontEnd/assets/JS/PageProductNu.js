@@ -80,8 +80,8 @@ function renderBlockProduct(products,index) {
       return`
         <div class="product-item col-3" data-id = ${product["productId"]} >
           <div class="item__image">
-              <a href="./ChiTietSanPham.html" >
-                  <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" onclick = setProductId(${product["productId"]}) alt="">
+              <a href="#" >
+                  <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
               </a>
               <div class="product-item-button-tocart">
                   <span>Thêm nhanh vào giỏ</span>
@@ -100,7 +100,7 @@ function renderBlockProduct(products,index) {
               </div>
               <h3 class="product-item-name">
 
-                  <a href="./ChiTietSanPham.html" onclick = setProductId(${product["productId"]})>
+                  <a href="#">
 
                        ${product["title"]}
 
@@ -118,6 +118,19 @@ function renderBlockProduct(products,index) {
       `
     });
     productItemSlide[index].innerHTML = html.join("");
+    document.querySelectorAll(`.${productItemSlide[index].classList[1]} .product-item .item__image a`).forEach(item=>{
+      item.onclick= (e)=>{
+        localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+        window.location="./ChiTietSanPham.html";
+      }
+      })
+      document.querySelectorAll(`.${productItemSlide[index].classList[1]} .product-item .product-item-name a`).forEach(item=>{
+        item.onclick= (e)=>{
+
+          localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.dataset.id))
+          window.location="./ChiTietSanPham.html";
+        }
+     })
     $(`.${productItemSlide[index].classList[1]}`).slick({
       slidesToShow: 3,
       slidesToScroll: 1,
@@ -173,8 +186,8 @@ function renderProductRecommended(Products){
     return `
     <div class="product-item col-4" data-id = ${product["productId"]} >
                         <div class="item__image">
-                            <a href="./ChiTietSanPham.html" >
-                                <img onclick = setProductId(${product["productId"]}) src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
+                            <a href="#" >
+                                <img  src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
                             <div class="product-item-button-tocart">
                                 <span>Thêm nhanh vào giỏ</span>
@@ -193,7 +206,7 @@ function renderProductRecommended(Products){
                             </div>
                             <h3 class="product-item-name">
         
-                                <a href="./ChiTietSanPham.html" onclick = setProductId(${product["productId"]})>
+                                <a href="#">
                                     ${product["title"]}
                                 </a>
                             </h3>
@@ -208,6 +221,19 @@ function renderProductRecommended(Products){
     `
   })
   $(".block-new-product .products").html(html.join(''));
+  document.querySelectorAll(`.block-new-product .product-item .item__image a`).forEach(item=>{
+    item.onclick= (e)=>{
+      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+      window.location="./ChiTietSanPham.html";
+    }
+    })
+    document.querySelectorAll(`.block-new-product container .product-item .product-item-name a`).forEach(item=>{
+      item.onclick= (e)=>{
+
+        localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.dataset.id))
+        window.location="./ChiTietSanPham.html";
+      }
+   })
   btnPageNext.on("click",()=>{
     if(thisPage === countPage){
 
@@ -219,7 +245,16 @@ function renderProductRecommended(Products){
     changePage(thisPage);
   });
 };
+btnPagePrev.on("click",()=>{
+  if(thisPage === 1){
 
+  }
+  else{
+      thisPage = thisPage - 1;
+
+  }
+  changePage(thisPage);
+});
 function changePage(index){
   thisPage = index;
   if(isMainContent){
@@ -236,4 +271,5 @@ function changePage(index){
       $(".page-prev").toggleClass("active-button",false)
   }
 }
+
  
