@@ -217,7 +217,14 @@ function getListOrder(){
 };
 
 function handleProduct(data){
-  $(".count").html(data["totalItems"])
+  if(data["totalItems"]>0){
+    $(".count").html(data["totalItems"])
+
+  }
+  else {
+    $(".count").html("")
+
+  }
   var html = data["data"].forEach(item=>{
     getProductById(item["productId"])
     
@@ -333,7 +340,7 @@ function getLinkProductOrder(productid){
 };
 
 function renderListOrder(){
-  var listOrder = JSON.parse(localStorage.getItem("listorder"))
+  const listOrder = JSON.parse(localStorage.getItem("listorder"))
   var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
   var totalprice = 0;
   var html =listProductOrder.map((item,index)=>{
@@ -371,13 +378,13 @@ function renderListOrder(){
                    <div class="minicart-item-price">
                        <div class="normal-price">
                        ${
-                        item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+product["price"].toString().slice(2,5)
+                        item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+item["price"].toString().slice(2,5)
                        }
                        đ </div>
                    </div>
                    <div class="minicart-item-qty">
                        <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
-                       <span class="amount">${listOrder[0][index]["amount"]}</span>
+                       <span class="amount">${listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:""}</span>
                        <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
                    </div>
                </div>

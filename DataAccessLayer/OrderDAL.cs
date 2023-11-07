@@ -68,8 +68,8 @@ namespace DataAccessLayer
             {
                 var result = helper.ExcuteNonQuery(
                     "Pro_Create_Order",
-                    "@user_id", "@fullName", "@email", "@phone_number", "@address", "@note", "@order_date", "@status", "@list_json_order_detail",
-                    order.User_Id, order.FullName, order.email, order.phone_number, order.address, order.note, order.order_Date, order.status, order.order_Details != null ? MessageConvert.SerializeObject(order.order_Details) : null
+                    "@user_id", "@fullName", "@email", "@phone_number", "@address", "@note", "@status", "@list_json_order_detail",
+                    order.User_Id, order.FullName, order.email, order.phone_number, order.address, order.note, order.status, order.order_Details != null ? MessageConvert.SerializeObject(order.order_Details) : null
 
                 );
 
