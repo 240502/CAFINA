@@ -23,7 +23,7 @@ namespace Businesss
             var result = orderDAL.CreateOrder(order);
             return result;
         }
-        public int DeleteOrder(string orderId)
+        public int DeleteOrder(int orderId)
         {
             var result = orderDAL.DeleteOrder(orderId);
             return result;

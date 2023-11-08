@@ -19,10 +19,11 @@ namespace DataAccessLayer
                 DataTable tb = helper.ExcuteReader("GetOrderByUsId", "@usid", usid);
                 if (tb != null)
                 {
-                        List<Order_Details> list = new List<Order_Details>();
+                     List<Order_Details> list = new List<Order_Details>();
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         Order_Details order_Details = new Order_Details();
+                        order_Details.OrderId = int.Parse(tb.Rows[i]["id"].ToString());
                         order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
                         order_Details.price = int.Parse(tb.Rows[i]["Price"].ToString());
                         order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());

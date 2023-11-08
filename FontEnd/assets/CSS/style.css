@@ -157,7 +157,7 @@ height: 500px;
     align-items: center;
 }
 .colors .color__option{
-    margin: 0 8px 10px 0;
+    margin-right: 8px;
     padding: 2px;
     background-image: url("https://media.canifa.com/attribute/swatch/images/sw001.png");
     width: 24px;

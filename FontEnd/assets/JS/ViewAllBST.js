@@ -73,7 +73,7 @@ function renderListProduct(products){
                             <a href="#">
                                 <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
-                            <div class="product-item-button-tocart">
+                            <div class="product-item-button-tocart" onclick=handleCreateOrder(${"'"+(product["productId"])+"'"},${product["discount"]!=0?product["discount"]:product["price"]})>
                                 <span>Thêm nhanh vào giỏ</span>
                             </div>    
                         </div>

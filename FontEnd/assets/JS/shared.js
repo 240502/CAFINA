@@ -75,6 +75,9 @@ async function Run (){
       ActiveMainContent();
       HiddeSiteMain();
       await getListOrder();
+      orders = JSON.parse(localStorage.getItem("listorderdetail"));
+      totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
+      await getProductById(orders,totalItems);
       await renderListOrder();
    
     }
@@ -203,33 +206,32 @@ minicartClose.on("click",()=>{
   CloseMinicart();
 });
 
-function getListOrder(){
+ async function getListOrder(){
   listorder = []
-  $.get(urlApiGetOrder+'?usid='+infoUsLocal["user_id"])
-  .done(res=>{
-    handleProduct(res);
-    listorder.push(res["data"]);
-    localStorage.setItem("listorder",JSON.stringify(listorder))
-  })
-  .fail(err=>{
-    alert(err.statusText);
-  })
-};
-
-function handleProduct(data){
-  if(data["totalItems"]>0){
-    $(".count").html(data["totalItems"])
-
-  }
-  else {
-    $(".count").html("")
-
-  }
-  var html = data["data"].forEach(item=>{
-    getProductById(item["productId"])
+  // $.get(urlApiGetOrder+'?usid='+infoUsLocal["user_id"])
+  // .done(res=>{
+  //   handleProduct(res);
+  //   listorder.push(res["data"]);
+  //   localStorage.setItem("listorder",JSON.stringify(listorder))
     
-  })
+  // })
+  // .fail(err=>{
+  //   alert(err.statusText);
+  // })
+
+  var data = {
+    usid:infoUsLocal["user_id"]
+  }
+  const promise = new Promise((resolve, reject) => {
+    httpGetAsync(urlApiGetOrder,resolve,reject,data)
+  });
+  var response = await promise;
+  listorder.push(response["data"])
+  localStorage.setItem("listorderdetail",JSON.stringify(listorder));
+  localStorage.setItem("totalItemsOrder",JSON.stringify(response["totalItems"]));
+
 };
+
 
 function SearchProduct(data){
   $.post({
@@ -311,24 +313,46 @@ iconUserHeader.on("click",()=>{
   }
 });
 
-function getProductById(productid){
+async function getProductById(orders,totalItems){
+  if(totalItems>0){
+    $(".count").html(totalItems)
+
+  }
+  else {
+    $(".count").html("")
+
+  }
+  var data =  orders[0].map(item=>{
+    return {id:item["productId"]}
+  });
   listproductOrder = [];
-  $.get(urlGetProductById+"?id="+productid)
-  .done(res=>{
-    listproductOrder.push(res)
+  let i = 0;
+  while (i < data.length) {
+    const promise = new Promise((resolve, reject) => {
+      httpGetAsync(urlGetProductById,resolve,reject,data[i])
+    });
+    var response = await promise;
+    i+=1;
+    listproductOrder.push(response);
     localStorage.setItem("ListProductOrder",JSON.stringify(listproductOrder));
-  })
+  }
 };
 
-function getGalaryProductOrder(productid){
+async function getGalaryProductOrder(products){
   ListGaleryOrder= [];
-    $.get(urlApiGetGaleryByProductId+"?productId="+productid)
-    .done(res=>{
-      ListGaleryOrder.push(res)
-      localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
-    })
-    .fail(err=>{
-    })
+  var data =  products.map(product=>{
+    return {productId:product["productId"]}
+  })
+  let i = 0;
+  while (i<data.length) {
+      const promise = new Promise((resolve, reject) => {
+        httpGetAsync(urlApiGetGaleryByProductId,resolve,reject,data[i])
+      });
+      var response = await promise;
+         i+=1
+         ListGalery.push(response)
+         localStorage.setItem("galaryProductOrder",JSON.stringify(ListGalery));
+  }
 };
 
 function getLinkProductOrder(productid){
@@ -339,13 +363,13 @@ function getLinkProductOrder(productid){
   return  typeof link === "undefined" ? "" : link["thumbnail"]
 };
 
-function renderListOrder(){
-  const listOrder = JSON.parse(localStorage.getItem("listorder"))
+async function renderListOrder(){
+  const listOrder = JSON.parse(localStorage.getItem("listorderdetail"))
   var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
   var totalprice = 0;
+  await getGalaryProductOrder(listProductOrder);
   var html =listProductOrder.map((item,index)=>{
     totalprice += item["price"]
-    getGalaryProductOrder(item["productId"])
     return `
         <li class="minicart-item" data-id = ${item["productId"]}>
           <div class="mini-cart-info">
@@ -353,7 +377,7 @@ function renderListOrder(){
                <a href="#">
                    <img src="${getLinkProductOrder(item["productId"])}" alt="">
                </a>
-               <button class="minicart-item-remove"></button>
+               <button class="minicart-item-remove" onclick=handleRemoveProductOrder(${"'"+(item["productId"])+"'"})></button>
 
            </div>
            <div class="minicart-item-details">
@@ -371,7 +395,7 @@ function renderListOrder(){
                        </div>
                    </div>
                    <div class="minicart-item-option">
-                       L
+                       <span>L</span>
                    </div>
                </div>
                <div class="minicart-item-bottom">
@@ -383,9 +407,9 @@ function renderListOrder(){
                        đ </div>
                    </div>
                    <div class="minicart-item-qty">
-                       <button class="btn btnMinus"><i class="fa-solid fa-minus"></i></button>
+                       <button class="btn btnMinus" onclick=handleReduceAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-minus"></i></button>
                        <span class="amount">${listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:""}</span>
-                       <button class="btn btnPlus"><i class="fa-solid fa-plus"></i></button>
+                       <button class="btn btnPlus" onclick=handleIncreaseAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-plus"></i></button>
                    </div>
                </div>
            </div>
@@ -394,9 +418,9 @@ function renderListOrder(){
   `
   })
   $(".minicart-items").html(html.join(''))
-  document.querySelectorAll(".minicart-items  .minicart-item-photo").forEach(item=>{
+  document.querySelectorAll(".minicart-items  .minicart-item-photo img").forEach(item=>{
     item.onclick= (e)=>{
-      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.dataset.id))
+      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.parentElement.dataset.id))
       window.location="./ChiTietSanPham.html";
     }
     })
@@ -692,4 +716,68 @@ function getLinkThumbnailProductDetail()
   var thumbnail = "";
   thumbnail= JSON.parse(localStorage.getItem("GaleryProductDetail"));
   return thumbnail;
+}
+
+
+function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+  const main = document.getElementById("toast");
+  if (main) {
+    const toast = document.createElement("div");
+
+    // Auto remove toast
+    const autoRemoveId = setTimeout(function () {
+      main.removeChild(toast);
+    }, duration + 1000);
+
+    // Remove toast when clicked
+    toast.onclick = function (e) {
+      if (e.target.closest(".toast__close")) {
+        main.removeChild(toast);
+        clearTimeout(autoRemoveId);
+      }
+    };
+
+    const icons = {
+      success: "fas fa-check-circle",
+      info: "fas fa-info-circle",
+      warning: "fas fa-exclamation-circle",
+      error: "fas fa-exclamation-circle"
+    };
+    const icon = icons[type];
+    const delay = (duration / 1000).toFixed(2);
+
+    toast.classList.add("toast", `toast--${type}`);
+    toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+
+    toast.innerHTML = `
+                    <div class="toast__icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+    main.appendChild(toast);
+  }
+};
+function showSuccessToast(message) {
+  toast({
+    title: "Thành công!",
+    message: message,
+    type: "success",
+    duration: 5000
+  });
+}
+
+function showErrorToast(message) {
+  toast({
+    title: "Thất bại!",
+    message: message,
+    type: "error",
+    duration: 5000
+  });
 }

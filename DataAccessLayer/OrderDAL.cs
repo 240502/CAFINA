@@ -82,7 +82,7 @@ namespace DataAccessLayer
 
 
         }
-        public int DeleteOrder(string orderId)
+        public int DeleteOrder(int orderId)
         {
             try
             {

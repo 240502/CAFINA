@@ -8,9 +8,11 @@ namespace Model
 {
     public class Order_Details
     {
+        public int OrderId { get;set; }
         public int Od_id { get; set; }
         public string ProductId { get; set; } 
         public int Amount { get; set; }
         public int price { get; set; }
+        public int status { get; set; }
     }
 }

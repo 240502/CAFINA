@@ -31,7 +31,7 @@ namespace API_Cafina.Controllers
         }
         [Route("Delete_Order")]
         [HttpDelete]
-        public IActionResult DeleteOrder(string orderId)
+        public IActionResult DeleteOrder(int orderId)
         {
             var result = orderBus.DeleteOrder(orderId);
             return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
