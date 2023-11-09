@@ -46,6 +46,7 @@ namespace DataAccessLayer
                         detail.ProductId = tb.Rows[i]["ProductId"].ToString();
                         detail.price = int.Parse(tb.Rows[i]["Price"].ToString());
                         detail.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
+                        detail.size = tb.Rows[i]["size"] == DBNull.Value ? "" : tb.Rows[i]["size"].ToString();
                         order.order_Details.Add(detail);
 
                     }
@@ -152,6 +153,7 @@ namespace DataAccessLayer
                         order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
                         order_Details.price = int.Parse(tb.Rows[i]["price"].ToString());
                         order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
+                        order_Details.size = tb.Rows[i]["size"] == DBNull.Value ? "" : tb.Rows[i]["size"].ToString();
                         order.order_Details.Add(order_Details);
                         listOrder.Add(order);
                     }
@@ -198,6 +200,8 @@ namespace DataAccessLayer
                         order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
                         order_Details.price = int.Parse(tb.Rows[i]["price"].ToString());
                         order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
+                        order_Details.size = tb.Rows[i]["size"] == DBNull.Value ? "" : tb.Rows[i]["size"].ToString();
+
                         order.order_Details.Add(order_Details);
                         listOrder.Add(order);
                     }

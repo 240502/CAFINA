@@ -14,5 +14,6 @@ namespace Model
         public int Amount { get; set; }
         public int price { get; set; }
         public int status { get; set; }
+        public string size { get; set; }
     }
 }

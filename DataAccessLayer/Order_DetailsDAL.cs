@@ -23,11 +23,12 @@ namespace DataAccessLayer
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         Order_Details order_Details = new Order_Details();
-                        order_Details.OrderId = int.Parse(tb.Rows[i]["id"].ToString());
+                        order_Details.OrderId = int.Parse(tb.Rows[i]["OrderId"].ToString());
                         order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
                         order_Details.price = int.Parse(tb.Rows[i]["Price"].ToString());
                         order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
                         order_Details.Od_id = int.Parse(tb.Rows[i]["Od_id"].ToString());
+                        order_Details.size = tb.Rows[i]["size"] ==DBNull.Value ? "": tb.Rows[i]["size"].ToString();
                         list.Add(order_Details);
 
                     }

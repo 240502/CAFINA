@@ -65,7 +65,9 @@ function GetAllProductByBSTName_ObjectName(data) {
 function renderListProduct(products){
     var totalItems = Math.ceil(products["totalItems"]/pageSize)
     renderListPage(totalItems)
+    
     var html = products["data"].map(product=>{
+        var listSize =product["size"].replaceAll(","," ").split(" ");
 
         return `
         <div class="product-item col-4" data-id = ${product["productId"]}>
@@ -73,8 +75,11 @@ function renderListProduct(products){
                             <a href="#">
                                 <img src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                             </a>
-                            <div class="product-item-button-tocart" onclick=handleCreateOrder(${"'"+(product["productId"])+"'"},${product["discount"]!=0?product["discount"]:product["price"]})>
-                                <span>Thêm nhanh vào giỏ</span>
+                            <div class="product-item-button-tocart" onclick=activeListSize()>
+                                <div>Thêm nhanh vào giỏ</div>
+                                <ul class="list-size">
+                                    ${renderListSize(listSize,product).join("")}
+                              </ul>
                             </div>    
                         </div>
                         <div class="item__details">

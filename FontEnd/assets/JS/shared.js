@@ -74,7 +74,7 @@ async function Run (){
       hanleNavManager();
       ActiveMainContent();
       HiddeSiteMain();
-      await getListOrder();
+      await getListOrderDetail();
       orders = JSON.parse(localStorage.getItem("listorderdetail"));
       totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
       await getProductById(orders,totalItems);
@@ -206,19 +206,8 @@ minicartClose.on("click",()=>{
   CloseMinicart();
 });
 
- async function getListOrder(){
+ async function getListOrderDetail(){
   listorder = []
-  // $.get(urlApiGetOrder+'?usid='+infoUsLocal["user_id"])
-  // .done(res=>{
-  //   handleProduct(res);
-  //   listorder.push(res["data"]);
-  //   localStorage.setItem("listorder",JSON.stringify(listorder))
-    
-  // })
-  // .fail(err=>{
-  //   alert(err.statusText);
-  // })
-
   var data = {
     usid:infoUsLocal["user_id"]
   }
@@ -368,8 +357,12 @@ async function renderListOrder(){
   var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
   var totalprice = 0;
   await getGalaryProductOrder(listProductOrder);
+ 
   var html =listProductOrder.map((item,index)=>{
-    totalprice += item["price"]
+    if(listOrder[0].length !==0){
+
+      totalprice += (item["price"] * listOrder[0][index]["amount"])
+    }
     return `
         <li class="minicart-item" data-id = ${item["productId"]}>
           <div class="mini-cart-info">
@@ -395,7 +388,7 @@ async function renderListOrder(){
                        </div>
                    </div>
                    <div class="minicart-item-option">
-                       <span>L</span>
+                       <span>${listOrder[0].length !==0?  listOrder[0][index]["size"]:""}</span>
                    </div>
                </div>
                <div class="minicart-item-bottom">
@@ -408,7 +401,7 @@ async function renderListOrder(){
                    </div>
                    <div class="minicart-item-qty">
                        <button class="btn btnMinus" onclick=handleReduceAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-minus"></i></button>
-                       <span class="amount">${listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:""}</span>
+                       <span class="amount">${listOrder[0].length !==0 ? listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:"":""}</span>
                        <button class="btn btnPlus" onclick=handleIncreaseAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-plus"></i></button>
                    </div>
                </div>
@@ -417,32 +410,39 @@ async function renderListOrder(){
         </li>
   `
   })
-  $(".minicart-items").html(html.join(''))
-  document.querySelectorAll(".minicart-items  .minicart-item-photo img").forEach(item=>{
-    item.onclick= (e)=>{
-      localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.parentElement.dataset.id))
-      window.location="./ChiTietSanPham.html";
-    }
-    })
-    document.querySelectorAll(".minicart-items  .minicart-item-details a").forEach(item=>{
+  if(listOrder[0].length>0){
+    $(".minicart-items").html(html.join(''))
+    document.querySelectorAll(".minicart-items  .minicart-item-photo img").forEach(item=>{
       item.onclick= (e)=>{
         localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.parentElement.dataset.id))
         window.location="./ChiTietSanPham.html";
       }
-   })
-  var stringTotalPrice= ""
-  if(totalprice.toString().length > 5 && totalprice.toString().length <7) {
-    stringTotalPrice =  totalprice.toString().slice(0,3)+"."+totalprice.toString().slice(3,6)
-  }
-  else if (totalprice.toString().length >=7)
-  {
-
-      stringTotalPrice =  totalprice.toString().slice(0,1)+"."+totalprice.toString().slice(1,4)+"."+totalprice.toString().slice(4,7)
+      })
+      document.querySelectorAll(".minicart-items  .minicart-item-details a").forEach(item=>{
+        item.onclick= (e)=>{
+          localStorage.setItem("productId",JSON.stringify(item.parentElement.parentElement.parentElement.parentElement.dataset.id))
+          window.location="./ChiTietSanPham.html";
+        }
+     })
+    var stringTotalPrice= ""
+    if(totalprice.toString().length > 5 && totalprice.toString().length <7) {
+      stringTotalPrice =  totalprice.toString().slice(0,3)+"."+totalprice.toString().slice(3,6)
+    }
+    else if (totalprice.toString().length >=7)
+    {
+  
+        stringTotalPrice =  totalprice.toString().slice(0,1)+"."+totalprice.toString().slice(1,4)+"."+totalprice.toString().slice(4,7)
+    }
+    else{
+      stringTotalPrice =  totalprice.toString().slice(0,2)+"."+totalprice.toString().slice(2,5)
+    }
+    $(".totalPrice").html(stringTotalPrice+' đ')
   }
   else{
-    stringTotalPrice =  totalprice.toString().slice(0,2)+"."+totalprice.toString().slice(2,5)
+    $(".minicart-items").html("")
+    $(".totalPrice").html('0đ')
   }
-  $(".totalPrice").html(stringTotalPrice+' đ')
+  
 };
 
 function httpGetCateAsync(url,resolve,reject,data) {
@@ -479,6 +479,8 @@ function httpPostAsyncCate(url,resolve,reject,data){
   });
 
 };
+
+
 function renderListPage(count){
     $(".list-page div").html("")
     var html = ""
@@ -780,4 +782,22 @@ function showErrorToast(message) {
     type: "error",
     duration: 5000
   });
+};
+
+function activeListSize(){
+  [...document.querySelectorAll(".product-item-button-tocart")].forEach(item=>{
+        item.onclick = ()=>{
+            item.classList.add("active");
+        }
+        item.onmouseleave = ()=>{
+            item.classList.remove("active");
+        }
+    });
+}
+
+function renderListSize(listsize,product){
+  var result = listsize.map(size => {
+    return `<li onclick=handleCreateOrder(${"'"+size+"'"},${"'"+(product["productId"])+"'"},${product["discount"]!=0?product["discount"]:product["price"]})>${size}</li>`;
+  });
+  return result;
 }

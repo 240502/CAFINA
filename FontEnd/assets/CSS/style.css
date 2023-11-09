@@ -540,12 +540,14 @@ height: 500px;
     font-size: 12px;
     line-height: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     visibility: hidden;
     opacity: 0;
-    transition: all .5s linear;
+    transition: all .3s linear;
 }
+
 .product-item:hover .product-item-button-tocart{
     opacity: 1;
     visibility: visible !important;

@@ -238,14 +238,19 @@ function GetProductByObjectId_CateDtId(obid,catedtid,productId){
 
 function renderProductRecommend(products){
    var html = products.map(product=>{
+        var listSize =product["size"].replaceAll(","," ").split(" ");
+
         return `
         <div class="product-item col-4" data-id = ${product["productId"]} >
             <div class="item__image">
                 <a href="#">
                     <img  src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}" alt="">
                 </a>
-                <div class="product-item-button-tocart">
-                    <span>Thêm nhanh vào giỏ</span>
+                <div class="product-item-button-tocart" onclick=activeListSize()>
+                    <div>Thêm nhanh vào giỏ</div>
+                    <ul class="list-size">
+                        ${renderListSize(listSize,product).join("")}
+                  </ul>
                 </div>    
             </div>
             <div class="item__details">

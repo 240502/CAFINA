@@ -749,7 +749,6 @@ body{
     margin-left: auto;
     white-space: nowrap;
     cursor: pointer;
-    margin-right: 16px;
 }
 
 .viewall::after{
@@ -1048,3 +1047,44 @@ body{
     color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
   }
+
+
+
+/* ListSize */
+
+.list-size {
+    list-style: none;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: start;
+    flex-grow: 1;
+    display: none;
+    padding: 10px;
+
+}
+
+.list-size li{
+    width: 25%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin-right: 8px;
+    border: 1px solid #dddcdc;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.product-item-button-tocart.active .list-size{
+    display: flex !important;
+}
+.product-item .product-item-button-tocart.active{
+    height: 22%;
+
+}
+.product-item .product-item-button-tocart.active div{
+    flex-grow: 1;
+    margin-top:20px;
+}

@@ -36,6 +36,7 @@ function handleReduceAmount(productId){
                     productId:orderdetail["productId"],
                     amount:orderdetail["amount"]-1,
                     price:orderdetail["price"],
+                    size : orderdetail["size"],
                     status: 2
                 }
             ]
@@ -74,6 +75,7 @@ function handleIncreaseAmount(productId){
                 productId:orderdetail["productId"],
                 amount:orderdetail["amount"]+1,
                 price:orderdetail["price"],
+                size : orderdetail["size"],
                 status: 2
             }
         ]
@@ -99,13 +101,22 @@ function checkProductInOrder(productId){
     return Duplicate;
 }
 const infoUsOrder = JSON.parse(localStorage.getItem('InfoUsOrder'));
-function handleCreateOrder(productId,price){
-    isCreate = true;
-    isUpdate=false;
+function handleCreateOrder(size,productId,price){
+   
+    orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
+    var orderdetail = orderdetails[0].find(item=>{
+        return item["productId"] === productId
+    })
+    if(orderdetail!==undefined){
+        GetOrderById(orderdetail["orderId"])
+
+    }
+    const order = JSON.parse(localStorage.getItem("order"));
     const product = checkProductInOrder(productId);
     if(infoUsLocal!=null){
         if(infoUsOrder!=null){
-           if(product ===undefined){
+          if(size!==null){
+            if((product ===undefined) ||(product !==undefined && orderdetail["size"] !==size ) ){
                 const data = {
                     user_Id:infoUsOrder["id"],
                     fullName:infoUsOrder["fullName"],
@@ -119,20 +130,20 @@ function handleCreateOrder(productId,price){
                             productId:productId,
                             amount:1,
                             price:price,
+                            size : size
                         }
                     ]
                 }
-                CreateOrder(data)
-            } 
-            else{
-                orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
-                var orderdetail = orderdetails[0].find(item=>{
-                    return item["productId"] === productId
-                })
-                GetOrderById(orderdetail["orderId"])
-                const order = JSON.parse(localStorage.getItem("order"));
+                isCreate = true;
+                isUpdate=false;
+                CreateOrder(data);
+                console.log(data);
 
-                console.log(orderdetail);
+
+            } 
+            else if(product !== undefined && orderdetail["size"] ===size){
+                console.log(orderdetail["size"] ===size);
+
                 const data = {
                     id:order["id"],
                     user_Id:order["user_Id"],
@@ -145,17 +156,23 @@ function handleCreateOrder(productId,price){
                     status:order["status"],
                     order_Details:[
                         {
-                            orderId:orderdetail["id"],
+                            orderId:order["id"],
                             od_id:orderdetail["od_id"],
                             productId:orderdetail["productId"],
                             amount:orderdetail["amount"]+1,
                             price:orderdetail["price"],
+                            size :orderdetail["size"],
                             status: 2
                         }
                     ]
-                }
+                };
+                console.log(data);
+
+                isCreate = false;
+                isUpdate=true;
                 UpdateOrder(data);
-            }      
+            }
+          } 
         }
     }
     else{
@@ -181,9 +198,10 @@ function CreateOrder(data){
     })
     .done(async (res)=>{
         try{
-            await getListOrder();
+            await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
+            console.log(orders);
             await getProductById(orders,totalItems);
             renderListOrder();
             OpenMinicart();
@@ -213,7 +231,7 @@ function UpdateOrder(data){
     })
     .done(async (res)=>{
         try{
-            await getListOrder();
+            await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
             await getProductById(orders,totalItems);
@@ -256,13 +274,20 @@ function DeleteOrder(data){
     })
     .done(async (res)=>{
         try{
-            await getListOrder();
+            await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
+            
+            showSuccessToast("Xóa thành công");
             await getProductById(orders,totalItems);
             renderListOrder();
-            OpenMinicart();
-            showSuccessToast("Xóa thành công");
+            if(totalItems===0){
+                $(".container-minicart").removeClass("opened")
+            }
+            else{
+                OpenMinicart();
+
+            }
         }catch(e){
             renderListOrder();
             OpenMinicart();
