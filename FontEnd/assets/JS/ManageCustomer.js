@@ -1,4 +1,4 @@
-const inputNameUs =$(".opened #FullName");
+const inputNameCustomer =$(".opened #FullName");
 const inputPhoneNumberUs =$(".opened #Phone_Number");
 const inputEmailUs =$(".opened #email");
 const inputBirthdaylUs =$(".opened #birthday");
@@ -11,7 +11,6 @@ const urlApiCreateUser = "https://localhost:7284/api-admin/User/Create_User";
 const urlApiGetListUser ="https://localhost:7284/api-admin/User/Get_List";
 const urlApiDeleteUser = "https://localhost:7284/api-admin/User/Delete_User";
 const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User";
-const  subMenuImage = $(".sub-menu-image");
 
 let thisPage = 1;
 let pageSize = 10;
@@ -32,34 +31,7 @@ function handleTextSaveBtn(){
 hanleNavManager();
 handlegetListUs();
 handleTextSaveBtn();
-subMenuImage.slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    infinite: true,
-    arrows: false,
-    draggable: false,
-    dots: true,
-    responsive: [
-      {
-        breakpoint: 1025,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          arrows: false,
-          infinite: false,
-        },
-      },
-    ],
-    // autoplay: true,
-    // autoplaySpeed: 1000,
-  });
+
 function changePage(index){
     thisPage = index;
     handlegetListUs();
@@ -146,7 +118,7 @@ function renderListUs(data){
 };
 
 function clearDataCustomer(){
-    inputNameUs.val("");
+    inputNameCustomer.val("");
     inputPhoneNumberUs.val("");
     inputEmailUs.val("");
     inputBirthdaylUs.val("");
@@ -177,7 +149,7 @@ function handleCreateUser(){
     }
     else gender = checkBoxKhac.val();
     var data = {
-        fullName:inputNameUs.val(),
+        fullName:inputNameCustomer.val(),
         email:inputEmailUs.val(),
         phone_number:inputPhoneNumberUs.val(),
         birthday:inputBirthdaylUs.val(),
@@ -212,7 +184,7 @@ function fillToInput(usId){
        if( Number(item.dataset.id) == usId)
         return item;
     });
-    inputNameUs.val(tb_content.querySelector(".fullName").textContent.trim());
+    inputNameCustomer.val(tb_content.querySelector(".fullName").textContent.trim());
     inputPhoneNumberUs.val(tb_content.querySelector(".phone_number").textContent.trim());
     inputEmailUs.val(tb_content.querySelector(".email").textContent.trim());
     inputBirthdaylUs.val(tb_content.querySelector(".birthday").textContent.trim());
@@ -257,7 +229,7 @@ function handleUpdateUser(id){
     else gender = checkBoxKhac.val();
     var data = {
         id,
-        fullName: inputNameUs.val(),
+        fullName: inputNameCustomer.val(),
         email: inputEmailUs.val(),
         phone_number: inputPhoneNumberUs.val(),
         birthday:inputBirthdaylUs.val(),

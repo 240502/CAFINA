@@ -659,10 +659,11 @@ body{
     margin-left: 10px;
     cursor: pointer;
 }
-.price{
+ .minicart-bottom .price{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
+    margin-top: 5px;
 }
 .price h3,
 .price span {
@@ -815,6 +816,19 @@ body{
     color: #fff;
     border: none;
 
+    cursor: pointer;
+}
+.btnPay:hover{
+    opacity: 0.8;
+}
+.minicart-bottom .totalSale{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    color: #da291c;
+    display: block;
+    margin-top: 4px;
 }
 /* End Content */
 /*  */
@@ -1087,4 +1101,93 @@ body{
 .product-item .product-item-button-tocart.active div{
     flex-grow: 1;
     margin-top:20px;
+}
+
+
+/* Modal cofirm delete */
+#modal-confirm-delete{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999999;
+    display: none;
+    padding: 40px;
+    background-color: rgba(51,63,72,.25);
+}
+.modal-confirm-content
+{
+    width: 312px;
+    padding: 52px 16px 20px;
+    border-radius: 8px;
+    margin: auto;
+    max-width: 100%;
+    z-index: 11;
+    background-color: #fff;
+    position: relative;
+    transition: all linear 0.3s;
+    animation: topinto 0.3s linear ;
+}
+
+.modal-confirm-content .modal-confirm-title{
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0;
+    margin-bottom: 32px;
+}
+.modal-confirm-content .modal-confirm-close{
+    position: absolute;
+    font-size:20px;
+    cursor: pointer;
+    top: 20px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+}
+.modal-confirm-content .modal-confirm-action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-confirm-content .modal-confirm-action .btn{
+    border: none;
+    background-color: #fff;
+    text-align: center;
+    width: 50%-8px;
+    flex-grow: 1;
+    padding: 13px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.modal-confirm-content .modal-confirm-action .btn:hover{
+    opacity: 0.8;
+}
+.modal-confirm-content .modal-confirm-action .btnNo{
+    margin-right: 8px;
+    background-color: #fff;
+    border: 1px solid #e6e7e8;
+    color: #333f48;
+}
+.modal-confirm-content .modal-confirm-action .btnYes{
+    background-color: #da291c;
+    border: 1px solid #da291c;
+    color: #fff;
+}
+
+#modal-confirm-delete.opened{
+    display: flex;
+}
+
+@keyframes topinto {
+    from {
+        opacity: 0;
+        transform: translateY(calc(-100%));
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
 }

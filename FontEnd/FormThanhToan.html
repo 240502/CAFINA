@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0-web/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <link rel="stylesheet" href="./assets/CSS/reset.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+    <link rel="stylesheet" href="./assets/CSS/shared.css">
+    <link rel="stylesheet" href="./assets/CSS/FormThanhToan.css" />
+    <title>Checkout</title>
+</head>
+<body>
+       <!--  -->
+    <!--Begin Block Header  -->
+    <header class="top-header">
+        <div class="top-header-container">
+            <div class="header-logo">
+                <a href="./index.html"><img src="https://canifa.com/assets/images/logo.svg" alt=""></a>
+            </div>
+           <div class="header-button">
+                <a href="#">Tiếp tục mua sắm</a>
+           </div>
+        </div>
+    </header> 
+    <!--  -->
+    <!--End Block Header  -->
+    <!--  -->
+    <!-- Begin block main -->
+    <main id="site-main">
+        <div class="container">
+            <ul class="checkout-progress-bar">
+                <li class="checkout-progress-bar-item active">
+                    <span class="step">1</span>
+                    <span>Giỏ hàng</span>
+                </li>
+                <li class="line"></li>
+                <li class="checkout-progress-bar-item current">
+                    <span class="step">2</span>
+                    <span>Đặt hàng</span>
+                </li>
+                <li class="line"></li>
+
+                <li class="checkout-progress-bar-item">
+                    <span class="step">3</span>
+                    <span>Hoàn tất</span>
+                </li>
+            </ul>
+            <div class="checkout-container">
+                <div class="checkout-container-left">
+                    <div class="checkout-step checkout-form">
+                        <div class="checkout-form-title">
+                            <i class="fa-solid fa-location-dot" style="color: #000000;"></i>
+                            <h2>Thông tin giao hàng</h2>
+                        </div>
+                        <div class="checkout-form-content">
+                            <div class="form-group">
+                                <label for="">Họ tên</label>
+                                <input type="text" name="fullName" id="fullName">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Số điện thoại</label>
+                                <input type="text" name="phoneNumber" id="phoneNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tỉnh / Thành phố</label>
+                                <input type="text" name="city" id="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Quận / Huyện</label>
+                                <input type="text" name="district" id="district">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Phường / Xã</label>
+                                <input type="text" name="commune" id="commune">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Nhập địa chỉ</label>
+                                <input type="text" name="address" id="address">
+                            </div>
+                            <div class="form-group form-address-type">
+                                <label for="">Loại địa chỉ</label>
+                                <div class="control">
+                                    <button type="button" class="active">Công ty</button>
+                                    <button type="button">Nhà riêng</button>
+
+                                   
+
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout-step checkout-payment-method">
+                        <div class="checkout-form-title">
+                            <i class="fa-solid fa-wallet" style="color: #000000;"></i>
+                            <h2>Phương thức thanh toán</h2>
+                        </div>
+                        <div class="checkout-form-content">
+                            <div class="checkout-payment-method-section">
+                                <div class="control">
+                                    <button type="button" class="active">
+                                        <img src="https://canifa.com/assets/images/cod.svg" alt="">
+                                       <span>
+                                        Thanh toán khi nhận hàng (COD)
+                                       </span>
+                                    </button>
+
+                                </div>
+                                <div class="control">
+                                    <button type="button" class="">
+                                        <img src="https://canifa.com/assets/images/vnpay.svg" alt="">
+                                       <span> Thanh toán bằng VNPAY</span>
+                                    </button>
+
+                                </div>
+                                <div class="control">
+                                    <button type="button" class="">
+                                        <img src="https://canifa.com/assets/images/shopeepay.svg" alt="">
+                                        <span>Thanh toán bằng ShopeePay</span>
+                                    </button>
+
+                                </div>
+                            </div>
+                                
+                           
+                        </div>
+                    </div>
+
+                    <div class="checkout-step check-out-list-product">
+                        <div class="checkout-form-title">
+                            <i class="fa-solid fa-bag-shopping" style="color: #000000;"></i>
+                            <h2>Sản phẩm</h2>
+                        </div>
+                        <div class="checkout-step-content">
+                            <table class="checkout-cart-items">
+                               
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-container--right">
+                    <div class="checkout-step checkout-summary">
+                        <div>
+                            <div class="checkout-step-title">
+                                <h2>Chi tiết đơn hàng</h2>
+                            </div>
+                            <div class="checkout-totals">
+                                <table style="width:100%">
+                                    <tbody>
+                                       
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="grand-totals">
+                                         
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="checkout-proceed-checkout">
+                                <button class="btn-place-order">Thanh toán </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- End block main  -->
+    <!--  -->
+
+
+
+</body>
+
+<script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.11.0.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <script src="./assets/JS/shared.js"></script>
+    <script src="./assets/JS/FormThanhToan.js"></script>
+</html>

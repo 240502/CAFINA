@@ -15,8 +15,10 @@ const btnPageNext  = $("#btn-page-next")
 const btnPagePrev  = $("#btn-page-prev")
 
 const  subMenuImage = $(".sub-menu-image");
-
-
+const btnCloseModalConfirmDelete = $(".modal-confirm-close")
+const btnConfirmNo = $("#modal-confirm-delete .btnNo");
+const btnConfirmYes= $("#modal-confirm-delete .btnYes");
+const btnPayOrder = $(".btnPay");
 let isSearchContent = false;
 let isMainContent = true;
 
@@ -356,21 +358,23 @@ async function renderListOrder(){
   const listOrder = JSON.parse(localStorage.getItem("listorderdetail"))
   var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
   var totalprice = 0;
+  var totalSale = 0;
   await getGalaryProductOrder(listProductOrder);
  
   var html =listProductOrder.map((item,index)=>{
     if(listOrder[0].length !==0){
 
       totalprice += (item["price"] * listOrder[0][index]["amount"])
+      totalSale +=(item["discount"] * listOrder[0][index]["amount"])
     }
     return `
-        <li class="minicart-item" data-id = ${item["productId"]}>
+        <li class="minicart-item" data-id = ${listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""}>
           <div class="mini-cart-info">
            <div class="minicart-item-photo">
                <a href="#">
                    <img src="${getLinkProductOrder(item["productId"])}" alt="">
                </a>
-               <button class="minicart-item-remove" onclick=handleRemoveProductOrder(${"'"+(item["productId"])+"'"})></button>
+               <button class="minicart-item-remove" onclick=activeModalConfirm(${"'"+listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""+"'"})></button>
 
            </div>
            <div class="minicart-item-details">
@@ -424,7 +428,7 @@ async function renderListOrder(){
           window.location="./ChiTietSanPham.html";
         }
      })
-    var stringTotalPrice= ""
+    var stringTotalPrice= "";
     if(totalprice.toString().length > 5 && totalprice.toString().length <7) {
       stringTotalPrice =  totalprice.toString().slice(0,3)+"."+totalprice.toString().slice(3,6)
     }
@@ -437,6 +441,27 @@ async function renderListOrder(){
       stringTotalPrice =  totalprice.toString().slice(0,2)+"."+totalprice.toString().slice(2,5)
     }
     $(".totalPrice").html(stringTotalPrice+' đ')
+    var stringTotalSale = "";
+    if(totalSale.toString().length > 5 && totalprice.toString().length <7) {
+      stringTotalSale =  totalSale.toString().slice(0,3)+"."+totalSale.toString().slice(3,6)
+    }
+    else if (totalSale.toString().length >=7)
+    {
+  
+      stringTotalSale =  totalSale.toString().slice(0,1)+"."+totalSale.toString().slice(1,4)+"."+totalSale.toString().slice(4,7)
+    }
+    else{
+      stringTotalSale =  totalSale.toString().slice(0,2)+"."+totalSale.toString().slice(2,5)
+    }
+    if(Number(stringTotalSale)>0){
+
+      $(".totalSale").html("( Tiết kiệm "+stringTotalSale+' đ )')
+    }
+    else{
+      $(".totalSale").html("")
+
+    }
+
   }
   else{
     $(".minicart-items").html("")
@@ -522,9 +547,6 @@ function renderListPage(count){
       $(".page-prev").toggleClass("active-button",true)
     }
 };
-
-
-
 
 async function getCategory(){
   var data ={
@@ -670,8 +692,6 @@ function GetLinkImgBSTHome(id){
 };
 
 
-
-
 function handlePrice(price){
   var result= ""
   if(price.toString().length > 5 && price.toString().length <7) {
@@ -771,7 +791,7 @@ function showSuccessToast(message) {
     title: "Thành công!",
     message: message,
     type: "success",
-    duration: 5000
+    duration: 3000
   });
 }
 
@@ -780,24 +800,64 @@ function showErrorToast(message) {
     title: "Thất bại!",
     message: message,
     type: "error",
-    duration: 5000
+    duration: 3000
   });
 };
 
 function activeListSize(){
   [...document.querySelectorAll(".product-item-button-tocart")].forEach(item=>{
         item.onclick = ()=>{
-            item.classList.add("active");
+       
+          item.classList.add("active");
+
         }
         item.onmouseleave = ()=>{
             item.classList.remove("active");
         }
     });
-}
+};
 
 function renderListSize(listsize,product){
   var result = listsize.map(size => {
     return `<li onclick=handleCreateOrder(${"'"+size+"'"},${"'"+(product["productId"])+"'"},${product["discount"]!=0?product["discount"]:product["price"]})>${size}</li>`;
   });
   return result;
-}
+};
+
+
+function openModalCofirmDelete(){
+  $("#modal-confirm-delete").addClass("opened");
+};
+
+function closeModalCofirmDelete(){
+
+  $("#modal-confirm-delete").removeClass("opened");
+};
+
+btnCloseModalConfirmDelete.on('click', ()=>{
+  closeModalCofirmDelete();
+});
+
+
+
+$(".modal-confirm-content").on('click', (e)=>{
+  e.stopPropagation();
+});
+
+$("#modal-confirm-delete").on('click', ()=>{
+  closeModalCofirmDelete();
+});
+function activeModalConfirm(orderId){
+  openModalCofirmDelete();
+  btnConfirmNo.on('click', ()=>{
+    closeModalCofirmDelete();
+  });
+  btnConfirmYes.on('click', ()=>{
+    DeleteOrder(orderId);
+  });
+};
+
+btnPayOrder.on('click', ()=>{
+  console.log("oge")
+  window.location = "./FormThanhToan.html";
+});

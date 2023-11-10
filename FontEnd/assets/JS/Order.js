@@ -256,16 +256,6 @@ function UpdateOrder(data){
     })
 };
 
-function handleRemoveProductOrder(productId){
-    orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
-    var orderdetail = orderdetails[0].find(item=>{
-        return item["productId"] === productId
-    });
- 
-    DeleteOrder(orderdetail["orderId"]);
-   
-};
-
 function DeleteOrder(data){
     $.ajax({
         type: "DELETE",
@@ -277,7 +267,7 @@ function DeleteOrder(data){
             await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
-            
+            closeModalCofirmDelete();
             showSuccessToast("Xóa thành công");
             await getProductById(orders,totalItems);
             renderListOrder();
@@ -289,12 +279,14 @@ function DeleteOrder(data){
 
             }
         }catch(e){
+            closeModalCofirmDelete();
             renderListOrder();
             OpenMinicart();
         }
     })
     .fail(err=>{
         console.log(err.statusText);
+        closeModalCofirmDelete();
         showErrorToast("Có lỗi vui lòng thao tác lại sau 1p");
     })
 };

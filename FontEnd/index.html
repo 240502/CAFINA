@@ -279,7 +279,11 @@
                                 </div>
                                 <div class="price">
                                     <h3>  Tạm tính</h3>
+                                   <div>
                                     <span class="totalPrice"></span>
+                                    <span class="totalSale"></span>
+                                   </div>
+                                  
                                 </div>
                                 <button class="btnPay btn active "> Thanh toán</button>
                              </div>
@@ -858,7 +862,26 @@
     <!--  -->
     <!-- End Block Footer -->
     <div id="toast"></div>
-
+    <div id="modal-confirm-delete" class="">
+        <div class="modal-confirm-content">
+            <div class="modal-confirm-header">
+                <div class="modal-confirm-close">
+                    <i class="fa-solid fa-xmark" style="color: #000000;"></i>
+                </div>
+                <h4 class="modal-confirm-title">
+                    Bạn muốn xóa sản phẩm này khỏi 
+                    <br>
+                    giỏ hàng ?
+                </h4>
+            </div>
+            <div class="modal-confirm-action">
+                <button type="button" class="btn btnNo">
+                    Hủy
+                </button>
+                <button type="button" class="btn btnYes" >Đồng ý</button>
+            </div>
+        </div>
+    </div>
     <script
       type="text/javascript"
       src="https://code.jquery.com/jquery-1.11.0.min.js"
