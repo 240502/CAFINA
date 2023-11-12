@@ -55,6 +55,13 @@ create table Galery(
 	on delete cascade on update cascade,
 	thumbnail varchar(200)
 )
+create table [Status]
+(
+	id int identity primary key,
+	statusName nvarchar(100) not null
+)
+alter table [Order]
+add [status] int foreign key references [Status] on delete cascade on update cascade
 create table [Order](
 	id int identity primary key,
 	[user_id] int foreign key references Users(id)

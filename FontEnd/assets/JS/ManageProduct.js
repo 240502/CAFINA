@@ -11,17 +11,23 @@ const inputOb = $("#object");
 const inputCate = $("#Cate");
 const inputBst= $("#bst");
 const btnSaveOpen = $(".opened .btnSave");
-const urlGetListProduct = "https://localhost:7284/api-admin/Product/PhanTrang_DSProduct"
-const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST"
-const urlGetListObject = "https://localhost:7284/api-admin/Object/Get_List_Ob"
-const urlCreateProduct = "https://localhost:7284/api-admin/Product/Create_Product"
-const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDetails/GetList_CategoryDetails"
-const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Product"
-const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product"
+const urlGetListProduct = "https://localhost:7284/api-admin/Product/PhanTrang_DSProduct";
+const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST";
+const urlGetListObject = "https://localhost:7284/api-admin/Object/Get_List_Ob";
+const urlCreateProduct = "https://localhost:7284/api-admin/Product/Create_Product";
+const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDetails/GetList_CategoryDetails";
+const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Product";
+const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product";
 let thisPage =1;
 let pageSize =10;
 let isCreate = true;
 let isUpdate = false;
+
+
+var listObject  = JSON.parse(localStorage.getItem("listObjectProduct"));
+var listCateDetailsProduct = JSON.parse(localStorage.getItem("listCateDetailsProduct"));
+var listBSTProduct = JSON.parse(localStorage.getItem("listBSTProduct"));
+
 function Start(){
     GetListObject();
     GetListBST();
@@ -36,6 +42,12 @@ Start();
 function changePage(index){
     thisPage = index;
     handleGetListProduct();
+    if(thisPage !=1){
+        $(".page-prev").toggleClass("active-button",true)
+    }
+    else{
+        $(".page-prev").toggleClass("active-button",false)
+    }
 };
 
 
@@ -51,27 +63,11 @@ function handleTextSaveBtn(){
   }
 };
 
-function renderListPage(count){
-    $(".list-page div").html("")
-    var html = ""
-    if(count > 1){
-      for(var i=1; i<=count; i++){
-        html+= `
-        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-        `
-      }
-      $(".list-page div").html(html);
-      $(".page-next").toggleClass("active-next-button",true)
-    }
-    else{
-      $(".page-next").toggleClass("active-next-button",false)
-  
-    }
-};
 
 function getListCateDetails(){
     $.get(urlGetListCategoryDetails)
     .done(res=>{
+        localStorage.setItem("listCateDetailsProduct",JSON.stringify(res))
         renderListCateDetails(res)
     })
     .fail(err=>{
@@ -91,6 +87,7 @@ function renderListCateDetails(listcate){
 function GetListObject(){
     $.get(urlGetListObject)
     .done(res=>{
+        localStorage.setItem("listObjectProduct",JSON.stringify(res));
         renderListOb(res)
     })
 };
@@ -107,7 +104,8 @@ function renderListOb(Listob){
 function GetListBST(){
     $.get(urlGetListBST)
     .done(res=>{
-        renderListBST(res)
+        localStorage.setItem("listBSTProduct",JSON.stringify(res));
+        renderListBST(res);
     })
 };
 
@@ -139,10 +137,33 @@ function GetListProduct(data) {
     })
 };
 
+function GetObjectNameById(obid){
+    var ob = listObject.find(ob => {
+       return ob["id"] === obid;
+    });
+    return ob;
+};
+
+function GetBSTById(id){
+    var bst = listBSTProduct.find(bst => {
+       return bst["id"] === id;
+    });
+    return bst;
+};
+
+function GetCateDetailById(id){
+    var ct = listCateDetailsProduct.find(ct => {
+       return ct["id"] === id;
+    });
+    return ct;
+};
 function renderListProduct (data){
     var count = Math.ceil(data["totalItems"] / pageSize);
     renderListPage(count)
     var html = data["data"].map((product,index)=>{
+        var cateDetail =GetCateDetailById( product["cateDetailId"]);
+        var object = GetObjectNameById(product["object_id"]);
+        var bst = GetBSTById( product["bst_id"]);
         return `
         <tr class="tb-content" data-id = "${index}">
             <td class="productId" >
@@ -169,20 +190,20 @@ function renderListProduct (data){
             <td class="color">
                 ${product["color"]}
             </td>
-            <td class="cateId">
-                ${product["cateId"]}
+            <td class="cateId" data-id = ${ cateDetail!==undefined ?cateDetail["id"]:""} >
+                ${cateDetail!==undefined ?cateDetail["detailName"]:""}
             </td>
-            <td class="object_id">
-                ${product["object_id"]}
+            <td class="object_id" data-id = ${object!==undefined ?object["id"]:""} >
+                ${object!==undefined ?object["tenDoiTuong"]:""}
             </td>
-            <td class="bst_id">
-                ${product["bst_id"]}
+            <td class="bst_id" data-id = ${ bst!==undefined?bst["id"]:""} >
+                ${bst !==undefined ? bst["tenBST"]:"" }
             </td>   
             
             <td>
                  <div class="group-btn">
                      <div class="group-delete">
-                         <button type="button" class="btnDelete btn" onclick = "DeleteProduct(${"'"+(product["productId"])+"'"})">Xóa</button>
+                         <button type="button" class="btnDelete btn" onclick = "activeModalConfirm(${"'"+(product["productId"])+"'"})">Xóa</button>
                      </div>
 
                      <div class="group-update">
@@ -240,17 +261,17 @@ function fillToInput(index){
         return item;
 });
     btnSaveOpen.attr("data-id",tb_content.querySelector(".productId").textContent.trim())
-     inputProductId.val(tb_content.querySelector(".productId").textContent.trim());
-     inputTitle.val(tb_content.querySelector(".product_title").textContent.trim());
-     inputDes.val(tb_content.querySelector(".description").textContent.trim());
-     inputPrice.val(tb_content.querySelector(".price").textContent.trim());
-     inputChatLieu.val(tb_content.querySelector(".ChatLieu").textContent.trim());
-     inputHd.val(tb_content.querySelector(".Hdsd").textContent.trim());
-     inputSize.val(tb_content.querySelector(".size").textContent.trim());
-     inputColor.val(tb_content.querySelector(".color").textContent.trim());
-     inputOb.val(tb_content.querySelector(".object_id").textContent.trim());
-     inputCate.val(tb_content.querySelector(".cateId").textContent.trim());
-     inputBst.val(tb_content.querySelector(".bst_id").textContent.trim());
+    inputProductId.val(tb_content.querySelector(".productId").textContent.trim());
+    inputTitle.val(tb_content.querySelector(".product_title").textContent.trim());
+    inputDes.val(tb_content.querySelector(".description").textContent.trim());
+    inputPrice.val(tb_content.querySelector(".price").textContent.trim());
+    inputChatLieu.val(tb_content.querySelector(".ChatLieu").textContent.trim());
+    inputHd.val(tb_content.querySelector(".Hdsd").textContent.trim());
+    inputSize.val(tb_content.querySelector(".size").textContent.trim());
+    inputColor.val(tb_content.querySelector(".color").textContent.trim());
+    inputOb.val(tb_content.querySelector(".object_id").dataset.id);
+    inputCate.val(tb_content.querySelector(".cateId").dataset.id);
+    inputBst.val(tb_content.querySelector(".bst_id").dataset.id);
 };
 
 function clearDataProduct(){
@@ -291,7 +312,7 @@ function UpdateProduct(data){
         
     })
     .done(res=>{
-        alert(res);
+        showSuccessToast("Cập nhập thông tin sản phẩm thành công");
         handleGetListProduct();
         clearDataProduct();
         isCreate = true;
@@ -299,8 +320,19 @@ function UpdateProduct(data){
         handleTextSaveBtn();
     })
     .fail(err=>{
+        showErrorToast("Cập nhập thông tin sản phẩm không thành công");
         alert(err.statusText);
     })
+};
+
+function activeModalConfirm(id){
+    openModalCofirmDelete("Bạn chắc chắn muốn xóa sản phẩm này ?");
+    btnConfirmNo.on('click', ()=>{
+      closeModalCofirmDelete();
+    });
+    btnConfirmYes.on('click', ()=>{
+        DeleteProduct(id);
+    });
 };
 
 function DeleteProduct(id){
@@ -310,10 +342,11 @@ function DeleteProduct(id){
         type:"DELETE"
     })
     .done(res=>{
-        alert(res);
+        showSuccessToast("Xóa sản phẩm thành công");
         handleGetListProduct();
     })
     .fail(err=>{
+        showErrorToast("Xóa sản phẩm thất bại")
         alert(err.statusText);
     })
 };

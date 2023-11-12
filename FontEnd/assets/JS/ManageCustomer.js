@@ -35,22 +35,11 @@ handleTextSaveBtn();
 function changePage(index){
     thisPage = index;
     handlegetListUs();
-};
-function renderListPage(count){
-    $(".list-page div").html("")
-    var html = ""
-    if(count > 1){
-      for(var i=1; i<=count; i++){
-        html+= `
-        <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
-        `
-      }
-      $(".list-page div").html(html);
-      $(".page-next").toggleClass("active-next-button",true)
+    if(thisPage !=1){
+        $(".page-prev").toggleClass("active-button",true)
     }
     else{
-      $(".page-next").toggleClass("active-next-button",false)
-  
+        $(".page-prev").toggleClass("active-button",false)
     }
 };
 
@@ -103,7 +92,7 @@ function renderListUs(data){
             <td>
                  <div class="group-btn">
                      <div class="group-delete">
-                         <button type="button" class="btnDelete btn" onclick = "DeleteUs(${us["id"]})">Xóa</button>
+                         <button type="button" class="btnDelete btn" onclick = "activeModalConfirm(${us["id"]})">Xóa</button>
                      </div>
 
                      <div class="group-update">
@@ -193,12 +182,12 @@ function fillToInput(usId){
     if(tb_content.querySelector(".gender").textContent.trim() ==="Nam")
     {
         gender= tb_content.querySelector(".gender").textContent.trim() 
-      checkBoxNam.prop("checked",true);
+        checkBoxNam.prop("checked",true);
     }
     else if(tb_content.querySelector(".gender").textContent.trim() ==="Nữ")
     {
         gender= tb_content.querySelector(".gender").textContent.trim() 
-      checkBoxNu.prop ("checked", true);
+        checkBoxNu.prop ("checked", true);
     }
     else {
         checkBoxKhac.prop("checked", true);
@@ -206,15 +195,31 @@ function fillToInput(usId){
     }
    
 };
-    
+ 
+function activeModalConfirm(usid){
+    openModalCofirmDelete("Bạn chắc chắn muốn xóa người dùng này ?");
+    btnConfirmNo.on('click', ()=>{
+      closeModalCofirmDelete();
+    });
+    btnConfirmYes.on('click', ()=>{
+        DeleteUs(usid);
+    });
+};
+
+
 function DeleteUs(UserId){
     $.ajax({
         url: urlApiDeleteUser+'?usId='+UserId,
         type: 'DELETE',
     }).done(res=>{
-        alert(res)
+        showSuccessToast("Xóa thành công");
+        closeModalCofirmDelete();
+
         handlegetListUs();
         
+    })
+    .fail(err=>{
+        showErrorToast("Xóa thất bại")
     })
 };
 

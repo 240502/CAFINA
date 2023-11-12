@@ -42,6 +42,7 @@ namespace DataAccessLayer
                         order.note = tb.Rows[i]["note"].ToString();
                         order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
                         order.status = int.Parse(tb.Rows[i]["status"].ToString());
+                        detail.OrderId = int.Parse(tb.Rows[i]["OrderId"].ToString());
                         detail.Od_id = int.Parse(tb.Rows[i]["Od_id"].ToString());
                         detail.ProductId = tb.Rows[i]["ProductId"].ToString();
                         detail.price = int.Parse(tb.Rows[i]["Price"].ToString());

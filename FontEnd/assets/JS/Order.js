@@ -36,8 +36,7 @@ function handleReduceAmount(productId){
                     productId:orderdetail["productId"],
                     amount:orderdetail["amount"]-1,
                     price:orderdetail["price"],
-                    size : orderdetail["size"],
-                    status: 2
+                    size : orderdetail["size"]
                 }
             ]
         }
@@ -75,8 +74,7 @@ function handleIncreaseAmount(productId){
                 productId:orderdetail["productId"],
                 amount:orderdetail["amount"]+1,
                 price:orderdetail["price"],
-                size : orderdetail["size"],
-                status: 2
+                size : orderdetail["size"]
             }
         ]
     }
@@ -84,13 +82,16 @@ function handleIncreaseAmount(productId){
 };
 
 function GetUserByID(){
-    $.get(urlApiGetUsById+'?id='+infoUsLocal["user_id"])
-    .done(res=>{
-        localStorage.setItem('InfoUsOrder',JSON.stringify(res));
-    })
-    .fail(err=>{
-        console.log(err);
-    })
+    if(infoUsLocal!==null){
+        $.get(urlApiGetUsById+'?id='+infoUsLocal["user_id"])
+        .done(res=>{
+            localStorage.setItem('InfoUsOrder',JSON.stringify(res));
+        })
+        .fail(err=>{
+            console.log(err);
+        })
+    }
+   
 };
 GetUserByID();
 function checkProductInOrder(productId){
@@ -161,8 +162,7 @@ function handleCreateOrder(size,productId,price){
                             productId:orderdetail["productId"],
                             amount:orderdetail["amount"]+1,
                             price:orderdetail["price"],
-                            size :orderdetail["size"],
-                            status: 2
+                            size :orderdetail["size"]
                         }
                     ]
                 };
@@ -234,6 +234,7 @@ function UpdateOrder(data){
             await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
+            console.log(orders)
             await getProductById(orders,totalItems);
             renderListOrder();
             OpenMinicart();
@@ -255,6 +256,16 @@ function UpdateOrder(data){
         showErrorToast("Có lỗi vui lòng thao tác lại sau 1p");
     })
 };
+
+function activeModalConfirm(orderId){
+    openModalCofirmDelete("Bạn chắc chắn muốn xóa sản phẩm này ?");
+    btnConfirmNo.on('click', ()=>{
+      closeModalCofirmDelete();
+    });
+    btnConfirmYes.on('click', ()=>{
+      DeleteOrder(orderId);
+    });
+  };
 
 function DeleteOrder(data){
     $.ajax({

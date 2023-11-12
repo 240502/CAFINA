@@ -15,7 +15,6 @@ const btnPageNext  = $("#btn-page-next")
 const btnPagePrev  = $("#btn-page-prev")
 
 const  subMenuImage = $(".sub-menu-image");
-const btnCloseModalConfirmDelete = $(".modal-confirm-close")
 const btnConfirmNo = $("#modal-confirm-delete .btnNo");
 const btnConfirmYes= $("#modal-confirm-delete .btnYes");
 const btnPayOrder = $(".btnPay");
@@ -26,9 +25,10 @@ let isMainContent = true;
 const iconShopping = $(".shopping-cart")
 const logOut = $(".logout")
 logOut.on("click",()=>{
-  alert("bạn chắc chán muốn đăng xuất")
-  window.location = './index.html'
-  localStorage.setItem("login",null)
+  alert("Bạn chắc chán muốn đăng xuất")
+  window.location = './index.html';
+  ActiveMainContent();
+  localStorage.setItem("login",null);
 })
 const infoUsLocal = JSON.parse(localStorage.getItem("login"));
 
@@ -341,8 +341,8 @@ async function getGalaryProductOrder(products){
       });
       var response = await promise;
          i+=1
-         ListGalery.push(response)
-         localStorage.setItem("galaryProductOrder",JSON.stringify(ListGalery));
+         ListGaleryOrder.push(response)
+         localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
   }
 };
 
@@ -363,10 +363,10 @@ async function renderListOrder(){
  
   var html =listProductOrder.map((item,index)=>{
     if(listOrder[0].length !==0){
-
-      totalprice += (item["price"] * listOrder[0][index]["amount"])
-      totalSale +=(item["discount"] * listOrder[0][index]["amount"])
+      totalprice += ( item["discount"] == 0 ? item["price"] * listOrder[0][index]["amount"]:item["discount"] * listOrder[0][index]["amount"])
+      totalSale +=(item["discount"] != 0 ? (item["price"]-item["discount"]) * (listOrder[0][index]["amount"]):0)
     }
+    let pricePercent = 100 - Math.round((item["discount"]/item["price"]) *100);
     return `
         <li class="minicart-item" data-id = ${listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""}>
           <div class="mini-cart-info">
@@ -397,11 +397,16 @@ async function renderListOrder(){
                </div>
                <div class="minicart-item-bottom">
                    <div class="minicart-item-price">
-                       <div class="normal-price">
-                       ${
-                        item["price"].toString().length>5 ? item["price"].toString().slice(0,3)+"."+item["price"].toString().slice(3,6): item["price"].toString().slice(0,2)+"."+item["price"].toString().slice(2,5)
-                       }
-                       đ </div>
+                     <div class="normal-price">${
+                      item["discount"] > 0 ?handlePrice(item["discount"]):handlePrice(item["price"])
+                      } 
+                      </div>
+                      <div class="old-price">
+                        <span>${item["discount"] > 0 ?handlePrice(item["price"]):""} </span> 
+                        <span class = "price-percent">
+                            ${item["discount"] > 0 ? "- "+pricePercent +" %":""}
+                        </span>
+                      </div>
                    </div>
                    <div class="minicart-item-qty">
                        <button class="btn btnMinus" onclick=handleReduceAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-minus"></i></button>
@@ -413,7 +418,7 @@ async function renderListOrder(){
           </div>
         </li>
   `
-  })
+  });
   if(listOrder[0].length>0){
     $(".minicart-items").html(html.join(''))
     document.querySelectorAll(".minicart-items  .minicart-item-photo img").forEach(item=>{
@@ -428,34 +433,12 @@ async function renderListOrder(){
           window.location="./ChiTietSanPham.html";
         }
      })
-    var stringTotalPrice= "";
-    if(totalprice.toString().length > 5 && totalprice.toString().length <7) {
-      stringTotalPrice =  totalprice.toString().slice(0,3)+"."+totalprice.toString().slice(3,6)
-    }
-    else if (totalprice.toString().length >=7)
-    {
-  
-        stringTotalPrice =  totalprice.toString().slice(0,1)+"."+totalprice.toString().slice(1,4)+"."+totalprice.toString().slice(4,7)
-    }
-    else{
-      stringTotalPrice =  totalprice.toString().slice(0,2)+"."+totalprice.toString().slice(2,5)
-    }
-    $(".totalPrice").html(stringTotalPrice+' đ')
-    var stringTotalSale = "";
-    if(totalSale.toString().length > 5 && totalprice.toString().length <7) {
-      stringTotalSale =  totalSale.toString().slice(0,3)+"."+totalSale.toString().slice(3,6)
-    }
-    else if (totalSale.toString().length >=7)
-    {
-  
-      stringTotalSale =  totalSale.toString().slice(0,1)+"."+totalSale.toString().slice(1,4)+"."+totalSale.toString().slice(4,7)
-    }
-    else{
-      stringTotalSale =  totalSale.toString().slice(0,2)+"."+totalSale.toString().slice(2,5)
-    }
-    if(Number(stringTotalSale)>0){
 
-      $(".totalSale").html("( Tiết kiệm "+stringTotalSale+' đ )')
+    var priceFinally = totalprice ;
+    $(".totalPrice").html(handlePrice(priceFinally))
+    if(totalSale>0){
+
+      $(".totalSale").html("( Tiết kiệm "+handlePrice(totalSale)+ ')')
     }
     else{
       $(".totalSale").html("")
@@ -695,15 +678,15 @@ function GetLinkImgBSTHome(id){
 function handlePrice(price){
   var result= ""
   if(price.toString().length > 5 && price.toString().length <7) {
-    result =  price.toString().slice(0,3)+"."+price.toString().slice(3,6)
+    result =  price.toString().slice(0,3)+"."+price.toString().slice(3,6)+" đ"
   }
   else if (price.toString().length >=7)
   {
 
-    result =  price.toString().slice(0,1)+"."+price.toString().slice(1,4)+"."+price.toString().slice(4,7)
+    result =  price.toString().slice(0,1)+"."+price.toString().slice(1,4)+"."+price.toString().slice(4,7)+" đ"
   }
   else{
-    result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)
+    result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)+" đ"
   }
   return result
 };
@@ -804,6 +787,43 @@ function showErrorToast(message) {
   });
 };
 
+function modalConfirmDelete(title = ""){
+  let html = `
+  <div class="modal-confirm-header">
+    <h3>Thông báo</h3>
+    <div class="modal-confirm-close">
+        <i class="fa-solid fa-xmark" style="color: #000000;"></i>
+    </div>
+    <h4 class="modal-confirm-title">
+        ${title}
+    </h4>
+  </div>
+  <div class="modal-confirm-action">
+    <button type="button" class="btn btnNo">
+        Hủy
+    </button>
+    <button type="button" class="btn btnYes" >Đồng ý</button>
+  </div>
+  
+  ` 
+  $(".modal-confirm-content").html(html);
+  $(".modal-confirm-close").on('click', ()=>{
+    closeModalCofirmDelete();
+  });
+};
+
+function openModalCofirmDelete(title){
+  modalConfirmDelete(title);
+  $("#modal-confirm-delete").addClass("opened");
+};
+
+function closeModalCofirmDelete(){
+
+  $("#modal-confirm-delete").removeClass("opened");
+};
+
+
+
 function activeListSize(){
   [...document.querySelectorAll(".product-item-button-tocart")].forEach(item=>{
         item.onclick = ()=>{
@@ -825,18 +845,7 @@ function renderListSize(listsize,product){
 };
 
 
-function openModalCofirmDelete(){
-  $("#modal-confirm-delete").addClass("opened");
-};
 
-function closeModalCofirmDelete(){
-
-  $("#modal-confirm-delete").removeClass("opened");
-};
-
-btnCloseModalConfirmDelete.on('click', ()=>{
-  closeModalCofirmDelete();
-});
 
 
 
@@ -847,17 +856,8 @@ $(".modal-confirm-content").on('click', (e)=>{
 $("#modal-confirm-delete").on('click', ()=>{
   closeModalCofirmDelete();
 });
-function activeModalConfirm(orderId){
-  openModalCofirmDelete();
-  btnConfirmNo.on('click', ()=>{
-    closeModalCofirmDelete();
-  });
-  btnConfirmYes.on('click', ()=>{
-    DeleteOrder(orderId);
-  });
-};
+
 
 btnPayOrder.on('click', ()=>{
-  console.log("oge")
   window.location = "./FormThanhToan.html";
 });

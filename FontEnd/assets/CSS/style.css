@@ -198,6 +198,7 @@ height: 500px;
 }
 .product-item .price-box{
     display: flex;
+    flex-direction: column;
 }
 .product-item .price-box .normal-price{
     width: 100%;
@@ -206,7 +207,23 @@ height: 500px;
     line-height: 22px;
     display: block;
 }
-
+.price-box .old-price{
+}
+.old-price span:first-child {
+    text-decoration-line: line-through;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 6px;
+}
+.old-price span:last-child {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 6px;
+    margin-left: 8px;
+    color: #da291c;
+}
 
 #content .site-main{
     width: 100%;

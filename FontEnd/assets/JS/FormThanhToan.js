@@ -1,4 +1,7 @@
 const urpApiGetUserById = "https://localhost:7284/api-admin/User/Get_Us_By_Id";
+const urlApiGetOrderById = 'https://localhost:7284/api-admin/Order/Get_Order_ById';
+const urlApiUpdateOrder = 'https://localhost:7284/api-admin/Order/Update_Order';
+
 const inputFullName = $("#fullName");
 const inputPhoneNumber = $("#phoneNumber");
 const inputAddress = $("#address");
@@ -7,11 +10,21 @@ const listButtonPayMent = [...document.querySelectorAll(".checkout-payment-metho
 const Account = JSON.parse( localStorage.getItem("login"));
 const listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"));
 const listOrder = JSON.parse(localStorage.getItem("listorderdetail"));
+
 const btnPay = $(".btn-place-order")
 
 function Start(){
     GetUserById();
     renderListProductOrder(listProductOrder);
+};
+
+async function GetOrderById(id) {
+    var data = {id:id};
+    const promise = new Promise((resolve,reject) =>{
+        httpGetAsync(urlApiGetOrderById,resolve,reject,data)
+    })
+    const res = await promise
+    localStorage.setItem("order",JSON.stringify(res));
 };
 Start();
 function GetUserById(){
@@ -37,15 +50,16 @@ function renderListProductOrder(listproduct){
     let totalPrice = 0;
     let totalDisCount = 0;
     var html =  listproduct.map((product,index)=>{
-        totalPrice += product["price"]*listOrder[0][index]["amount"]
-        totalDisCount += product["discount"]*listOrder[0][index]["amount"]
+        totalPrice += ( product["discount"] == 0 ? product["price"] * listOrder[0][index]["amount"]:product["discount"] * listOrder[0][index]["amount"])
+        totalDisCount +=(product["discount"] != 0 ? (product["price"]-product["discount"]) * (listOrder[0][index]["amount"]):0)
+  
         renderPrice(totalPrice,totalDisCount)
         return `
         <tr class="cart-item">
             <td class="col item">
                 <div class="cart-item-info">
                     <div class="cart-item-photo">
-                        <img src="./assets/Image/ImageNam/DoActive.webp" alt="">
+                        <img src="${getLinkProductOrder(product["productId"])}" alt="">
                     </div>
                     <div class="cart-item-details">
                         <p class="cart-item-name">${product["title"]}</p>
@@ -65,10 +79,10 @@ function renderListProductOrder(listproduct){
             </td>
             <td class="col price">
                 <span class="price" >
-                    ${product["discount"]>0 ? handlePrice(product["discount"]):handlePrice(product["price"]) } đ
+                    ${product["discount"]>0 ? handlePrice(product["discount"]):handlePrice(product["price"]) } 
                 </span>
                 <span class="old-price" style = "display: ${product["discount"]>0 ?"block":"none"};">
-                 ${product["discount"]>0 ? handlePrice(product["discount"]):handlePrice(product["price"])} đ
+                 ${product["discount"]>0 ? handlePrice(product["price"]):handlePrice(product["discount"])} 
                 </span>
             </td>
             <td class="col qty">
@@ -85,11 +99,11 @@ function renderPrice(price,discount){
     var tbody = `
     <tr>
         <td style="padding-right: 15px;">Giá trị đơn hàng</td>
-        <td>${handlePrice(price - discount)} đ</td>
+        <td>${handlePrice(price)} </td>
     </tr>
     <tr>
-        <td>Chiết khấu</td>
-        <td style="color: rgb(218, 41, 28);"> - ${handlePrice(discount)} ₫ </td>
+        <td>Tiết kiệm</td>
+        <td style="color: rgb(218, 41, 28);"> - ${handlePrice(discount)}  </td>
     </tr>
     `
     $(".checkout-totals tbody").html(tbody)
@@ -135,7 +149,61 @@ listButtonPayMent.forEach(item=>{
 
     }
 });
-btnPay.on("click", ()=>{
+btnPay.on("click", async()=>{
+    let i = 0;
+    let j = 0;
+    let listOrderPayment= [];
+    let count = 0;
+    while(i<listOrder[0].length){
+       
+        if(listOrder[0][i+1] !==undefined){
+            if(listOrder[0][i]["orderId"] !==listOrder[0][i+1]["orderId"]){
+                listOrderPayment.push(listOrder[0][i]);
+                listOrderPayment.push(listOrder[0][i+1]);
+
+                 localStorage.setItem("orderPayment", JSON.stringify(listOrderPayment));
+            }
+        }
+            i++;
+        }
+        
+        while (j <listOrderPayment.length){
+            await GetOrderById(listOrderPayment[j]["orderId"])
+            const order = JSON.parse(localStorage.getItem("order"));
+            const data = {
+                id:order["id"],
+                user_Id:order["user_Id"],
+                fullName:order["fullName"],
+                email:order["email"],
+                order_Date:order["order_Date"],
+                phone_number:order["phone_number"],
+                address:order["address"],
+                note:"",
+                status:3,
+                order_Details:order["order_Details"]
+ 
+            }
+            
+            UpdateOrder(data,listOrderPayment.length);
+            j++;
+        }
     
-})
+});
+function UpdateOrder(data){
+    $.ajax({
+        type: "PUT",
+        url: urlApiUpdateOrder,
+        data: JSON.stringify(data),
+        contentType: "application/json"
+        
+    })
+    .done((res)=>{
+        showSuccessToast("Thành công");
+
+    })
+    .fail(err=>{
+        console.log(err.statusText);
+        showErrorToast("Có lỗi vui lòng thao tác lại sau 1p");
+    })
+};
 
