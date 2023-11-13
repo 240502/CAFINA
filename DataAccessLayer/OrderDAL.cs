@@ -15,6 +15,48 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
         List<OrderModel> listOrder = new List<OrderModel>();
+
+
+        public List<OrderModel> GetListOrderManage(int pageIndex, int pageSize, out int total)
+        {
+            try
+            {
+                total = 0;
+                DataTable tb = helper.ExcuteReader("Pro_GetListOrderManage", "@pageIndex", "@pageSize", pageIndex, pageSize);
+                total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
+                if (tb != null)
+                {
+                    List<OrderModel> list = new List<OrderModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                           
+                                OrderModel order = new OrderModel();
+                                order.order_Details = new List<Order_Details>();
+                                order.Id = int.Parse(tb.Rows[i]["ID"].ToString());
+                                order.User_Id = int.Parse(tb.Rows[i]["User_id"].ToString());
+                                order.FullName = tb.Rows[i]["fullName"].ToString();
+                                order.email = tb.Rows[i]["email"].ToString();
+                                order.phone_number = tb.Rows[i]["phone_number"].ToString();
+                                order.address = tb.Rows[i]["address"].ToString();
+                                order.note = tb.Rows[i]["note"].ToString();
+                                order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
+                                order.status = int.Parse(tb.Rows[i]["status"].ToString());
+                             
+                                list.Add(order);
+
+                    }
+                    return list;
+                }
+                else return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
         public OrderModel GetById(int id)
         {
 
@@ -169,17 +211,17 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-      
 
-        public List<OrderModel> GetOrderByUser(int ? pageIndex, int ? pageSize, out int total, string ? email)
+
+        public List<OrderModel> GetOrderByUser(int? pageIndex, int? pageSize, out int total, string? email)
         {
             total = 0;
             try
             {
                 var tb = helper.ExcuteReader(
                     "GetOrderByUs",
-                    "@page_index", "@page_size","@email",
-                    pageIndex, pageSize,email
+                    "@page_index", "@page_size", "@email",
+                    pageIndex, pageSize, email
                 );
                 if (tb != null)
                 {
@@ -210,13 +252,14 @@ namespace DataAccessLayer
                 }
                 else return null;
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
-        } 
+        }
 
-       
-        
+
+
     }
 }

@@ -13,6 +13,45 @@ namespace API_Cafina.Controllers
         OrderBUS orderBus = new OrderBUS();
         Order_ThongKeBUS odTK = new Order_ThongKeBUS();
         List<OrderModel> listOrder;
+
+        Order_DetailsBUS odDetail = new Order_DetailsBUS();
+        [Route("Get_OrderDetail_ByUsId")]
+        [HttpGet]
+        public IActionResult GetListOrderByUsId(int usid)
+        {
+            try
+            {
+
+                List<Order_Details> list = odDetail.GetListOrderByUsId(usid);
+                int total = list.Count;
+                return list != null ? Ok(new { totalItems = total, data = list }) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("Get_ListOrder_Manage")]
+        [HttpPost]
+        public IActionResult GetListOrderManage([FromBody] Dictionary<string,object> formData)
+        {
+            int pageIndex = 0;
+            if(formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+            {
+                pageIndex = int.Parse(formData["pageIndex"].ToString());
+            }
+            int pageSize = 0;
+            if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+            {
+                pageSize = int.Parse(formData["pageSize"].ToString());
+            }
+            int total = 0;
+            listOrder = orderBus.GetListOrderManage(pageIndex, pageSize,out total);
+            return listOrder != null ? Ok(new { totalItems = total, data = listOrder }) : NotFound();
+        }
+
+
         [Route("Get_Order_ById")]
         [HttpGet]
         public IActionResult GetById(int id)

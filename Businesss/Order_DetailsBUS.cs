@@ -15,5 +15,10 @@ namespace Businesss
         {
             return od.GetListOrderByUsId(usid);
         }
+
+        public List<Order_Details> GetListOrderDetailByOrderId(int orderid)
+        {
+            return od.GetListOrderDetailByOdId(orderid);
+        }
     }
 }

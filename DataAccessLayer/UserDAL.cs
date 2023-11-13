@@ -50,7 +50,7 @@ namespace DataAccessLayer
         {
             try
             {
-                var result = helper.ExcuteReader("Pro_Get_User_By_Id","@id",id);
+                var result = helper.ExcuteReader("Pro_Get_User_By_Id", "@id",id);
                 if (result != null)
                 {
                     UserModel us = new UserModel();

@@ -360,66 +360,66 @@ async function renderListOrder(){
   var totalprice = 0;
   var totalSale = 0;
   await getGalaryProductOrder(listProductOrder);
- 
-  var html =listProductOrder.map((item,index)=>{
-    if(listOrder[0].length !==0){
-      totalprice += ( item["discount"] == 0 ? item["price"] * listOrder[0][index]["amount"]:item["discount"] * listOrder[0][index]["amount"])
-      totalSale +=(item["discount"] != 0 ? (item["price"]-item["discount"]) * (listOrder[0][index]["amount"]):0)
-    }
-    let pricePercent = 100 - Math.round((item["discount"]/item["price"]) *100);
-    return `
-        <li class="minicart-item" data-id = ${listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""}>
-          <div class="mini-cart-info">
-           <div class="minicart-item-photo">
-               <a href="#">
-                   <img src="${getLinkProductOrder(item["productId"])}" alt="">
-               </a>
-               <button class="minicart-item-remove" onclick=activeModalConfirm(${"'"+listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""+"'"})></button>
-
-           </div>
-           <div class="minicart-item-details">
-               <h3 class="minicart-item-name">
-                   <a href="#">
-                      ${item["title"]}
-                   </a>
-               </h3>
-               <div class="minicart-item-options">
-                   <div class="minicart-item-option">
-                       <div class="colors">
-                           <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
-                           </span>
-                           <span> ${item["color"]} </span>
-                       </div>
-                   </div>
-                   <div class="minicart-item-option">
-                       <span>${listOrder[0].length !==0?  listOrder[0][index]["size"]:""}</span>
-                   </div>
-               </div>
-               <div class="minicart-item-bottom">
-                   <div class="minicart-item-price">
-                     <div class="normal-price">${
-                      item["discount"] > 0 ?handlePrice(item["discount"]):handlePrice(item["price"])
-                      } 
-                      </div>
-                      <div class="old-price">
-                        <span>${item["discount"] > 0 ?handlePrice(item["price"]):""} </span> 
-                        <span class = "price-percent">
-                            ${item["discount"] > 0 ? "- "+pricePercent +" %":""}
-                        </span>
-                      </div>
-                   </div>
-                   <div class="minicart-item-qty">
-                       <button class="btn btnMinus" onclick=handleReduceAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-minus"></i></button>
-                       <span class="amount">${listOrder[0].length !==0 ? listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:"":""}</span>
-                       <button class="btn btnPlus" onclick=handleIncreaseAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-plus"></i></button>
-                   </div>
-               </div>
-           </div>
-          </div>
-        </li>
-  `
-  });
   if(listOrder[0].length>0){
+    var html =listProductOrder.map((item,index)=>{
+      if(listOrder[0].length !==0){
+        totalprice += ( item["discount"] == 0 ? item["price"] * listOrder[0][index]["amount"]:item["discount"] * listOrder[0][index]["amount"])
+        totalSale +=(item["discount"] != 0 ? (item["price"]-item["discount"]) * (listOrder[0][index]["amount"]):0)
+      }
+      let pricePercent = 100 - Math.round((item["discount"]/item["price"]) *100);
+      return `
+          <li class="minicart-item" data-id = ${listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""}>
+            <div class="mini-cart-info">
+             <div class="minicart-item-photo">
+                 <a href="#">
+                     <img src="${getLinkProductOrder(item["productId"])}" alt="">
+                 </a>
+                 <button class="minicart-item-remove" onclick=activeModalConfirm(${"'"+listOrder[0].length !==0?  listOrder[0][index]["orderId"]:""+"'"})></button>
+
+             </div>
+             <div class="minicart-item-details">
+                 <h3 class="minicart-item-name">
+                     <a href="#">
+                        ${item["title"]}
+                     </a>
+                 </h3>
+                 <div class="minicart-item-options">
+                     <div class="minicart-item-option">
+                         <div class="colors">
+                             <span class="color__option selected" style="background-image: url(https://media.canifa.com/attribute/swatch/images/sp234.png);">
+                             </span>
+                             <span> ${item["color"]} </span>
+                         </div>
+                     </div>
+                     <div class="minicart-item-option">
+                         <span>${listOrder[0].length !==0?  listOrder[0][index]["size"]:""}</span>
+                     </div>
+                 </div>
+                 <div class="minicart-item-bottom">
+                     <div class="minicart-item-price">
+                       <div class="normal-price">${
+                        item["discount"] > 0 ?handlePrice(item["discount"]):handlePrice(item["price"])
+                        } 
+                        </div>
+                        <div class="old-price">
+                          <span>${item["discount"] > 0 ?handlePrice(item["price"]):""} </span> 
+                          <span class = "price-percent">
+                              ${item["discount"] > 0 ? "- "+pricePercent +" %":""}
+                          </span>
+                        </div>
+                     </div>
+                     <div class="minicart-item-qty">
+                         <button class="btn btnMinus" onclick=handleReduceAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-minus"></i></button>
+                         <span class="amount">${listOrder[0].length !==0 ? listOrder[0][index]["productId"]===item["productId"]?listOrder[0][index]["amount"]:"":""}</span>
+                         <button class="btn btnPlus" onclick=handleIncreaseAmount(${"'"+(item["productId"])+"'"})><i class="fa-solid fa-plus"></i></button>
+                     </div>
+                 </div>
+             </div>
+            </div>
+          </li>
+    `
+    });
+  
     $(".minicart-items").html(html.join(''))
     document.querySelectorAll(".minicart-items  .minicart-item-photo img").forEach(item=>{
       item.onclick= (e)=>{
@@ -527,7 +527,7 @@ function renderListPage(count){
     }
     else{
       $(".page-next").toggleClass("active-button",false)
-      $(".page-prev").toggleClass("active-button",true)
+      $(".page-prev").toggleClass("active-button",false)
     }
 };
 

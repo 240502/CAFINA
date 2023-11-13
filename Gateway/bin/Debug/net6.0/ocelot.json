@@ -118,6 +118,32 @@
 
     },
     {
+      "DownstreamPathTemplate": "/api/Status/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Status/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/OrderDetail/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/OrderDetail/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/api/ProductCustomer/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

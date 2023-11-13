@@ -164,8 +164,15 @@ btnPay.on("click", async()=>{
                  localStorage.setItem("orderPayment", JSON.stringify(listOrderPayment));
             }
         }
+        else{
+            
+            listOrderPayment.push(listOrder[0][i]);
+            localStorage.setItem("orderPayment", JSON.stringify(listOrderPayment));
+
+        }
             i++;
         }
+        console.log(listOrderPayment)
         
         while (j <listOrderPayment.length){
             await GetOrderById(listOrderPayment[j]["orderId"])
@@ -183,8 +190,8 @@ btnPay.on("click", async()=>{
                 order_Details:order["order_Details"]
  
             }
-            
-            UpdateOrder(data,listOrderPayment.length);
+            console.log(data);
+            UpdateOrder(data);
             j++;
         }
     
@@ -198,7 +205,8 @@ function UpdateOrder(data){
         
     })
     .done((res)=>{
-        showSuccessToast("Thành công");
+        alert("Thành công");
+        window.location="./index.html";
 
     })
     .fail(err=>{

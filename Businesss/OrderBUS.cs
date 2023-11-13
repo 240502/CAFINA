@@ -12,6 +12,10 @@ namespace Businesss
     {
         OrderDAL orderDAL = new OrderDAL();
 
+        public List<OrderModel> GetListOrderManage(int pageIndex,int pageSize,out int total)
+        {
+            return orderDAL.GetListOrderManage(pageIndex, pageSize,out total);
+        }
         public OrderModel GetById(int id)
         {
             OrderModel orderModel = orderDAL.GetById(id);

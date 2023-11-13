@@ -323,50 +323,51 @@
                 <h3 class="label">
                     Mã đơn hàng
                 </h3>
-                <input type="text" id="orderid" class="orderid">
+                <input type="text" id="orderid" class="orderid" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Mã khách hàng
                 </h3>
-               <input type="text" id="user_id" class="user_id">
+               <input type="text" id="user_id" class="user_id" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Họ và tên
                 </h3>
-                <input type="text" id="fullName" class="fullName">
+                <input type="text" id="fullName" class="fullName" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Email
                 </h3>
-                <input type="text" id="email" class="email">
+                <input type="text" id="email" class="email" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Số điện thoại
                 </h3>
-                <input type="text" id="phone_number" class="phone_number">
+                <input type="text" id="phone_number" class="phone_number" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Địa chỉ
                 </h3>
-                <input type="text" id="address" class="address">
+                <input type="text" id="address" class="address" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Ghi chú
                 </h3>
-                <input type="text" id="note" class="note">
+                <input type="text" id="note" class="note" readonly>
             </div>
             <div class="form-group">
                 <h3 class="label">
                     Ngày đặt hàng
                 </h3>
-                <input type="text" id="order_date" class="order_date">
+                <input type="text" id="order_date" class="order_date" readonly>
             </div>
+         
             <div class="form-group">
                 <h3 class="label">
                     Trạng thái
@@ -375,7 +376,7 @@
                 </select>
             </div>
             <div class="form-button">
-                <button class="btnSave"></button>
+                <button class="btnSave">Lưu</button>
             </div>
             <div class="list_data">
                
@@ -413,6 +414,10 @@
                         <td>
                             Ngày đặt hàng
                         </td>
+                        <td>
+                            Số sản phẩm
+                        </td>
+                       
                         <td>Trạng thái</td>
                        
                        <td>Chức năng</td>
@@ -570,7 +575,7 @@
   src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
 ></script>
 <script src="./assets/JS/shared.js"></script>
-<script src="./assets/JS/ManageProduct.js"></script>
+<script src="./assets/JS/ManageOrder.js"></script>
 
 
 </html>

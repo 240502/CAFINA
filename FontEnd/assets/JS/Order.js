@@ -125,7 +125,7 @@ function handleCreateOrder(size,productId,price){
                     phone_number:infoUsOrder["phone_number"],
                     address:infoUsOrder["address"],
                     note:"",
-                    status:0,
+                    status:1,
                     order_Details:[
                         {
                             productId:productId,
