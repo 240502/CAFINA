@@ -58,7 +58,7 @@ function handleIncreaseAmount(productId){
     GetOrderById(orderdetail["orderId"])
     const order = JSON.parse(localStorage.getItem("order"));
     const data = {
-        id:order["id"],
+        id:orderdetail["orderId"],
         user_Id:order["user_Id"],
         fullName:order["fullName"],
         email:order["email"],
@@ -69,7 +69,7 @@ function handleIncreaseAmount(productId){
         status:order["status"],
         order_Details:[
             {
-                orderId:orderdetail["id"],
+                orderId:orderdetail["orderId"],
                 od_id:orderdetail["od_id"],
                 productId:orderdetail["productId"],
                 amount:orderdetail["amount"]+1,

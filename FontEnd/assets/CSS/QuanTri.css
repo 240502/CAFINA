@@ -5,6 +5,7 @@
     padding: 20px 7.64vw;
     margin: 98px auto;
     width: 100%;
+    position: relative;
 }
 
 .form-us{
@@ -14,6 +15,9 @@
 .form-us .content{
     display: flex;
     width: 100%;
+    min-height: 700px;
+    position: relative;
+
 }
 .form-us .nav{
     background-color: #fff;
@@ -23,7 +27,8 @@
     padding: 10px;
     border-radius: 5px;
     height: fit-content;
-
+    margin-bottom: 20px;
+    height: 100%;
 }
 .form-us .nav-item{
     list-style: none;
@@ -35,6 +40,8 @@
     font-size: 16px;
     font-weight: 600;
     border-bottom: 1px solid #ccc;
+}
+.list-nav{
 }
 .nav-item i {
     background-color: transparent;
@@ -548,6 +555,13 @@ table{
     position: absolute;
     bottom: 0;
     background-color: #C70039 !important;
+    padding: 5px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0;
+}
+.logout.active:hover{
+    opacity: 0.8;
 }
 .btnMinus,.btnPlus{
     border-radius: 0;

@@ -46,8 +46,14 @@ namespace API_Cafina.Controllers
             {
                 pageSize = int.Parse(formData["pageSize"].ToString());
             }
+            int status = 0;
+            if (formData.Keys.Contains("status") && !string.IsNullOrEmpty(formData["status"].ToString()))
+            {
+                status = int.Parse(formData["status"].ToString());
+            }
+
             int total = 0;
-            listOrder = orderBus.GetListOrderManage(pageIndex, pageSize,out total);
+            listOrder = orderBus.GetListOrderManage(pageIndex, pageSize,out total, status);
             return listOrder != null ? Ok(new { totalItems = total, data = listOrder }) : NotFound();
         }
 

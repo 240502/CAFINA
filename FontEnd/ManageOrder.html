@@ -306,8 +306,12 @@
                         <li class="nav-item active">
                             <a style="color:#000;text-decoration: none;" href="./ManageOrder.html"> Quản lý đơn hàng</a>
                         </li>
+                        
                         <li class="nav-item">
                             <a style="color:#000;text-decoration: none;" href=""> Thống kê số lượng đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#000;text-decoration: none;" href="./ThongKeDoanhThu.html"> Thống kê doanh thu</a>
                         </li>
                         <li class="nav-item logout active">
                             Đăng xuất
@@ -319,6 +323,7 @@
         <div class="account-main">
         <div class="form_manage_product  opened form"  >
             <h2 class="title">Quản lý đơn hàng</h2>
+           
             <div class="form-group">
                 <h3 class="label">
                     Mã đơn hàng
@@ -380,12 +385,22 @@
             </div>
             <div class="list_data">
                
-                <h3 class="title">Danh sách khách hàng</h3>
-                <div class="search-input-group">
-                    <button type="button" class="search-btn">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
-                    </button>
-                    <input type="text" placeholder="Tìm kiếm" class="search-user-input">
+                <h3 class="title" style="margin-bottom: 40px;">Danh sách đơn hàng</h3>
+                  
+                <div class="search-input-group" style="justify-content:space-between; width:100%">
+                    <div class="select">
+                        <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Loại đơn hàng</label>
+                        <select name="" id="status-list-data" style="width:300px">
+                           
+    
+                        </select>
+                    </div>
+                    <div class="search">
+                        <button type="button" class="search-btn" style="top: 50%;transform:translateY(-50%)">
+                            <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>    
+                        </button>
+                        <input type="text" placeholder="Tìm kiếm" class="search-user-input">
+                    </div>
                 </div>
                 <div class="clear">
 

@@ -17,12 +17,12 @@ namespace DataAccessLayer
         List<OrderModel> listOrder = new List<OrderModel>();
 
 
-        public List<OrderModel> GetListOrderManage(int pageIndex, int pageSize, out int total)
+        public List<OrderModel> GetListOrderManage(int pageIndex, int pageSize, out int total,int status)
         {
             try
             {
                 total = 0;
-                DataTable tb = helper.ExcuteReader("Pro_GetListOrderManage", "@pageIndex", "@pageSize", pageIndex, pageSize);
+                DataTable tb = helper.ExcuteReader("Pro_GetListOrderManage", "@pageIndex", "@pageSize", "@status", pageIndex, pageSize,status);
                 total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
                 if (tb != null)
                 {

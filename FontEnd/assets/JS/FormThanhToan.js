@@ -190,7 +190,6 @@ btnPay.on("click", async()=>{
                 order_Details:order["order_Details"]
  
             }
-            console.log(data);
             UpdateOrder(data);
             j++;
         }
@@ -205,8 +204,7 @@ function UpdateOrder(data){
         
     })
     .done((res)=>{
-        alert("Thành công");
-        window.location="./index.html";
+        window.location="./Notice.html";
 
     })
     .fail(err=>{

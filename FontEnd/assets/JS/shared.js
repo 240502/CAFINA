@@ -80,7 +80,7 @@ async function Run (){
       orders = JSON.parse(localStorage.getItem("listorderdetail"));
       totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
       await getProductById(orders,totalItems);
-      await renderListOrder();
+      renderListOrder();
    
     }
   };
@@ -504,6 +504,7 @@ function renderListPage(count){
           }
         }
         else{
+          console.log("oge")
           for(var i=1; i<=thisPage+1; i++){
             html+= `
               <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
@@ -512,8 +513,15 @@ function renderListPage(count){
         }
       }
       else{
-        if(thisPage === count){
+        if(thisPage === count && count > 2){
           for(var i=thisPage-2; i<=thisPage; i++){
+            html+= `
+              <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
+            `
+          }
+        }
+        else{
+          for(var i=thisPage-1; i<=thisPage; i++){
             html+= `
               <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>
             `

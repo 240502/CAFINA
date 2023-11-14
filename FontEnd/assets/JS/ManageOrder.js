@@ -15,10 +15,14 @@ const inputAddress = $("#address");
 const inputNote = $("#note");
 const inputOrderDate = $("#order_date");
 const inputStatus = $("#status"); 
+const inputStatusListData = $("#status_list_data");
 let isUpdate = false;
+var ListStatus = JSON.parse(localStorage.getItem("ListStatus"));
+
 function Start(){
     getListOrder();
     getListStatus();
+    renderLoaiDonHang();
 }
 
 let thisPage = 1;
@@ -38,7 +42,8 @@ function handleTextSaveBtn(){
 async function  getListOrder(){
     var data = {
         pageIndex : thisPage,
-        pageSize:pageSize
+        pageSize:pageSize,
+        status :$("#status-list-data").val() !== null ? $("#status-list-data").val():3
     }
     $.post({
         url:urlApiGetListOrder,
@@ -72,13 +77,24 @@ async function GetOrderDetailByOrderId(orderId){
         console.log(err)
     });
 };
-var ListStatus = JSON.parse(localStorage.getItem("ListStatus"));
 function getStatusById(id){
     var status = ListStatus.find(status=>{
         return status["id"] == id;
     });
     return status;
 };
+function renderLoaiDonHang(){
+    var html = ListStatus.map((status,index )=>{
+        return `
+        <option value="${status["id"]}" ${status["id"] == 3 ? "selected":""}>${status["statusName"]}</option>
+        `
+    });
+    $("#status-list-data").html(html.join(""));
+    $("#status-list-data").on("change",()=>{
+        getListOrder();
+    })
+}
+
 function renderStatus (listStatus){
  var html = listStatus.map((status,index)=>{
     return `
@@ -146,6 +162,16 @@ function renderListOrderManage(data){
         `
     })
     $(".opened tbody").html(html.join(""));
+    btnPageNext.on("click",()=>{
+        if(thisPage === page){
+    
+        }
+        else{
+            thisPage = thisPage + 1;
+    
+        }
+        changePage(thisPage);
+      });
 };
 var OrderIdUpdate =JSON.parse(localStorage.getItem("Order_Update"));
 
@@ -184,7 +210,7 @@ function handleUpdateOrder(){
         address:inputAddress.val(),
         note: inputNote.val(),
         status:inputStatus.val(),
-        order_Details:listOrderDetailUpdate
+        order_Details:listOrderDetailUpdate[0]
     };
     UpdateOrder(data);
     
@@ -240,3 +266,23 @@ function DeleteOrder(data){
         showErrorToast("Có lỗi vui lòng thao tác lại sau 1p");
     })
 };
+btnPagePrev.on("click",()=>{
+    if(thisPage === 1){
+  
+    }
+    else{
+        thisPage = thisPage - 1;
+  
+    }
+    changePage(thisPage);
+  });
+function changePage(index){
+    thisPage = index;
+    getListOrder();
+    if(thisPage !=1){
+        $(".page-prev").toggleClass("active-button",true)
+    }
+    else{
+        $(".page-prev").toggleClass("active-button",false)
+    }
+  }
