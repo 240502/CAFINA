@@ -29,6 +29,7 @@
    
     <link rel="stylesheet" href="./assets/CSS/shared.css">
     <link rel="stylesheet" href="./assets/CSS/QuanTri.css">
+    <link rel="stylesheet" href="./assets/CSS/canvas.css">
 </head>
 <body>
       <!--  -->
@@ -319,12 +320,17 @@
                         <li class="nav-item ">
                             <a style="color:#000;text-decoration: none;" href="./ManageOrder.html"> Quản lý đơn hàng</a>
                         </li>
-                        
-                        <li class="nav-item">
-                            <a style="color:#000;text-decoration: none;" href=""> Thống kê số lượng đơn hàng</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a style="color:#000;text-decoration: none;" href="./ThongKeDoanhThu.html"> Thống kê doanh thu</a>
+                  
+                        <li class="nav-item active thongke">
+                            <a style="color:#000;text-decoration: none;" href="#"> Thống kê</a>
+                            <ul class="sub-nav" style="display: none;">
+                                <li>
+                                    <a href="./ThongKeDoanhThu.html">Thống kê doanh số</a>
+                                </li>
+                                <li>
+                                    <a href="#">Thống kê sản phẩm bán ra</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item logout active">
                             Đăng xuất
@@ -335,7 +341,8 @@
             </div>
         </div>
       
-        <div class="container">
+        <div class="container" style="display:flex;flex-direction:column;padding-top:0">
+            <h2 style="font-size: 24px; font-weight:700;margin-bottom:50px;margin-top:0;padding:8px 0;text-transform:capitalize">Thống kê doanh thu</h2>
             <div class="search-input-group" style="justify-content:space-between; width:100%;margin-bottom:50px">
                 <div class="select" style="">
                    <div class="form-item">
@@ -389,6 +396,7 @@
                     </div>
                     <button id="btnThongKe"> Thống kê</button>
                 </div>
+                
                 <style>
                     .select{
                         width:100%;
@@ -413,9 +421,13 @@
                     }
                 </style>
             </div>
-            <canvas id="myChart">
-
+            <div class="total-price" style="margin: 20px 0px;font-size:18px;font-weight:700">
+                Tổng doanh số: <span></span>
+            </div>
+            <canvas id="canvasBar">
             </canvas>
+               
+            </div>
         </div>
        
        </div>

@@ -13,7 +13,7 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
-        public List<ThongKeDoanhThuModel> ThongKeDoanhThu(int fr_month, int to_month, int year)
+        public List<ThongKeDoanhThuModel> ThongKeDoanhThu   (int fr_month, int to_month, int year)
         {
             try
             {

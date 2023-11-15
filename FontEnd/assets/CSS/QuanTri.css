@@ -34,14 +34,16 @@
     list-style: none;
     padding: 15px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 4px;
     transition: all 0.3s ease;
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 600;
     border-bottom: 1px solid #ccc;
+    position: relative;
 }
 .list-nav{
+
 }
 .nav-item i {
     background-color: transparent;
@@ -53,14 +55,45 @@
     background-color: #176B87;
 
 }
-.nav-item:hover a{
+.nav-item:hover > a{
     color: #F5F7F8 !important;
 
 }
-.nav-item.active a,
+.nav-item.active > a,
 .nav-item.active{
     background-color: #176B87;
     color: #F5F7F8 !important;
+}
+
+.nav-item .sub-nav{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 10px;
+}
+.nav-item .sub-nav li{
+    background-color: #fff !important;
+    list-style: none;
+    padding: 10px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+.nav-item .sub-nav  a{
+    text-decoration: none;
+    color:#000 ;
+}
+.nav-item .sub-nav li:hover{
+    background-color: #176B87 !important;
+}
+.nav-item .sub-nav li:hover a{
+    color: #fff !important;
+}
+
+
+.thongke:hover .sub-nav{
+    display: block !important;
 }
 .form-us .breadcrumb{
     display: flex;

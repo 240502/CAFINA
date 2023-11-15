@@ -688,10 +688,20 @@ function handlePrice(price){
   if(price.toString().length > 5 && price.toString().length <7) {
     result =  price.toString().slice(0,3)+"."+price.toString().slice(3,6)+" đ"
   }
-  else if (price.toString().length >=7)
+  else if (price.toString().length >=7 && price.toString().length <8)
   {
 
     result =  price.toString().slice(0,1)+"."+price.toString().slice(1,4)+"."+price.toString().slice(4,7)+" đ"
+  }
+  else if (price.toString().length >=8 && price.toString().length <9)
+  {
+
+    result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)+"."+price.toString().slice(5,8)+" đ"
+  }
+  else if (price.toString().length >=9 && price.toString().length <10)
+  {
+
+    result =  price.toString().slice(0,3)+"."+price.toString().slice(3,6)+"."+price.toString().slice(6,9)+" đ"
   }
   else{
     result =  price.toString().slice(0,2)+"."+price.toString().slice(2,5)+" đ"
