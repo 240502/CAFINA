@@ -18,6 +18,22 @@ namespace API_Cafina.Controllers
         UserLoginBUS userLogin = new UserLoginBUS();
         List<UserModel> userList = new List<UserModel>();
 
+
+        [Route("TotalUser")]
+        [HttpGet]
+        public IActionResult GetTotalUser()
+        {
+            try
+            {
+                var result = userBUS.TotalUser();
+                return result!= 0 ? Ok(result) : NotFound();
+
+            }catch(Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         [Route("Get_List")]
         [HttpPost]
         public IActionResult GetList([FromBody] Dictionary<string,object> formData)

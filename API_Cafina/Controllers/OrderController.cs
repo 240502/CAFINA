@@ -15,6 +15,22 @@ namespace API_Cafina.Controllers
         List<OrderModel> listOrder;
 
         Order_DetailsBUS odDetail = new Order_DetailsBUS();
+
+        [Route("Get_Total_Order")]
+        [HttpGet]
+        public IActionResult GetTotalOrder()
+        {
+            try
+            {
+                int result = odTK.GetTotalOrder();
+                return result != 0 ? Ok(result): NotFound();
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         [Route("Get_OrderDetail_ByUsId")]
         [HttpGet]
         public IActionResult GetListOrderByUsId(int usid)

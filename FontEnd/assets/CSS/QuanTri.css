@@ -55,46 +55,67 @@
     background-color: #176B87;
 
 }
-.nav-item:hover > a{
+.nav-item:hover > a,
+.nav-item:hover > span,
+.nav-item:hover > i{
     color: #F5F7F8 !important;
 
 }
 .nav-item.active > a,
+.nav-item.active > span,
 .nav-item.active{
     background-color: #176B87;
     color: #F5F7F8 !important;
 }
-
-.nav-item .sub-nav{
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    padding: 10px;
+.nav-item i{
+    margin-left: 10px;
 }
-.nav-item .sub-nav li{
-    background-color: #fff !important;
+ .sub-nav{
+    background-color: #F3F3F3;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+}
+.nav-item i {
+    transition: all 0.4s;
+}
+.nav-item.open-sub-nav{
+    margin: 0;
+}
+ li .sub-nav .active{
+    background-color: #818FB4;
+}
+li .sub-nav .active a{
+    color: #fff ;
+
+}
+.nav-item.open-sub-nav i{
+    transform: rotate(-180deg);
+    color: #000 !important;
+}
+.nav-item.open-sub-nav + li .sub-nav{
+    display: block !important
+}
+.sub-nav li:not(.logout){
     list-style: none;
     padding: 10px;
     transition: all 0.2s ease;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
-.nav-item .sub-nav  a{
+.sub-nav  a{
     text-decoration: none;
     color:#000 ;
+    font-weight: 700;
 }
-.nav-item .sub-nav li:hover{
-    background-color: #176B87 !important;
+ .sub-nav li:hover:not(.logout):not(.active){
+    background-color: #818FB4 !important;
 }
-.nav-item .sub-nav li:hover a{
+ .sub-nav li:hover:not(.logout):not(.active) a{
     color: #fff !important;
 }
 
 
-.thongke:hover .sub-nav{
-    display: block !important;
-}
 .form-us .breadcrumb{
     display: flex;
     align-items: center;
@@ -584,16 +605,23 @@ table{
 
 
 }
-.logout.active{
-    position: absolute;
-    bottom: 0;
+.logout{
+    height: 42px;
+}
+
+.btnLogout{
     background-color: #C70039 !important;
     padding: 5px 20px;
     border-radius: 10px;
     cursor: pointer;
     margin: 0;
+    width:100%;
+    border: none;
+    color: #fff;
+    height:100%;
+
 }
-.logout.active:hover{
+.btnLogout:hover{
     opacity: 0.8;
 }
 .btnMinus,.btnPlus{

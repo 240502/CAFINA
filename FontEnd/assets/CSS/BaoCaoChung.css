@@ -1,0 +1,45 @@
+
+
+.block-statistics{
+    display: flex;
+    margin: 20px 0;
+}
+.statistics-item{
+    width: 20%;
+    display: inherit;
+    padding: 10px;
+    background-color: #053B50;
+    margin: 0 2.5%;
+    border-radius: 4px;
+}
+.statistics-item .statistics-icon{
+    font-size: 20px;
+    margin-right: 10px;
+    padding: 5px;
+    display: inherit;
+    justify-content: center;
+    align-items: center;
+    color: #EEEEEE !important;
+
+
+}
+.statistics-item .statistics-icon i{
+    color: #fafafa !important
+}
+.statistics-item .statistics-data{
+    flex-grow: 1;
+    text-align: center;
+    font-size:16px;
+    font-weight: 500;
+    color: #EEEEEE;
+}
+.list-canvas{
+    display: flex;
+    flex-wrap: wrap;
+}
+.canvas-item{
+    display: inherit;
+    align-items: end;
+    margin:20px 5% ;
+    width: 40%;
+}

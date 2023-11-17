@@ -18,6 +18,8 @@ const  subMenuImage = $(".sub-menu-image");
 const btnConfirmNo = $("#modal-confirm-delete .btnNo");
 const btnConfirmYes= $("#modal-confirm-delete .btnYes");
 const btnPayOrder = $(".btnPay");
+const navParent = document.querySelectorAll(".nav-parent");
+
 let isSearchContent = false;
 let isMainContent = true;
 
@@ -86,6 +88,21 @@ async function Run (){
   };
 Run();
 
+
+navParent.forEach(item=>{
+  item.onclick = () => {
+    if(document.querySelector(".nav-parent.open-sub-nav")){
+      document.querySelector(".nav-parent.open-sub-nav").classList.remove("open-sub-nav");
+      item.classList.add("open-sub-nav");
+
+    }
+    else{
+     item.classList.add("open-sub-nav");
+
+    
+    }
+  }
+});
 subMenuImage.slick({
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -708,6 +725,7 @@ function handlePrice(price){
   }
   return result
 };
+
 
 async function getGalaryProductDetail(productId){
   var data =   {productId:productId}

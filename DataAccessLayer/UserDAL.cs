@@ -14,6 +14,25 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
+        public int TotalUser()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Total_User");
+                if (tb != null)
+                {
+                    return int.Parse(tb.Rows[0]["total"].ToString());
+                }
+                else return 0;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public List<UserModel> GetListUs(int pageIndex, int pageSize,out int total)
         {
             total = 0;

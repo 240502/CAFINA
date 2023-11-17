@@ -49,11 +49,14 @@ async function  getListOrder(){
         url:urlApiGetListOrder,
         data:JSON.stringify(data),
         contentType:"application/json"
-    }).done(res=>{
+    }).done(async (res)=>{
+        await GetOrderDetailByOrderId(res["data"])
         renderListOrderManage(res);
-        console.log(res);
     })
     .fail(err=>{
+        $(".opened tbody").html((""));
+        $(".opened tbody").html(("Không có đơn hàng nào"));
+
         console.log(err);
     })
 };
@@ -67,16 +70,62 @@ function getListStatus(){
         console.log(err);
     });
 };
-async function GetOrderDetailByOrderId(orderId){
-    let listorderDetailUpdate = [];
-    $.get(urlApitGetOrderDetailByOrderId+"?orderId="+orderId)
-    .done(res=>{
-        listorderDetailUpdate.push(res);
-        localStorage.setItem("OrderDetailUpdate",JSON.stringify(listorderDetailUpdate));
-    }).fail(err=>{
-        console.log(err)
-    });
+async function GetOrderDetailByOrderId(listorder){
+    var data = listorder.map(item=>{
+        return {orderId:item["id"]}
+    })
+    let i = 0;
+
+    listorderDetail = [];
+    while(i<data.length){
+    const promise = new Promise((resolve, reject) => {
+        httpGetAsync(urlApitGetOrderDetailByOrderId,resolve,reject,data[i])
+      });
+      try{
+          var response = await promise;
+          listorderDetail.push(response);
+          localStorage.setItem("ListOrderDetailUpdate",JSON.stringify(listorderDetail));
+        }
+        catch(err){
+            console.log("lỗi")
+            localStorage.setItem("ListOrderDetailUpdate",JSON.stringify(null));
+        }
+        i++;
+    }
+    //   }
+    // $.get(urlApitGetOrderDetailByOrderId+"?orderId="+orderId)
+    // .done(res=>{
+    //     listorderDetailUpdate.push(res);
+    //     localStorage.setItem("OrderDetailUpdate",JSON.stringify(listorderDetailUpdate));
+    // }).fail(err=>{
+    //     console.log(err)
+    // });
 };
+
+async function getOrderDetailByOrderIdUpdate(orderId){
+    var data = { orderId: orderId };
+    listorderDetail = [];
+    const promise = new Promise((resolve, reject) => {
+        httpGetAsync(urlApitGetOrderDetailByOrderId,resolve,reject,data)
+      });
+      try{
+          var response = await promise;
+          listorderDetail.push(response);
+          localStorage.setItem("OrderDetailUpdate",JSON.stringify(listorderDetail));
+        }
+        catch(err){
+            console.log("lỗi")
+            localStorage.setItem("OrderDetailUpdate",JSON.stringify(null));
+        }
+    
+    //  $.get(urlApitGetOrderDetailByOrderId+"?orderId="+orderId)
+    // .done(res=>{
+    //     listorderDetailUpdate.push(res);
+    //     localStorage.setItem("OrderDetailUpdate",JSON.stringify(listorderDetailUpdate));
+    // }).fail(err=>{
+    //     console.log(err)
+    // });
+}
 function getStatusById(id){
     var status = ListStatus.find(status=>{
         return status["id"] == id;
@@ -91,6 +140,9 @@ function renderLoaiDonHang(){
     });
     $("#status-list-data").html(html.join(""));
     $("#status-list-data").on("change",()=>{
+        if(thisPage > 1){
+            thisPage = 1
+        }
         getListOrder();
     })
 }
@@ -102,18 +154,38 @@ function renderStatus (listStatus){
     `
  });
  $("#status").html(html.join(''));
-}
+};
+ function getTotalProductInOrder(orderId){
+    var total = 0;
+    var listorderDetail =JSON.parse( localStorage.getItem("ListOrderDetailUpdate"));
+    
+    listorderDetail.forEach(item=>{
+        if(item.length ==1){
+            if(item[0]["orderId"] === orderId){
+                total = 1      
 
-function renderListOrderManage(data){
+            }
+        }
+        else{
+            item.forEach(i=>{
+                if(i["orderId"] === orderId){
+                    total +=1
+                   
+                }
+            })
+        }
+    })
+    return total;
+};
+async function renderListOrderManage(data){
     var page  = Math.ceil(data["totalItems"]/pageSize);
     renderListPage(page);
-    var html = data["data"].map(( order)=>{
-        GetOrderDetailByOrderId(order["id"])
-        var listorderDetail =JSON.parse( localStorage.getItem("OrderDetailUpdate"));
-        var totalProduct = listorderDetail.length;
-        console.log(listorderDetail);
+    var html = '';
+    
+    data["data"].forEach(async (order)=>{
+        var totalProduct =  getTotalProductInOrder(order["id"]);
         var status = getStatusById(order["status"]);
-        return `
+        html+= `
         <tr class="tb-content" data-id = "${order["id"]}">
             <td class="orderId" >
                 ${order["id"]}
@@ -161,7 +233,9 @@ function renderListOrderManage(data){
         </tr>
         `
     })
-    $(".opened tbody").html(html.join(""));
+    $(".opened tbody").html(html);
+
+       
     btnPageNext.on("click",()=>{
         if(thisPage === page){
     
@@ -198,8 +272,12 @@ btnSaveOpen.on("click", ()=>{
 });
 
 
-function handleUpdateOrder(){
+async function handleUpdateOrder(){
+
+    await getOrderDetailByOrderIdUpdate(inputOrderId.val());
     const listOrderDetailUpdate =  JSON.parse( localStorage.getItem("OrderDetailUpdate"));
+    
+    console.log(listOrderDetailUpdate)
     const data = {
         id:inputOrderId.val() ,
         user_Id:inputUserId.val(),
@@ -213,7 +291,7 @@ function handleUpdateOrder(){
         order_Details:listOrderDetailUpdate[0]
     };
     UpdateOrder(data);
-    
+    console.log(data);
 };
 
 function UpdateOrder(data){
@@ -239,12 +317,10 @@ function activeModalConfirm(orderId){
     openModalCofirmDelete("Bạn chắc chắn muốn xóa sản phẩm này ?");
     $("#modal-confirm-delete .btnNo").on('click', ()=>{
       closeModalCofirmDelete();
-      console.log("oke")
 
     });
     $("#modal-confirm-delete .btnYes").on('click', ()=>{
       DeleteOrder(orderId);
-      console.log("oke")
     });
   };
 

@@ -19,12 +19,12 @@ namespace DataAccessLayer
 
         public List<OrderModel> GetListOrderManage(int pageIndex, int pageSize, out int total,int status)
         {
+                total = 0;
             try
             {
-                total = 0;
                 DataTable tb = helper.ExcuteReader("Pro_GetListOrderManage", "@pageIndex", "@pageSize", "@status", pageIndex, pageSize,status);
                 total = int.Parse(tb.Rows[0]["RecordCount"].ToString());
-                if (tb != null)
+                if (tb != null  )
                 {
                     List<OrderModel> list = new List<OrderModel>();
                     for (int i = 0; i < tb.Rows.Count; i++)
@@ -52,7 +52,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                return null;
             }
 
 

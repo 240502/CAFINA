@@ -59,6 +59,13 @@ as
 select * from Users
 
 
+alter proc Pro_Total_User
+as
+	Begin
+		Select Count(*) as total
+		From [Users]
+	End
+exec Pro_Total_User
 exec Pro_Create_User 'a','2@gmail.com','333','2002-01-01','Nam','string'
 alter Procedure Pro_Create_User
 	@FullName nvarchar(100),

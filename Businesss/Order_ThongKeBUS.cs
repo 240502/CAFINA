@@ -22,5 +22,10 @@ namespace Businesss
             return order;
            
         }
+        public int GetTotalOrder()
+        {
+            
+            return odTk.GetTotalOrder();
+        }
     }
 }

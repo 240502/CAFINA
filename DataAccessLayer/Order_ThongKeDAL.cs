@@ -13,6 +13,24 @@ namespace DataAccessLayer
     public class Order_ThongKeDAL
     {
         DataHelper helper = new DataHelper();
+
+        public int GetTotalOrder()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_Total_Order");
+                if (tb != null)
+                {
+                    int result =  int.Parse(tb.Rows[0]["total"].ToString());
+                    return result;
+                }
+                else return 0;
+
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<ThongKe_Order_By_KhachModel> ThongKeSoLuongDonHangTheoKH(int page, int page_size, out int total, string fullname, DateTime? ngaybd, DateTime? ngaykt)
         {
             try
