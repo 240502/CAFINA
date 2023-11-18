@@ -10,7 +10,11 @@ namespace Businesss
 {
     public class Order_ThongKeBUS
     {
-        Order_ThongKeDAL odTk = new Order_ThongKeDAL(); 
+        Order_ThongKeDAL odTk = new Order_ThongKeDAL();
+        public ThongKeOrderByMonthModel ThongKeSLOrderTheoThang(int month, int year)
+        {
+            return odTk.ThongKeSLOrderTheoThang(month, year);
+        }
         public List<ThongKe_Order_By_KhachModel> ThongKeSoLuongDonHangTheoKH(int page, int page_size, out int total, string fullname, DateTime? ngaybd, DateTime? ngaykt)
         {
             List<ThongKe_Order_By_KhachModel> result = odTk.ThongKeSoLuongDonHangTheoKH(page, page_size, out total, fullname, ngaybd, ngaykt);

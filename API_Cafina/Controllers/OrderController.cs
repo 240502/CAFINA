@@ -203,6 +203,34 @@ namespace API_Cafina.Controllers
                 throw new Exception(ex.Message);
             }
         }
-        
+
+        [Route("ThongKe_SLDonHangTheoThang")]
+        [HttpPost]
+        public IActionResult ThongKeSLOrderTheoThang([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int month = 0;
+                int year = 0;
+                if(formData.Keys.Contains("month" )&& !string.IsNullOrEmpty(formData["month"].ToString()))
+                {
+                    month = int.Parse(formData["month"].ToString());
+                }
+
+                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
+                {
+                    year = int.Parse(formData["year"].ToString());
+                }
+                ThongKeOrderByMonthModel model = odTK.ThongKeSLOrderTheoThang(month, year);
+                return model !=null? Ok(model) : NotFound();
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+
     }
 }

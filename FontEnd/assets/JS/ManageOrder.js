@@ -277,7 +277,6 @@ async function handleUpdateOrder(){
     await getOrderDetailByOrderIdUpdate(inputOrderId.val());
     const listOrderDetailUpdate =  JSON.parse( localStorage.getItem("OrderDetailUpdate"));
     
-    console.log(listOrderDetailUpdate)
     const data = {
         id:inputOrderId.val() ,
         user_Id:inputUserId.val(),

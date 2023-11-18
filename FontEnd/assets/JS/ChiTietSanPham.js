@@ -3,12 +3,105 @@ const urlApiGetCateDetailsByID = "https://localhost:7284/api-customer/CategoryDe
 const urlApiGetCategoryByID = "https://localhost:7284/api-customer/Category/GetCateById";
 const urlApiGetObjectById = "https://localhost:7284/api-customer/Object/Get_ObjectById";
 const urlApiGetProductRecommend = "https://localhost:7284/api-customer/Product/GetProductByObjectId_CateDtId";
+const urlApiGetProductViewByProductId = "https://localhost:7284/api-admin/ProductView/Get_ProductView_ByProductId";
+const urlApiCreateProductView = "https://localhost:7284/api-admin/ProductView/Create_ProductView";
+const urlApiUpdateProductView = "https://localhost:7284/api-admin/ProductView/Update_ProductView";
 const productId =JSON.parse(localStorage.getItem('productId'));
 
-function Start(){
+async function Start(){
     GetProduct();
+    
+    await Get_ProductView_ByProductId();
+    var ProductView = JSON.parse(localStorage.getItem('ProductView'));
+    if(ProductView == null){
+        handleCreateProductView();
+    }
+    else{
+        const dateNow = new Date();
+        const date = dateNow.getFullYear()+"-"+Number(dateNow.getMonth()+1)+"-"+dateNow.getDate();
+         if(ProductView["dateView"].slice(0,10) !== date)
+         {
+             handleCreateProductView();
+         }
+         else{
+             UpdateProductView(ProductView)
+         }
+    }
+    
 }
 Start();
+
+
+
+async function Get_ProductView_ByProductId(){
+    const date = new Date();
+    var data = { 
+
+        productId : productId,
+        date: date.getDate(),
+        month: date.getMonth() +1,
+        year:date.getFullYear() 
+    }
+    console.log(date.getDate())
+    const promise = new Promise((resolve, reject) =>{
+        httpPostAsyncCate(urlApiGetProductViewByProductId,resolve,reject,data)
+    })
+    try{
+        
+        const res = await promise;
+        localStorage.setItem('ProductView',JSON.stringify(res));
+        console.log(res)
+    }
+    catch(err){
+        console.log(err)
+        localStorage.setItem('ProductView',JSON.stringify(null))
+    }
+}
+function handleCreateProductView(){
+    var data = {
+        productId: productId,
+        count : 1
+    }
+    CreateProductView(data);
+}
+function CreateProductView(data){
+  
+    $.post({
+        url:urlApiCreateProductView,
+        data:JSON.stringify(data),
+        contentType:"application/json"
+    })
+    .done(res=>{
+        console.log(res);
+
+    })
+    .fail(err=>{
+        console.log(err);
+    })
+}
+
+function UpdateProductView(data){
+    var productView = {
+        id: data["id"],
+        productId: data["productId"],
+        count: data["count"]+1,
+        dateView: data["dateView"]
+    }
+    $.ajax({
+        type: "PUT",
+        url:urlApiUpdateProductView,
+        data:JSON.stringify(productView),
+        contentType: "application/json"
+    })
+    .done(res=>{
+        console.log(res);
+    })
+    .fail(err=>{
+        console.log(err);
+    })
+}
+
+
 function GetProduct(){
     $.get(urlApiGetProductById+'?id='+productId)
     .done(async (res)=>{

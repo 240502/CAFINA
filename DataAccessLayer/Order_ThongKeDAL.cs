@@ -8,11 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 
 using DataAccessLayer.Helper;
+using System.Diagnostics.Metrics;
+
 namespace DataAccessLayer
 {
     public class Order_ThongKeDAL
     {
         DataHelper helper = new DataHelper();
+
+        public ThongKeOrderByMonthModel ThongKeSLOrderTheoThang(int month,int year)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_ThongKe_SLOrderTheoThang","@month","@year",month,year);
+                if (tb != null)
+                {
+                    ThongKeOrderByMonthModel model = new ThongKeOrderByMonthModel();
+                    model.month = int.Parse(tb.Rows[0]["month"].ToString());
+                    model.year = int.Parse(tb.Rows[0]["year"].ToString());
+                    model.totalOrder = int.Parse(tb.Rows[0]["total"].ToString());
+                    return model;
+                }
+                else return null;
+
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public int GetTotalOrder()
         {
@@ -81,9 +105,9 @@ namespace DataAccessLayer
                 if (tb != null)
                 {
                     ThongKe_SLOrderModel tk = new ThongKe_SLOrderModel();
-                    tk.fr_date = tb.Rows[0]["Ngày bắt đầu"] != null ? tb.Rows[0]["Ngày bắt đầu"].ToString() : null;
-                    tk.to_date = tb.Rows[0]["Ngày kết thúc"] != null ? tb.Rows[0]["Ngày kết thúc"].ToString() : null;
-                    tk.TongDonHang = int.Parse(tb.Rows[0]["Tổng số đơn hàng"].ToString());
+                    tk.fr_date = tb.Rows[0]["fr_date"] != null ? tb.Rows[0]["fr_date"].ToString() : null;
+                    tk.to_date = tb.Rows[0]["to_date"] != null ? tb.Rows[0]["to_date"].ToString() : null;
+                    tk.TongDonHang = int.Parse(tb.Rows[0]["total"].ToString());
                     return tk;
                 }
                 return null;

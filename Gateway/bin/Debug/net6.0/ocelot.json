@@ -144,6 +144,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/api/ProductView/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/ProductView/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/api/ThongKeDoanhThu/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

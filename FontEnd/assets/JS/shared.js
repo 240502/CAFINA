@@ -521,7 +521,6 @@ function renderListPage(count){
           }
         }
         else{
-          console.log("oge")
           for(var i=1; i<=thisPage+1; i++){
             html+= `
               <li class="item ${thisPage ==i?"active":""}" onclick= changePage(${i})><span>${i}</span></li>

@@ -1,6 +1,8 @@
 ﻿create database Cafina
 use Cafina
 
+
+
 Create Table Category(
 	id int identity primary key,
 	CateName nvarchar(50)
@@ -43,6 +45,16 @@ Create table Product(
 	size varchar(10),
 	color varchar(10)
 )
+
+Create table ProductViews
+(
+	id int identity primary key,
+	ProductId varchar(100) foreign key references Product(ProductId)
+	on delete cascade on update cascade,
+	[count] int not null,
+	
+)
+Alter table ProductViews add dateView date
 
 alter table Product
 add  CateDt int  foreign key references CategoryDetails(id)

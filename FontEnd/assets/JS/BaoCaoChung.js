@@ -1,14 +1,73 @@
 const urlApiGetTotalOrder = "https://localhost:7284/api-admin/Order/Get_Total_Order";
 const urlApiGetTotalUser = "https://localhost:7284/api-admin/User/TotalUser";
 const urlApiThongKeDoanhThu  = "https://localhost:7284/api-admin/ThongKeDoanhThu/Thong_Ke_Doanh_Thu";
+const urrlApiThongKeSoLuongDonHangTheoThang = "https://localhost:7284/api-admin/Order/ThongKe_SLDonHangTheoThang";
+const urlApiGetTotalProductViewInMonth = "https://localhost:7284/api-admin/ProductView/GetTotalProductView"
 
 async function Start(){
     //showSubNav();
+    getTotalOrderByMonth();
+    GetTotalProductViews();
      getTotalUser();
      getTotalOrder();
     handleThongKe();
 }
 Start();
+
+
+async function GetTotalProductViews(){
+  const date = new Date();
+  var data = { 
+      month: date.getMonth() +1,
+      year:date.getFullYear() 
+  }
+  const promise = new Promise((resolve, reject) =>{
+      httpPostAsyncCate(urlApiGetTotalProductViewInMonth,resolve,reject,data)
+  })
+  try{
+      
+      const res = await promise;
+      renderProductView(res)
+  }
+  catch(err){
+      console.log(err)
+  }
+}
+
+
+function renderProductView(data){
+  $(".productViews .data").html(data["total"])
+}
+
+async function getTotalOrderByMonth(){
+  var month = [1,2,3,4,5,6,7,8,9,10,11,12];
+  var listTotalOrder = [];
+  let i = 0;
+  while (i < month.length){
+    var data = {
+      year:2023,
+      month :month[i]
+    }
+    const promise = new Promise((resolve, reject) =>{
+      httpPostAsyncCate(urrlApiThongKeSoLuongDonHangTheoThang,resolve,reject,data);
+    })
+    var response = await promise;
+    listTotalOrder.push(response["totalOrder"]);
+    i++;
+  }
+  var maxTotalOrder = 0 ;
+  for (var j = 0; j < listTotalOrder.length-1; j++){
+    for (var z = j; z < listTotalOrder.length; z++){
+      if(listTotalOrder[j]>listTotalOrder[z]){
+        maxTotalOrder = listTotalOrder[j]
+      }
+    }
+  }
+  renderLineOrder(listTotalOrder,maxTotalOrder)
+  
+}
+
+
 async function getTotalUser(){
     $.get(urlApiGetTotalUser)
     .done(res=>{
@@ -121,9 +180,56 @@ function handleListData(data){
         }
     };
 
-    renderBarDoanhThu(listdata.slice(0,12));
-  };
-function renderBarDoanhThu(data){
+    renderLineDoanhThu(listdata.slice(0,12));
+};
+
+function renderLineOrder(data,maxTotalOrder){
+  let myChart = document.getElementById('lineSoLuongDonHang').getContext('2d');
+  Chart.defaults.global.defaultFontFamily = 'Lato';
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.defaultFontColor = '#777';
+  console.log(data)
+  new Chart("lineSoLuongDonHang", 
+  {
+    type: "line",
+    data: {
+      labels: xLabel(),
+      xAxisID:"Tháng",
+      datasets: [{
+        label:'Đơn hàng',
+        data: data,
+        borderColor: "#0766AD",
+        backgroundColor:"#0766AD",
+        borderWidth:1,
+        fill: false,
+        hoverBorderWidth:3,
+        hoverBorderColor:'#0766AD'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+            ticks: {
+              min: 0,
+              max: maxTotalOrder +1,
+            }
+        }] 
+      },      
+      title:{
+        display:true,
+        text:'Số lượng đơn hàng theo tháng',
+        fontSize:25
+      },
+      legend: {display: true},
+      tooltips:{
+        enabled:true
+      }
+    }
+  });
+};
+
+
+function renderLineDoanhThu(data){
     let myChart = document.getElementById('barSoNguoiDung').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -182,52 +288,30 @@ function float2vnd(value){
   };
   
 
-const ctx1 = document.getElementById('lineSoLuongDongHang').getContext('2d');
-const myChart1 = new Chart(ctx1, {
-    type: 'line',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-});
 
 
-const ctx2 = document.getElementById('luotXemSanPham').getContext('2d');
-const myChart2 = new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-});
+// const ctx2 = document.getElementById('luotXemSanPham').getContext('2d');
+// const myChart2 = new Chart(ctx2, {
+//     type: 'line',
+//     data: {
+//         labels: ['Red', 'Blue', 'Yellow'],
+//         datasets: [{
+//             label: '# of Votes',
+//             data: [12, 19, 3],
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//                 'rgba(255, 206, 86, 0.2)',
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//                 'rgba(255, 206, 86, 1)',
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+// });
 // let myChart = document.getElementById('barSoNguoiDung').getContext('2d');
 //     Chart.defaults.global.defaultFontFamily = 'Lato';
 //     Chart.defaults.global.defaultFontSize = 16;
