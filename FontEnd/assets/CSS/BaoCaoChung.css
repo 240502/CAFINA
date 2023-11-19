@@ -5,11 +5,11 @@
     margin: 20px 0;
 }
 .statistics-item{
-    width: 20%;
+    width: 25%;
     display: inherit;
     padding: 10px;
     background-color: #053B50;
-    margin: 0 2.5%;
+    margin: 0 1%;
     border-radius: 4px;
 }
 .statistics-item .statistics-icon{
@@ -29,7 +29,7 @@
 .statistics-item .statistics-data{
     flex-grow: 1;
     text-align: center;
-    font-size:16px;
+    font-size:14px;
     font-weight: 500;
     color: #EEEEEE;
 }
@@ -40,6 +40,6 @@
 .canvas-item{
     display: inherit;
     align-items: end;
-    margin:20px 5% ;
-    width: 40%;
+    margin:20px 2.5% ;
+    width: 45%;
 }

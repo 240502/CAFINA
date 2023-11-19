@@ -42,28 +42,25 @@ function renderProductView(data){
 async function getTotalOrderByMonth(){
   var month = [1,2,3,4,5,6,7,8,9,10,11,12];
   var listTotalOrder = [];
-  let i = 0;
-  while (i < month.length){
-    var data = {
-      year:2023,
-      month :month[i]
-    }
+  const date = new Date();
+    var data={
+      fr_month:0,
+      to_month:0,
+      year:date.getFullYear(),
+  }
     const promise = new Promise((resolve, reject) =>{
       httpPostAsyncCate(urrlApiThongKeSoLuongDonHangTheoThang,resolve,reject,data);
     })
-    var response = await promise;
-    listTotalOrder.push(response["totalOrder"]);
-    i++;
-  }
-  var maxTotalOrder = 0 ;
-  for (var j = 0; j < listTotalOrder.length-1; j++){
-    for (var z = j; z < listTotalOrder.length; z++){
-      if(listTotalOrder[j]>listTotalOrder[z]){
-        maxTotalOrder = listTotalOrder[j]
-      }
+    try{
+      var response = await promise;
+      console.log(response)
+      handleListDataOrder(response)
+    }catch(err){
+      listTotalOrder.push(0);
+      console.log(err);
     }
-  }
-  renderLineOrder(listTotalOrder,maxTotalOrder)
+
+  
   
 }
 
@@ -78,7 +75,7 @@ async function getTotalUser(){
     })
 };
 
-async function getTotalOrder(data){
+async function getTotalOrder(){
     $.get(urlApiGetTotalOrder)
     .done(res=>{
         
@@ -107,7 +104,7 @@ function ThongKe(data){
         contentType:"application/json"
     })
     .done(res=>{
-        handleListData(res);
+      handleListDataDoanhThu(res);
         renderTotalPrice(res);
         console.log(res)
     })
@@ -124,7 +121,7 @@ function renderTotalPrice(res) {
 }
 
 
-function handleListData(data){
+function handleListDataDoanhThu(data){
     var listdata = [];
     if(data.length>=2){
       var fr_month = data[0]["thang"];
@@ -183,12 +180,79 @@ function handleListData(data){
     renderLineDoanhThu(listdata.slice(0,12));
 };
 
+
+
+function handleListDataOrder(data){
+  var listdata = [];
+  if(data.length>=2){
+    var fr_month = data[0]["month"];
+    var to_month = data[data.length-1]["month"];
+      var mid_month = to_month - fr_month;
+    for(var i=1; i<=12; i ++){
+         if(i<fr_month || i>to_month){
+           listdata[i-1] = 0 
+         }
+         if(i>fr_month && i<to_month){
+          if(mid_month ===2){
+              for(j=0;j<data.length;j++){
+
+                  if(data[j]["month"] == to_month -1){
+                      listdata.push(data[j]["totalOrder"]);
+                  }
+                  else{
+                      listdata.push(0);
+                  }
+              }
+          }
+          if(mid_month > 2){
+              for(j=1;j<data.length-1;j++){
+                  for(var z = fr_month+1; z<to_month; z++){
+                      if(data[j]["month"] == z){
+                        listdata[z-1] = data[j]["totalOrder"];
+                      
+                      }
+                      if(data[j]["month"] != z)
+                      {
+                         listdata.push(0);
+                      }
+                 }
+              }
+          }
+        }
+        if(i == fr_month){
+          listdata[fr_month-1] = data[0]["totalOrder"];
+        }
+         if ( i == to_month){
+
+          listdata[to_month-1] = data[data.length-1]["totalOrder"];
+         }
+    }
+  }
+  else if(data.length == 1){
+      for(var i = 1; i <=12; i ++){
+        listdata[data[0]["month"]-1]=data[0]["totalOrder"]
+        if(i<=fr_month || i>=to_month){
+          listdata.push(0)
+        }
+      }
+  };
+  var maxTotalOrder = 0 ;
+  for (var j = 0; j < listdata.slice(0,12).length-1; j++){
+    for (var z = j; z < listdata.slice(0,12).length; z++){
+      if(listdata[j]>listdata[z]){
+        maxTotalOrder = listdata[j]
+      }
+    }
+  }
+  renderLineOrder(listdata.slice(0,12),maxTotalOrder);
+};
+
 function renderLineOrder(data,maxTotalOrder){
   let myChart = document.getElementById('lineSoLuongDonHang').getContext('2d');
+  
   Chart.defaults.global.defaultFontFamily = 'Lato';
   Chart.defaults.global.defaultFontSize = 18;
   Chart.defaults.global.defaultFontColor = '#777';
-  console.log(data)
   new Chart("lineSoLuongDonHang", 
   {
     type: "line",
@@ -199,9 +263,8 @@ function renderLineOrder(data,maxTotalOrder){
         label:'Đơn hàng',
         data: data,
         borderColor: "#0766AD",
-        backgroundColor:"#0766AD",
         borderWidth:1,
-        fill: false,
+        fill: true,
         hoverBorderWidth:3,
         hoverBorderColor:'#0766AD'
       }]
@@ -245,9 +308,8 @@ function renderLineDoanhThu(data){
           label:'Doanh thu',
           data: data,
           borderColor: "#0766AD",
-          backgroundColor:"#0766AD",
           borderWidth:1,
-          fill: false,
+          fill: true,
           hoverBorderWidth:3,
           hoverBorderColor:'#0766AD'
         }]

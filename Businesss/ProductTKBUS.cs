@@ -11,11 +11,14 @@ namespace Businesss
     public class ProductTKBUS
     {
         ProductTKDAL prodDal = new ProductTKDAL();
-        public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime? fr_date, DateTime? td_date)
+        public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(int fr_month,int to_month,int year)
         {
-            var result = prodDal.ThongKeSanPhamBanChay(fr_date, td_date);
+            var result = prodDal.ThongKeSanPhamBanChay(fr_month,to_month, year);
             return result != null ? result : null;
         }
-
+        public List<ProductTKSLBanModel> ThongKeSLBanProduct(int fr_month, int to_month, int year)
+        {
+            return prodDal.ThongKeSLBanProduct(fr_month,to_month, year);
+        }
     }
 }

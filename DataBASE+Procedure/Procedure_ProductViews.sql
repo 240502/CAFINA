@@ -1,5 +1,19 @@
 
 
+Use Cafina
+
+alter Proc Pro_GetTotalProductViewInMonth
+	@month int,
+	@year int
+As
+	Begin
+		Select Month(dateView)  as [month] , Year(dateView) as [year] ,SUM(count) as totalProductView
+		 from ProductViews
+		 Where Month(dateView) = @month and  Year(dateView) =@year
+		 Group by Month(dateView),Year(dateView)
+	End
+	Select * From ProductViews
+exec Pro_GetTotalProductViewInMonth 11,2023
 Alter Proc Pro_Get_ProductViews_ByProductId
 	@productId varchar(100),
 	@date int,

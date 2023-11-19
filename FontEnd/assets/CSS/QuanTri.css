@@ -552,11 +552,11 @@ table{
 .btnCreate{
     background-color: #176B87;
 }
-.opened .search-input-group{
+ .search-input-group{
     float: right;
     margin-bottom: 20px;
 }
-.opened .search-input-group input{
+ .search-input-group input{
     padding: 7px 7px 7px 36px;
     border-radius: 40px;
 }

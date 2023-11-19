@@ -92,12 +92,10 @@ function handleListData(data){
   renderBar(listdata.slice(0,12));
 };
 function renderBar(listdata){
-   
     let myChart = document.getElementById('canvasBar').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor = '#777';
-    
     new Chart("canvasBar", 
     {
       type: "bar",
@@ -110,7 +108,7 @@ function renderBar(listdata){
           borderColor: "#0766AD",
           backgroundColor:"#0766AD",
           borderWidth:1,
-          fill: false,
+          fill: true,
           hoverBorderWidth:3,
           hoverBorderColor:'#0766AD'
         }]

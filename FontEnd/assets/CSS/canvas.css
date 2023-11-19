@@ -1,3 +1,11 @@
-#canvas{
-    display: inherit;
+.block-hot-product h3{
+    margin: 50px 0px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: capitalize;
 }
+.search-user-input{
+    outline: none;
+    border: 1px solid #ccc;
+}
+

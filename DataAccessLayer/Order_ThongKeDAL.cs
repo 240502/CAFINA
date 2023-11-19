@@ -16,24 +16,30 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
-        public ThongKeOrderByMonthModel ThongKeSLOrderTheoThang(int month,int year)
+        public List<ThongKeOrderByMonthModel> ThongKeSLOrderTheoThang(int fr_month,int to_month,int year)
         {
             try
             {
-                DataTable tb = helper.ExcuteReader("Pro_ThongKe_SLOrderTheoThang","@month","@year",month,year);
+                DataTable tb = helper.ExcuteReader("Pro_ThongKe_SLOrderTheoThang","@fr_month","@to_month","@year", fr_month, to_month,  year);
                 if (tb != null)
                 {
-                    ThongKeOrderByMonthModel model = new ThongKeOrderByMonthModel();
-                    model.month = int.Parse(tb.Rows[0]["month"].ToString());
-                    model.year = int.Parse(tb.Rows[0]["year"].ToString());
-                    model.totalOrder = int.Parse(tb.Rows[0]["total"].ToString());
-                    return model;
+                    List<ThongKeOrderByMonthModel> list = new List<ThongKeOrderByMonthModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ThongKeOrderByMonthModel model = new ThongKeOrderByMonthModel();
+                        model.month = int.Parse(tb.Rows[i]["month"].ToString());
+                        model.year = int.Parse(tb.Rows[i]["year"].ToString());
+                        model.totalOrder = int.Parse(tb.Rows[i]["total"].ToString());
+                        list.Add(model);
+                    }
+                  
+                    return list;
                 }
                 else return null;
 
             }catch (Exception ex)
             {
-                throw ex;
+                return null ;
             }
         }
 

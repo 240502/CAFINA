@@ -210,18 +210,24 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                int month = 0;
+                int fr_month = 0;
+                int to_month = 0;
+
                 int year = 0;
-                if(formData.Keys.Contains("month" )&& !string.IsNullOrEmpty(formData["month"].ToString()))
+                if(formData.Keys.Contains("fr_month" )&& !string.IsNullOrEmpty(formData["fr_month"].ToString()))
                 {
-                    month = int.Parse(formData["month"].ToString());
+                    fr_month = int.Parse(formData["fr_month"].ToString());
+                }
+                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
+                {
+                    to_month = int.Parse(formData["to_month"].ToString());
                 }
 
                 if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
                 {
                     year = int.Parse(formData["year"].ToString());
                 }
-                ThongKeOrderByMonthModel model = odTK.ThongKeSLOrderTheoThang(month, year);
+                List<ThongKeOrderByMonthModel> model = odTK.ThongKeSLOrderTheoThang(fr_month,to_month, year);
                 return model !=null? Ok(model) : NotFound();
 
             }catch(Exception ex)

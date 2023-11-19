@@ -305,36 +305,54 @@
             <div class="content">
                 <div class="nav">
                     <ul class="list-nav">
-                        <li class="nav-item ">
-                            <a style="color:#000;text-decoration: none;" href="./InfoUser.html"> Thông tin tài khoản</a>
-                        </li>
                         <li class="nav-item">
-                            <a style="color:#000;text-decoration: none;" href="./BangDieuKhien.html"> Bảng điều khiển</a>
+                            <a style="color:#000;text-decoration: none;" href="#"> Thông tin tài khoản</a>
                         </li>
                         <li class="nav-item ">
                             <a style="color:#000;text-decoration: none;" href="./ManageCurtomer.html"> Quản lý khách hàng</a>
                         </li>
-                        <li class="nav-item ">
+                        <li class="nav-item">
                             <a style="color:#000;text-decoration: none;" href="./ManageProduct.html"> Quản lý sản phẩm</a>
                         </li>
-                        <li class="nav-item ">
+                        <li class="nav-item">
                             <a style="color:#000;text-decoration: none;" href="./ManageOrder.html"> Quản lý đơn hàng</a>
                         </li>
-                  
-                        <li class="nav-item active thongke">
-                            <a style="color:#000;text-decoration: none;" href="#"> Thống kê</a>
+                     
+                        <li class="nav-item  open-sub-nav   nav-parent" >
+                            <span > Báo cáo kết quả
+                            </span>
+                            <i class="fa-solid fa-caret-down" style="color: #000000;"></i>
+                            
+                        </li>
+                        <li >
+                            <ul class="sub-nav" style="display: none;">
+                                <li >
+                                    <a href="./BaoCaoChung.html">Báo cáo chung</a>
+                                </li>
+                                <li class="active">
+                                    <a href="./ThongKeDoanhThu.html">Kết quả bán hàng</a>
+                                </li>
+                                <li>
+                                    <a href="./KetQuaMakerting.html">Kết quả marketing</a>
+                                </li>
+                            </ul> 
+                        </li>
+                        <li class="nav-item  nav-parent">
+                            <span>Cài đặt chung</span>
+                            <i class="fa-solid fa-caret-down" style="color: #000000;"></i>
+                        </li>
+                        <li >
                             <ul class="sub-nav" style="display: none;">
                                 <li>
-                                    <a href="./ThongKeDoanhThu.html">Thống kê doanh số</a>
+                                    <a href="#">Đổi mật khẩu</a>
                                 </li>
-                                <li>
-                                    <a href="#">Thống kê sản phẩm bán ra</a>
+                                <li class="logout">
+                                    <button class=" btnLogout">Đăng xuất</button>
                                 </li>
-                            </ul>
+                               
+                            </ul> 
                         </li>
-                        <li class="nav-item logout active">
-                            Đăng xuất
-                        </li>
+                        
                     </ul>
                  
                 </div>
@@ -347,7 +365,7 @@
                 <div class="select" style="">
                    <div class="form-item">
                         <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Từ tháng</label>
-                        <select name="" id="fr_month" style="width:250px">
+                        <select name="" id="fr_month" >
                             <option value="0">Chọn tháng</option>
                             <option value="1">Tháng 1</option>
                             <option value="2">Tháng 2</option>
@@ -365,7 +383,7 @@
                    </div>
                    <div class="form-item">
                     <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Đến tháng</label>
-                    <select name="" id="to_month" style="width:250px">
+                    <select name="" id="to_month" >
                         <option value="0">Chọn tháng</option>
                         <option value="1">Tháng 1</option>
                         <option value="2">Tháng 2</option>
@@ -384,7 +402,7 @@
                     </div>
                     <div class="form-item">
                         <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;">Năm</label>
-                        <select name="" id="year" style="width:250px">
+                        <select name="" id="year" >
                             <option value="2021">Năm 2021</option>
                             <option value="2022">Năm 2022</option>
                             <option value="2023" selected>Năm 2023</option>
@@ -424,8 +442,11 @@
             <div class="total-price" style="margin: 20px 0px;font-size:18px;font-weight:700">
                 Tổng doanh số: <span></span>
             </div>
-            <canvas id="canvasBar">
-            </canvas>
+            <div style="width:80%">
+                <canvas id="canvasBar" width="800" height="800">
+                </canvas>
+            </div>
+         
                
             </div>
         </div>

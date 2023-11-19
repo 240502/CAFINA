@@ -26,6 +26,38 @@ namespace API_Cafina.Controllers
         List<ProductModel> Product_List;
         string _path;
 
+        [Route("ThongKeSLBanProduct")]
+        [HttpPost]
+        public IActionResult ThongKeSLBanProduct([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int to_month = 0;
+                int fr_month = 0;
+                int year = 0;
+                if (formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(formData["fr_month"].ToString()))
+                {
+                    to_month = int.Parse(formData["fr_month"].ToString());
+                }
+
+                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
+                {
+                    to_month = int.Parse(formData["to_month"].ToString());
+                }
+
+                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
+                {
+                    year = int.Parse(formData["year"].ToString());
+                }
+                List<ProductTKSLBanModel> model = proTK.ThongKeSLBanProduct(fr_month,to_month, year);
+
+                return model != null ? Ok(model) : NotFound();
+
+            }catch(Exception ex) {
+                throw ex;
+            }
+        }
+
         [Route("PhanTrang_DSProduct")]
         [HttpPost]
         public IActionResult PhanTrang([FromBody] Dictionary<string, object> formData)
@@ -119,26 +151,33 @@ namespace API_Cafina.Controllers
                 throw new Exception(ex.Message);
             }
         }
-        [Route("ThongKe")]
+        [Route("Top5SanPhamBanChay")]
         [HttpPost]
         public IActionResult ThongKeSanPhamBanChay([FromBody] Dictionary<string,object> formData)
         {
             try
             {
-                DateTime? to_date = null ;
-                DateTime? fr_date  = null;
-                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
-                {
-                     
-                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
-                }
-                
+                int fr_month = 0;
+                int to_month = 0;
 
-                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["to_date"])))
-                 {
-                    to_date = DateTime.Parse(formData["to_date"].ToString());
+                int year = 0;
+                if (formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_month"])))
+                {
+
+                    fr_month = int.Parse(formData["fr_month"].ToString());
                 }
-                var result = proTK.ThongKeSanPhamBanChay(fr_date, to_date);
+                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(Convert.ToString(formData["to_month"])))
+                {
+
+                    fr_month = int.Parse(formData["to_month"].ToString());
+                }
+
+
+                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(Convert.ToString(formData["year"])))
+                 {
+                    year = int.Parse(formData["year"].ToString());
+                }
+                var result = proTK.ThongKeSanPhamBanChay(fr_month,to_month, year);
                 return result != null ? Ok(result) : NotFound();
             }catch(Exception ex)
             {
