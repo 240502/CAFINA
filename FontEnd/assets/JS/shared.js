@@ -33,7 +33,7 @@ logOut.on("click",()=>{
   localStorage.setItem("login",null);
 })
 const infoUsLocal = JSON.parse(localStorage.getItem("login"));
-
+const token = infoUsLocal!=null ? infoUsLocal["token"] :"" ;
 function ActiveModelSearch(){
   isSearch=true;
   $(".header-search").toggleClass("opened",isSearch);
@@ -91,16 +91,19 @@ Run();
 
 navParent.forEach(item=>{
   item.onclick = () => {
-    if(document.querySelector(".nav-parent.open-sub-nav")){
-      document.querySelector(".nav-parent.open-sub-nav").classList.remove("open-sub-nav");
-      item.classList.add("open-sub-nav");
-
+    var navParentOpen = document.querySelector(".nav-parent.open-sub-nav") 
+    if(navParentOpen !==null && navParentOpen !==item){
+      navParentOpen.classList.remove("open-sub-nav")
     }
-    else{
-     item.classList.add("open-sub-nav");
-
-    
-    }
+      item.classList.forEach(className=>{
+        if(className ==="open-sub-nav" )
+        {
+          item.classList.remove("open-sub-nav")
+        }
+        else{
+          item.classList.add("open-sub-nav")
+        }
+      })
   }
 });
 subMenuImage.slick({
@@ -197,6 +200,8 @@ $(".block-minicart").on("click", (e)=>{
   e.stopPropagation();
 
 });
+
+
 function hiddleNavManage(){
   $(".content .nav").removeClass("active");
 };
@@ -477,13 +482,21 @@ function httpGetCateAsync(url,resolve,reject,data) {
 };
 
 function httpGetAsync(url,resolve,reject,data){
-  $.get(url,data)
+  $.get({
+    url: url,
+    headers: { "Authorization": 'Bearer ' + token },
+    data:data
+  })
   .done(response => resolve(response))
   .fail(error => reject(error))
 };
 
 function httpGetAsync(url,resolve,reject,data){
-  $.get(url,data)
+  $.get({
+    url: url,
+    headers: { "Authorization": 'Bearer ' + token },
+    data:data
+  })
   .done(response => resolve(response))
   .fail(error => reject(error))
 };
@@ -491,6 +504,7 @@ function httpGetAsync(url,resolve,reject,data){
 function httpPostAsyncCate(url,resolve,reject,data){
   $.post({
     url: url,
+    headers: { "Authorization": 'Bearer ' + token },
     data:JSON.stringify(data),
     contentType : 'application/json'
   })
@@ -733,7 +747,6 @@ async function getGalaryProductDetail(productId){
   });
   try{
     var response = await promise;
-    console.log(response)
     localStorage.setItem("GaleryProductDetail",JSON.stringify(response));
   }
   catch(err){

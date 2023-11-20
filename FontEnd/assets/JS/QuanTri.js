@@ -22,7 +22,10 @@ if(document.querySelectorAll(".form_info_us.opened")){
 };
 
 function getUser(){
-     $.get(urpApiGetUserById+"?id="+infoUs["user_id"])
+     $.get({
+        url:urpApiGetUserById+"?id="+infoUs["user_id"],
+        headers: { "Authorization": 'Bearer ' + token }
+    })
      .done(res=>{
          console.log(res);
          fillDataToInput(res);

@@ -13,7 +13,7 @@ async function Start(){
     handleThongKe();
 }
 Start();
-
+console.log(token);
 
 async function GetTotalProductViews(){
   const date = new Date();
@@ -66,7 +66,10 @@ async function getTotalOrderByMonth(){
 
 
 async function getTotalUser(){
-    $.get(urlApiGetTotalUser)
+    $.get({
+      url:urlApiGetTotalUser,
+      headers: { "Authorization": 'Bearer ' + token }
+    })
     .done(res=>{
         $(".statistics-data .totalUser").html(res);
     })
@@ -76,7 +79,9 @@ async function getTotalUser(){
 };
 
 async function getTotalOrder(){
-    $.get(urlApiGetTotalOrder)
+    $.get({
+      url: urlApiGetTotalOrder,
+      headers: { "Authorization": 'Bearer ' + token }})
     .done(res=>{
         
         $(".statistics-data .totalOrder").html(res);
@@ -100,6 +105,7 @@ function handleThongKe(){
 function ThongKe(data){
     $.post({
         url:urlApiThongKeDoanhThu,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     })

@@ -304,15 +304,11 @@
                         <li class="nav-item">
                             <a style="color:#000;text-decoration: none;" href="./ManageOrder.html"> Quản lý đơn hàng</a>
                         </li>
-                        <li class="nav-item ">
-                            <a style="color:#000;text-decoration: none;" href="#"> Thống kê số lượng đơn hàng</a>
-                        </li>
                         <li class="nav-item  thongke  nav-parent" >
                             <span > Báo cáo kết quả
                                 
                             </span>
                             <i class="fa-solid fa-caret-down" style="color: #000000;"></i>
-                            
                         </li>
                         <li >
                             <ul class="sub-nav" style="display: none;">
@@ -323,7 +319,7 @@
                                     <a href="./ThongKeDoanhThu.html">Kết quả bán hàng</a>
                                 </li>
                                 <li>
-                                    <a href="#">Kết quả marketing</a>
+                                    <a href="./KetQuaMakerting.html">Kết quả marketing</a>
                                 </li>
                             </ul> 
                         </li>
@@ -367,6 +363,13 @@
                     Giá
                 </h3>
                 <input type="text" id="price" class="price">
+            </div>
+
+            <div class="form-group">
+                <h3 class="label">
+                    Giá giảm
+                </h3>
+                <input type="text" id="discount" class="discount">
             </div>
             <div class="form-group">
                 <h3 class="label">
@@ -419,6 +422,12 @@
                 <select id="bst" class="bst">
                 </select>
             </div>
+            <div class="form-group">
+                <h3 class="label">
+                    Ngày tạo
+                </h3>
+                <input type="date" id="created" class="created">
+            </div>
             <div class="form-button">
                 <button class="btnSave"></button>
             </div>
@@ -436,13 +445,16 @@
                 </div>
                 <table>
                     <thead class="tb-header">
-                        <td>Mã sản phẩm</td>
+                        <td >Mã sản phẩm</td>
                        <td>
                            Tên sản phẩm
                        </td>
                        <td>
                            Giá
                        </td>
+                       <td>
+                        Giá giảm
+                        </td>
                        <td>
                            Mô tả
                        </td>
@@ -461,7 +473,7 @@
                         <td>Loại sản phẩm</td>
                         <td>Đối tượng sản phẩm</td>
                         <td>Bộ sưu tập</td>
-                       
+                        <td>Ngày tạo</td>
                        <td>Chức năng</td>
                     </thead>
                     <tbody>

@@ -9,7 +9,7 @@ const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST";
 const urlGetListObject = "https://localhost:7284/api-admin/Object/Get_List_Ob";
 const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDetails/GetList_CategoryDetails";
 
-
+const btnThongKe = $("#btnThongKe")
 const inputFr_Month = $("#fr_month");
 const inputTo_Month = $("#to_month");
 const inputYear = $("#year");
@@ -27,10 +27,11 @@ function Start() {
 }
 
 Start();
-
+btnThongKe.on("click", ()=>{
+  Start();
+})
 
 async function getTotalProductSelled(){
-    let i = 0 ;
     var data={
         fr_month:inputFr_Month.val(),
         to_month:inputTo_Month.val(),
@@ -48,7 +49,6 @@ async function getTotalProductSelled(){
         });
         renderTotalProduct(total);
     }catch(err){
-        listData.push(0);
         console.log(err);
     }
     
@@ -65,7 +65,6 @@ function hanleDataTotalProductSelled(data){
       var fr_month = data[0]["month"];
       var to_month = data[data.length-1]["month"];
       for(var i=1; i<=12; i ++){
-
             if(i<fr_month || i>to_month){
                 listData[i-1] = 0 
                }
@@ -89,7 +88,6 @@ function hanleDataTotalProductSelled(data){
                if ( i == to_month){
                 listData[to_month-1] = data[data.length-1]["total"];
                }
-       
       }
     }
     else if(data.length == 1){
@@ -100,19 +98,21 @@ function hanleDataTotalProductSelled(data){
           }
         }
     };
-    var maxTotalOrder = 0 ;
+    var maxTotalOrder = listData[0] ;
+    console.log(listData.slice(0,12))
+
     for (var j = 0; j < listData.slice(0,12).length-1; j++){
-      for (var z = j; z < listData.slice(0,12).length; z++){
-        if(listData[j]>listData[z]){
-          maxTotalOrder = listData[j]
+        if(listData.slice(0,12)[j]>maxTotalOrder){
+
+          maxTotalOrder = listData.slice(0,12)[j]
         }
-      }
     };
     renderLineProduct(listData.slice(0,12),maxTotalOrder);
   };
 
 
 function renderLineProduct(listdata,maxTotalOrder){
+    console.log(maxTotalOrder)
     let myChart = document.getElementById('lineProduct').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -127,9 +127,8 @@ function renderLineProduct(listdata,maxTotalOrder){
           label:'Sản phẩm',
           data: listdata,
           borderColor: "#0766AD",
-          backgroundColor:"#0766AD",
           borderWidth:1,
-          fill: false,
+          fill: true,
           hoverBorderWidth:3,
           hoverBorderColor:'#0766AD'
         }]
@@ -159,7 +158,10 @@ function renderLineProduct(listdata,maxTotalOrder){
 
 
 async function getTotalOrder(){
-    $.get(urlApiGetTotalOrder)
+    $.get({
+      url:urlApiGetTotalOrder,
+      headers: { "Authorization": 'Bearer ' + token }
+    })
     .done(res=>{
         
         $(".total-order span").html(res);
@@ -232,13 +234,13 @@ function hanleDataTotalOrderByMonth(data){
           }
         }
     };
-    var maxTotalOrder = 0 ;
+    var maxTotalOrder = listTotalOrder[0] ;
+
     for (var j = 0; j < listTotalOrder.slice(0,12).length-1; j++){
-      for (var z = j; z < listTotalOrder.slice(0,12).length; z++){
-        if(listTotalOrder[j]>listTotalOrder[z]){
-          maxTotalOrder = listTotalOrder[j]
+        if(listTotalOrder.slice(0,12)[j]>maxTotalOrder){
+
+          maxTotalOrder = listTotalOrder.slice(0,12)[j]
         }
-      }
     };
     renderLineOrder(listTotalOrder.slice(0,12),maxTotalOrder)
   };
@@ -261,9 +263,8 @@ function renderLineOrder(data,maxTotalOrder){
           label:'Đơn hàng',
           data: data,
           borderColor: "#0766AD",
-          backgroundColor:"#0766AD",
           borderWidth:1,
-          fill: false,
+          fill: true,
           hoverBorderWidth:3,
           hoverBorderColor:'#0766AD'
         }]
@@ -357,7 +358,6 @@ async function GetTop5SpBanChayNhat(){
     try{
 
         const res = await promise
-        console.log(res)
         renderListProduct(res)
     }
     catch(err){
@@ -367,7 +367,7 @@ async function GetTop5SpBanChayNhat(){
 
 function renderListProduct (data){
     var html = data.map((product,index)=>{
-        var cateDetail =GetCateDetailById( product["cateDetailId"]);
+        var cateDetail =GetCateDetailById( product["cateDt"]);
         var object = GetObjectNameById(product["object_id"]);
         var bst = GetBSTById( product["bst_id"]);
         return `

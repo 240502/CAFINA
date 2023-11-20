@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Businesss;
+using Microsoft.AspNetCore.Authorization;
+
 namespace API_Cafina_Manage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductViewController : ControllerBase
     {
 

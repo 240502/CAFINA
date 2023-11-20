@@ -47,6 +47,7 @@ async function  getListOrder(){
     }
     $.post({
         url:urlApiGetListOrder,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     }).done(async (res)=>{
@@ -62,7 +63,10 @@ async function  getListOrder(){
 };
 
 function getListStatus(){
-    $.get(urlApiGetListStatus)
+    $.get({
+        url:urlApiGetListStatus,
+        headers: { "Authorization": 'Bearer ' + token }
+    })
     .done(res=>{
         localStorage.setItem("ListStatus",JSON.stringify(res));
         renderStatus(res);
@@ -293,10 +297,22 @@ async function handleUpdateOrder(){
     console.log(data);
 };
 
+function clearDataInput(){
+    inputOrderId.val("");
+    inputUserId.val("");
+    inputFullName.val("");
+    inputEmail.val("");
+    inputOrderDate.val("");
+    inputPhoneNumber.val("");
+    inputAddress.val("");
+    inputNote.val("");
+    inputStatus.val("");
+}
 function UpdateOrder(data){
     $.ajax({
         type: "PUT",
         url: urlApiUpdateOrder,
+        headers: { "Authorization": 'Bearer ' + token },
         data: JSON.stringify(data),
         contentType: "application/json"
         
@@ -304,6 +320,7 @@ function UpdateOrder(data){
     .done(async (res)=>{
            await getListOrder();
             showSuccessToast("Cập nhật thành công");
+            clearDataInput();
 
     })
     .fail(err=>{

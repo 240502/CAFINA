@@ -83,7 +83,10 @@ function handleIncreaseAmount(productId){
 
 function GetUserByID(){
     if(infoUsLocal!==null){
-        $.get(urlApiGetUsById+'?id='+infoUsLocal["user_id"])
+        $.get({
+            url :urlApiGetUsById+'?id='+infoUsLocal["user_id"],
+            headers: { "Authorization": 'Bearer ' + token }
+        })
         .done(res=>{
             localStorage.setItem('InfoUsOrder',JSON.stringify(res));
         })
@@ -138,13 +141,10 @@ function handleCreateOrder(size,productId,price){
                 isCreate = true;
                 isUpdate=false;
                 CreateOrder(data);
-                console.log(data);
 
 
             } 
             else if(product !== undefined && orderdetail["size"] ===size){
-                console.log(orderdetail["size"] ===size);
-
                 const data = {
                     id:order["id"],
                     user_Id:order["user_Id"],
@@ -166,8 +166,6 @@ function handleCreateOrder(size,productId,price){
                         }
                     ]
                 };
-                console.log(data);
-
                 isCreate = false;
                 isUpdate=true;
                 UpdateOrder(data);
@@ -194,6 +192,7 @@ function CreateOrder(data){
     $.post({
         url:urlApiCreateOrder,
         data:JSON.stringify(data),
+        headers: { "Authorization": 'Bearer ' + token },
         contentType:"application/json"
     })
     .done(async (res)=>{
@@ -225,6 +224,7 @@ function UpdateOrder(data){
     $.ajax({
         type: "PUT",
         url: urlApiUpdateOrder,
+        headers: { "Authorization": 'Bearer ' + token },
         data: JSON.stringify(data),
         contentType: "application/json"
         
@@ -270,6 +270,7 @@ function activeModalConfirm(orderId){
 function DeleteOrder(data){
     $.ajax({
         type: "DELETE",
+        headers: { "Authorization": 'Bearer ' + token },
         url: urlApiDeleteOrderById+"?orderId="+data
         
     })

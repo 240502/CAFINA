@@ -1,4 +1,5 @@
 ﻿using Businesss;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -8,6 +9,7 @@ namespace API_Cafina.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         OrderBUS orderBus = new OrderBUS();
@@ -106,6 +108,7 @@ namespace API_Cafina.Controllers
 
         }
 
+        [AllowAnonymous]
         [Route("Search_Order")]
         [HttpPost]
         public IActionResult Search_Order([FromBody] Dictionary <string,object> formData)
@@ -135,6 +138,7 @@ namespace API_Cafina.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
         [Route("ThongKe_SoDonHang_TheoUser")]
         [HttpPost]
         public IActionResult ThongKe([FromBody] Dictionary<string,object> formData)
@@ -174,6 +178,7 @@ namespace API_Cafina.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
         [Route("ThongKe_TongSoLuongDonHang")]
         [HttpPost]
         public IActionResult ThongKeTongSlDonHang([FromBody] Dictionary<string,object> formData)

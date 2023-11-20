@@ -11,6 +11,7 @@ namespace API_Cafina.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         UserBUS userBUS = new UserBUS();
@@ -130,18 +131,24 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                DateTime? fr_date = null;
-                DateTime? to_date = null;
+                int fr_date = 0;
+                int to_date = 0;
+                int year = 0;
                 if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
                 {
-                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
+                    fr_date = int.Parse(formData["fr_date"].ToString());
 
                 }
                 if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
                 {
-                    to_date = DateTime.Parse((formData["to_date"]).ToString());
+                    to_date = int.Parse((formData["to_date"]).ToString());
                 }
-                List<UserThongKeModel> result = usTk.ThongKeTop5UserTieuNhieuTienNhat(fr_date, to_date);
+
+                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
+                {
+                    year = int.Parse((formData["year"]).ToString());
+                }
+                List<UserThongKeModel> result = usTk.ThongKeTop5UserTieuNhieuTienNhat(fr_date, to_date,year);
                 return result != null ? Ok(result) : NotFound();
 
             }

@@ -10,6 +10,8 @@ const inputColor =$("#color");
 const inputOb = $("#object");
 const inputCate = $("#Cate");
 const inputBst= $("#bst");
+const inputCreated = $("#created");
+const inputDiscount = $("#discount");
 const btnSaveOpen = $(".opened .btnSave");
 const urlGetListProduct = "https://localhost:7284/api-admin/Product/PhanTrang_DSProduct";
 const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST";
@@ -129,6 +131,7 @@ function handleGetListProduct(){
 function GetListProduct(data) {
     $.post({
         url:urlGetListProduct,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     })
@@ -166,14 +169,17 @@ function renderListProduct (data){
         var bst = GetBSTById( product["bst_id"]);
         return `
         <tr class="tb-content" data-id = "${index}">
-            <td class="productId" >
+            <td class="productId" stylye="width:fit-content" >
                ${product["productId"]}
             </td>
-            <td class="product_title">
+            <td class="product_title" stylye="width:fit-content">
                 ${product["title"]}
             </td>
             <td class="price">
                 ${product["price"]}
+            </td>
+            <td class="discount">
+            ${product["discount"]}
             </td>
             <td class="description">
                 ${product["description"]}
@@ -198,7 +204,10 @@ function renderListProduct (data){
             </td>
             <td class="bst_id" data-id = ${ bst!==undefined?bst["id"]:""} >
                 ${bst !==undefined ? bst["tenBST"]:"" }
-            </td>   
+            </td>  
+            <td class="created">
+                ${product["created"].slice(0,10)}
+            </td>
             
             <td>
                  <div class="group-btn">
@@ -222,15 +231,16 @@ function handleCreateProduct() {
         "productId": inputProductId.val().trim(),
         "title": inputTitle.val().trim(),
         "price": Number(inputPrice.val().trim()),
-        "discount": 0,
+        "discount": Number(inputDiscount.val().trim()),
         "description": inputDes.val().trim(),
         "chatLieu": inputChatLieu.val().trim(),
         "huongDanSuDung": inputHd.val().trim(),
         "size": inputSize.val().trim(),
         "color": inputColor.val().trim(),
-        "cateId": Number(inputCate.val().trim()),
+        "cateDetailId": Number(inputCate.val().trim()),
         "object_id": Number(inputOb.val().trim()),
         "bst_id": Number(inputBst.val().trim()),
+        "created":Number(inputCreated.val().trim())
     }
     CreateProduct(data);
 };
@@ -238,6 +248,7 @@ function handleCreateProduct() {
 function CreateProduct(data){
     $.post({
         url:urlCreateProduct,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType: "application/json"
     }).done(res=>{
@@ -265,6 +276,7 @@ function fillToInput(index){
     inputTitle.val(tb_content.querySelector(".product_title").textContent.trim());
     inputDes.val(tb_content.querySelector(".description").textContent.trim());
     inputPrice.val(tb_content.querySelector(".price").textContent.trim());
+    inputDiscount.val(tb_content.querySelector(".discount").textContent.trim())
     inputChatLieu.val(tb_content.querySelector(".ChatLieu").textContent.trim());
     inputHd.val(tb_content.querySelector(".Hdsd").textContent.trim());
     inputSize.val(tb_content.querySelector(".size").textContent.trim());
@@ -272,6 +284,7 @@ function fillToInput(index){
     inputOb.val(tb_content.querySelector(".object_id").dataset.id);
     inputCate.val(tb_content.querySelector(".cateId").dataset.id);
     inputBst.val(tb_content.querySelector(".bst_id").dataset.id);
+    inputCreated.val(tb_content.querySelector(".created").textContent.trim());
 };
 
 function clearDataProduct(){
@@ -283,6 +296,8 @@ function clearDataProduct(){
     inputHd.val("")
     inputSize.val("")
     inputColor.val("")
+    inputCreated.val(Date.now())
+    inputDiscount.val("")
 };
 
 function handleUpdateProduct(id){
@@ -290,16 +305,18 @@ function handleUpdateProduct(id){
         "productId": id,
         "title": inputTitle.val().trim(),
         "price": Number(inputPrice.val().trim()),
-        "discount": 0,
+        "discount": Number(inputDiscount.val().trim()),
         "description": inputDes.val().trim(),
         "chatLieu": inputChatLieu.val().trim(),
         "huongDanSuDung": inputHd.val().trim(),
         "size": inputSize.val().trim(),
         "color": inputColor.val().trim(),
-        "cateId": Number(inputCate.val().trim()),
+        "cateDetailId": Number(inputCate.val().trim()),
         "object_id": Number(inputOb.val().trim()),
         "bst_id": Number(inputBst.val().trim()),
+        "created":inputCreated.val()
     }
+    console.log(data);
     UpdateProduct(data);
 };
 
@@ -307,6 +324,7 @@ function UpdateProduct(data){
     $.ajax({
         type: "PUT",
         url: urlUpdateProduct,
+        headers: { "Authorization": 'Bearer ' + token },
         data: JSON.stringify(data),
         contentType: "application/json"
         
@@ -338,8 +356,9 @@ function activeModalConfirm(id){
 function DeleteProduct(id){
     console.log(id)
     $.ajax({
+        type:"DELETE",
         url:urlDeleteProduct +'?productId='+id,
-        type:"DELETE"
+        headers: { "Authorization": 'Bearer ' + token },
     })
     .done(res=>{
         showSuccessToast("Xóa sản phẩm thành công");

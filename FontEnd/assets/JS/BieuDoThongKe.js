@@ -25,6 +25,7 @@ function handleThongKe(){
 function ThongKe(data){
     $.post({
         url:urlApiThongKeDoanhThu,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     })

@@ -54,6 +54,7 @@ function handlegetListUs(){
 function getListUs(data){
     $.post({
         url: urlApiGetListUser,
+        headers: { "Authorization": 'Bearer ' + token },
         data: JSON.stringify(data),
         contentType: 'application/json'
     }).done(res=>{
@@ -151,6 +152,7 @@ function handleCreateUser(){
 function CreateUser(data){
     $.post({
         url:urlApiCreateUser,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     }).done(res=>{
@@ -210,6 +212,7 @@ function activeModalConfirm(usid){
 function DeleteUs(UserId){
     $.ajax({
         url: urlApiDeleteUser+'?usId='+UserId,
+        headers: { "Authorization": 'Bearer ' + token },
         type: 'DELETE',
     }).done(res=>{
         showSuccessToast("Xóa thành công");
@@ -248,6 +251,7 @@ function updateUser(data){
      $.ajax({
          url : urlApiUpdateUser,
          type :"PUT",
+         headers: { "Authorization": 'Bearer ' + token },
          data: JSON.stringify(data),
          contentType:"application/json"
      })

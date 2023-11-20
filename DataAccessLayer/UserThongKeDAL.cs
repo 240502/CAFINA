@@ -11,14 +11,14 @@ namespace DataAccessLayer
     public class UserThongKeDAL
     {
         DataHelper helper = new DataHelper();
-        public List<UserThongKeModel> ThongKeTop5UserTieuNhieuTienNhat(DateTime? fr_date, DateTime? to_date)
+        public List<UserThongKeModel> ThongKeTop5UserTieuNhieuTienNhat(int fr_date, int to_date, int year)
         {
             try
             {
                 DataTable tb = helper.ExcuteReader(
                     "Pro_ThongKe_User",
-                    "@fr_date", "@to_date",
-                    fr_date, to_date
+                    "@fr_date", "@to_date","@year",
+                    fr_date, to_date,year
                 );
                 List<UserThongKeModel> listUser = new List<UserThongKeModel>();
                 if (tb != null)

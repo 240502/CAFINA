@@ -14,6 +14,8 @@ namespace API_Cafina.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private IWebHostEnvironment _env;
@@ -37,7 +39,7 @@ namespace API_Cafina.Controllers
                 int year = 0;
                 if (formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(formData["fr_month"].ToString()))
                 {
-                    to_month = int.Parse(formData["fr_month"].ToString());
+                    fr_month = int.Parse(formData["fr_month"].ToString());
                 }
 
                 if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
@@ -57,7 +59,6 @@ namespace API_Cafina.Controllers
                 throw ex;
             }
         }
-
         [Route("PhanTrang_DSProduct")]
         [HttpPost]
         public IActionResult PhanTrang([FromBody] Dictionary<string, object> formData)
@@ -116,6 +117,8 @@ namespace API_Cafina.Controllers
             return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
 
         }
+
+        [AllowAnonymous]
         [Route("Search")]
         [HttpPost]
         public IActionResult Search([FromBody] Dictionary<string,object> formData)
@@ -169,7 +172,7 @@ namespace API_Cafina.Controllers
                 if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(Convert.ToString(formData["to_month"])))
                 {
 
-                    fr_month = int.Parse(formData["to_month"].ToString());
+                    to_month = int.Parse(formData["to_month"].ToString());
                 }
 
 

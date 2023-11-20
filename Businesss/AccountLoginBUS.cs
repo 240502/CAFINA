@@ -38,7 +38,7 @@ namespace Businesss
                     new Claim(ClaimTypes.Role, acc.Role_id.ToString()),
                     new Claim(ClaimTypes.Email, acc.UserName)
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

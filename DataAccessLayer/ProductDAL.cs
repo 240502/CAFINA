@@ -55,8 +55,8 @@ namespace DataAccessLayer
         {
             var result = helper.ExcuteNonQuery(
                     "Pro_Update_Product",
-                    "@ma", "@ten", "@gia", "@giaGiam", "@mota", "@chatLieu", "@hd", "size", "@color", "@catedetailid", "@Object_id", "@Bst_id",
-                    product.ProductId, product.title, product.price, product.discount, product.description, product.ChatLieu, product.HuongDanSuDung, product.size, product.color, product.CateDetailId, product.Object_id, product.Bst_id
+                    "@ma", "@ten", "@gia", "@giaGiam", "@mota", "@chatLieu", "@hd", "size", "@color", "@catedetailid", "@Object_id", "@Bst_id","@created",
+                    product.ProductId, product.title, product.price, product.discount, product.description, product.ChatLieu, product.HuongDanSuDung, product.size, product.color, product.CateDetailId, product.Object_id, product.Bst_id,product.Created
                 );
             return result;
         }
@@ -127,7 +127,7 @@ namespace DataAccessLayer
                         product.size = result.Rows[i]["size"].ToString();
                         product.color = result.Rows[i]["color"].ToString();
                         product.CateDetailId = result.Rows[i]["CateDt"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["CateDt"].ToString());
-                        product.Created = result.Rows[i]["Created"] == DBNull.Value ? DateTime.MinValue : DateTime.Parse(result.Rows[i]["Created"].ToString());
+                        product.Created = result.Rows[i]["Created"] == DBNull.Value ? DateTime.Now : DateTime.Parse(result.Rows[i]["Created"].ToString());
                         product.Object_id = result.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Object_id"].ToString());
                         product.Bst_id = result.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(result.Rows[i]["Bst_id"].ToString());
                         ProductList.Add(product);
@@ -202,7 +202,7 @@ namespace DataAccessLayer
                         product.Object_id = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
                         product.Bst_id = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
                         product.CateDetailId = tb.Rows[i]["CateDt"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateDt"].ToString());
-                        product.Created = tb.Rows[i]["Created"] == DBNull.Value ? DateTime.MinValue : DateTime.Parse(tb.Rows[i]["Created"].ToString());
+                        product.Created = tb.Rows[i]["Created"] == DBNull.Value ? DateTime.Now : DateTime.Parse(tb.Rows[i]["Created"].ToString());
                         ProductList.Add(product);
                     }
                     return ProductList;
@@ -339,7 +339,7 @@ namespace DataAccessLayer
                         product.Object_id = tb.Rows[i]["Object_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Object_id"].ToString());
                         product.Bst_id = tb.Rows[i]["Bst_id"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["Bst_id"].ToString());
                         product.CateDetailId = tb.Rows[i]["CateDt"] == DBNull.Value ? 0 : int.Parse(tb.Rows[i]["CateDt"].ToString());
-                        product.Created = tb.Rows[i]["Created"] == DBNull.Value ? DateTime.MinValue : DateTime.Parse(tb.Rows[i]["Created"].ToString());
+                        product.Created = tb.Rows[i]["Created"] == DBNull.Value ? DateTime.Now : DateTime.Parse(tb.Rows[i]["Created"].ToString());
                         ProductList.Add(product);
                     }
                     return ProductList;
