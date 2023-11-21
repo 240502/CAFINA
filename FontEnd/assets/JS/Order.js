@@ -9,6 +9,7 @@ const minusBtn = $(".btnMinus");
 const plusBtn = $(".btnPlus");
 let isCreate = false;
 let isUpdate = false;
+console.log(infoUsLocal);
 function handleReduceAmount(productId){
     isCreate = false;
     isUpdate=true;
@@ -82,6 +83,7 @@ function handleIncreaseAmount(productId){
 };
 
 function GetUserByID(){
+    console.log("oge")
     if(infoUsLocal!==null){
         $.get({
             url :urlApiGetUsById+'?id='+infoUsLocal["user_id"],
@@ -89,6 +91,7 @@ function GetUserByID(){
         })
         .done(res=>{
             localStorage.setItem('InfoUsOrder',JSON.stringify(res));
+
         })
         .fail(err=>{
             console.log(err);
@@ -104,9 +107,9 @@ function checkProductInOrder(productId){
     })
     return Duplicate;
 }
-const infoUsOrder = JSON.parse(localStorage.getItem('InfoUsOrder'));
+
 function handleCreateOrder(size,productId,price){
-   
+    const infoUsOrder = JSON.parse(localStorage.getItem('InfoUsOrder')); 
     orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
     var orderdetail = orderdetails[0].find(item=>{
         return item["productId"] === productId
@@ -140,6 +143,7 @@ function handleCreateOrder(size,productId,price){
                 }
                 isCreate = true;
                 isUpdate=false;
+                console.log(data)
                 CreateOrder(data);
 
 

@@ -32,9 +32,9 @@ namespace Businesss
             var result = orderDAL.DeleteOrder(orderId);
             return result;
         }
-        public List<OrderModel> SearchOrder(int pageIndex,int pageSize,out long total,string name)
+        public List<OrderModel> SearchOrder(int pageIndex,int pageSize,out long total,string value)
         {
-            var result = orderDAL.SearchOrder(pageIndex,pageSize,out total,name);
+            var result = orderDAL.SearchOrder(pageIndex,pageSize,out total, value);
             return result;
         }
         public int UpdateOrder(OrderModel order)

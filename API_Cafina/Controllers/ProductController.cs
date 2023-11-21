@@ -34,24 +34,20 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                int to_month = 0;
-                int fr_month = 0;
-                int year = 0;
-                if (formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(formData["fr_month"].ToString()))
+                DateTime? to_date = null;
+                DateTime? fr_date = null;
+                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(formData["fr_date"].ToString()))
                 {
-                    fr_month = int.Parse(formData["fr_month"].ToString());
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
                 }
 
-                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
                 {
-                    to_month = int.Parse(formData["to_month"].ToString());
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
                 }
 
-                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
-                {
-                    year = int.Parse(formData["year"].ToString());
-                }
-                List<ProductTKSLBanModel> model = proTK.ThongKeSLBanProduct(fr_month,to_month, year);
+              
+                List<ProductTKSLBanModel> model = proTK.ThongKeSLBanProduct(fr_date, to_date);
 
                 return model != null ? Ok(model) : NotFound();
 
@@ -125,15 +121,24 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                
-                var page = int.Parse(formData["page"].ToString());
-                var pageSize = int.Parse(formData["pageSize"].ToString());
-                string proName = "";
-                if (formData.Keys.Contains("ProductName") && !string.IsNullOrEmpty(Convert.ToString(formData["ProductName"]))) { 
-                    proName = Convert.ToString(formData["ProductName"]); 
+
+                int pageIndex = 0;
+                int pageSize = 0;
+
+                string value = "";
+                if (formData.Keys.Contains("value") && !string.IsNullOrEmpty(Convert.ToString(formData["value"]))) {
+                    value = Convert.ToString(formData["value"]); 
+                }
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(Convert.ToString(formData["pageIndex"])))
+                {
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                }
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(Convert.ToString(formData["pageSize"])))
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
                 }
                 long total = 0;
-                Product_List = proBus.Search(page, pageSize, out total, proName);
+                Product_List = proBus.Search(pageIndex, pageSize, out total, value);
                 if (Product_List.Count > 0)
                 {
                     return Ok(
@@ -141,7 +146,7 @@ namespace API_Cafina.Controllers
                    {
                        TotalItems = total,
                        Data = Product_List,
-                       Page = page,
+                       Page = pageIndex,
                        PageSize = pageSize
                    }
                    );
@@ -160,27 +165,23 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                int fr_month = 0;
-                int to_month = 0;
+                DateTime? to_date = null;
+                DateTime? fr_date = null;
 
-                int year = 0;
-                if (formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_month"])))
+                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
                 {
 
-                    fr_month = int.Parse(formData["fr_month"].ToString());
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
                 }
-                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(Convert.ToString(formData["to_month"])))
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(Convert.ToString(formData["to_date"])))
                 {
 
-                    to_month = int.Parse(formData["to_month"].ToString());
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
                 }
 
 
-                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(Convert.ToString(formData["year"])))
-                 {
-                    year = int.Parse(formData["year"].ToString());
-                }
-                var result = proTK.ThongKeSanPhamBanChay(fr_month,to_month, year);
+             
+                var result = proTK.ThongKeSanPhamBanChay(fr_date, to_date);
                 return result != null ? Ok(result) : NotFound();
             }catch(Exception ex)
             {

@@ -11,9 +11,9 @@ namespace Businesss
     public class Order_ThongKeBUS
     {
         Order_ThongKeDAL odTk = new Order_ThongKeDAL();
-        public List<ThongKeOrderByMonthModel> ThongKeSLOrderTheoThang(int fr_month,int to_month, int year)
+        public List<ThongKeOrderByMonthModel> ThongKeSLOrderTheoThang(DateTime? fr_date,DateTime? to_date)
         {
-            return odTk.ThongKeSLOrderTheoThang(fr_month,to_month, year);
+            return odTk.ThongKeSLOrderTheoThang(fr_date, to_date);
         }
         public List<ThongKe_Order_By_KhachModel> ThongKeSoLuongDonHangTheoKH(int page, int page_size, out int total, string fullname, DateTime? ngaybd, DateTime? ngaykt)
         {

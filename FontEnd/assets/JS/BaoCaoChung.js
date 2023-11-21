@@ -3,18 +3,78 @@ const urlApiGetTotalUser = "https://localhost:7284/api-admin/User/TotalUser";
 const urlApiThongKeDoanhThu  = "https://localhost:7284/api-admin/ThongKeDoanhThu/Thong_Ke_Doanh_Thu";
 const urrlApiThongKeSoLuongDonHangTheoThang = "https://localhost:7284/api-admin/Order/ThongKe_SLDonHangTheoThang";
 const urlApiGetTotalProductViewInMonth = "https://localhost:7284/api-admin/ProductView/GetTotalProductView"
-
+const urlApiThongKeSoTienTieuDungUs = "https://localhost:7284/api-admin/User/ThongKe_SoTienCuaUs";
 async function Start(){
     //showSubNav();
     getTotalOrderByMonth();
     GetTotalProductViews();
-     getTotalUser();
-     getTotalOrder();
-    handleThongKe();
+    getTotalUser();
+    getTotalOrder();
+    handleThongKeDoanhThu();
+    handleThongKeSoTienTieuDungUs();
 }
 Start();
-console.log(token);
 
+function handleThongKeSoTienTieuDungUs(){
+  const date = new Date();
+  var data = {
+    fr_date: date.getMonth()+1,
+    to_date: date.getMonth()+1,
+    year: date.getFullYear()
+  };
+  $(".block-user h3 span").html(date.getMonth()+1)
+  ThongKeSoTienTieuDungUs(data);
+};
+
+async function ThongKeSoTienTieuDungUs(data){
+  const promise = new Promise((resolve, reject) => {
+    httpPostAsyncCate(urlApiThongKeSoTienTieuDungUs,resolve,reject,data);
+  });
+  try{
+    const res = await promise;
+    console.log(res);
+    renderListUs(res);
+  }catch(err){
+    console.log(err);
+  }
+}
+
+function renderListUs(data){
+  var html = data.map(us=>{
+      return `
+      <tr class="tb-content" data-id = "${us["id"]}">
+          <td class="us_id" >
+              ${us["id"]}
+          </td>
+          <td class="fullName">
+              ${us["fullName"]}
+          </td>
+          <td class="phone_number">
+             ${us["phone_number"]}
+          </td>
+          <td class="email">
+              ${us["email"]}
+          </td>
+          <td class="birthday">
+              ${ us["birthday"].slice(0,10)}
+
+          </td>
+          <td class="gender">
+              ${us["gender"]}
+          </td>
+          <td class="address">
+              ${us["address"]}
+          </td>
+          <td>
+            ${handlePrice(us["tongTienMua"])}
+          </td>
+         
+      </tr>
+      `
+  })
+  $(".block-user tbody").html(html.join(""));
+  
+};
 async function GetTotalProductViews(){
   const date = new Date();
   var data = { 
@@ -43,11 +103,7 @@ async function getTotalOrderByMonth(){
   var month = [1,2,3,4,5,6,7,8,9,10,11,12];
   var listTotalOrder = [];
   const date = new Date();
-    var data={
-      fr_month:0,
-      to_month:0,
-      year:date.getFullYear(),
-  }
+    var data={};
     const promise = new Promise((resolve, reject) =>{
       httpPostAsyncCate(urrlApiThongKeSoLuongDonHangTheoThang,resolve,reject,data);
     })
@@ -92,14 +148,9 @@ async function getTotalOrder(){
 };
 
 
-function handleThongKe(){
+function handleThongKeDoanhThu(){
     const date = new Date();
-
-    var data={
-        fr_month:0,
-        to_month:0,
-        year:date.getFullYear(),
-    }
+    var data={};
     ThongKe(data)
 }
 function ThongKe(data){
@@ -257,7 +308,7 @@ function renderLineOrder(data,maxTotalOrder){
   let myChart = document.getElementById('lineSoLuongDonHang').getContext('2d');
   
   Chart.defaults.global.defaultFontFamily = 'Lato';
-  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.defaultFontSize = 14;
   Chart.defaults.global.defaultFontColor = '#777';
   new Chart("lineSoLuongDonHang", 
   {
@@ -301,7 +352,7 @@ function renderLineOrder(data,maxTotalOrder){
 function renderLineDoanhThu(data){
     let myChart = document.getElementById('barSoNguoiDung').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontSize = 14;
     Chart.defaults.global.defaultFontColor = '#777';
     
     new Chart("barSoNguoiDung", 

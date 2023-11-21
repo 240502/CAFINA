@@ -90,24 +90,27 @@ namespace DataAccessLayer
             }
         }
 
-        public List<UserModel> Search(string FullName,string email,string PhoneNumber)
+        public List<UserModel> Search(string value,int pageIndex,int pageSize,out int total)
         {
+            total = 0;
             try
             {
-                var result = helper.ExcuteReader("Pro_Search_Us", "@FullName", "@Email", "@PhoneNumber",FullName,email,PhoneNumber);
+                var result = helper.ExcuteReader("Pro_Search_Us", "@value","@pageIndex","@pageSize",value,pageIndex,pageSize);
+
                 if (result != null)
                 {
+                    total = int.Parse(result.Rows[0]["RecordCount"].ToString());
                     List<UserModel> listUs = new List<UserModel>();
                     for (int i = 0; i < result.Rows.Count; i++)
                     {
                         UserModel us = new UserModel();
-                        us.Id = int.Parse(result.Rows[0]["id"].ToString());
-                        us.FullName = result.Rows[0]["FullName"].ToString();
-                        us.email = result.Rows[0]["email"].ToString();
-                        us.phone_number = result.Rows[0]["Phone_Number"].ToString();
-                        us.Birthday = DateTime.Parse(result.Rows[0]["BirthDay"].ToString());
-                        us.Gender = result.Rows[0]["Gender"].ToString();
-                        us.Address = result.Rows[0]["Address"].ToString();
+                        us.Id = int.Parse(result.Rows[i]["id"].ToString());
+                        us.FullName = result.Rows[i]["FullName"].ToString();
+                        us.email = result.Rows[i]["email"].ToString();
+                        us.phone_number = result.Rows[i]["Phone_Number"].ToString();
+                        us.Birthday = DateTime.Parse(result.Rows[i]["BirthDay"].ToString());
+                        us.Gender = result.Rows[i]["Gender"].ToString();
+                        us.Address = result.Rows[i]["Address"].ToString();
                         listUs.Add(us);
                     }
                     return listUs;
@@ -118,7 +121,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                return null;
             }
         }
 

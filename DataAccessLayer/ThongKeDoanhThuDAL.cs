@@ -13,11 +13,11 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
-        public List<ThongKeDoanhThuModel> ThongKeDoanhThu   (int fr_month, int to_month, int year)
+        public List<ThongKeDoanhThuModel> ThongKeDoanhThu (DateTime? fr_date, DateTime ? to_date)
         {
             try
             {
-                DataTable tb = helper.ExcuteReader("Pro_ThongKeDoanhThu", "@fr_month", "@to_month", "@year", fr_month, to_month, year);
+                DataTable tb = helper.ExcuteReader("Pro_ThongKeDoanhThu", "@fr_date", "@to_date", fr_date,to_date);
 
                 if (tb != null)
                 {
@@ -28,6 +28,34 @@ namespace DataAccessLayer
                         tk.Thang = int.Parse(tb.Rows[i]["Tháng"].ToString());
                         tk.Nam = int.Parse(tb.Rows[i]["Năm"].ToString());
 
+                        tk.DoanhThu = int.Parse(tb.Rows[i]["Doanh Thu"].ToString());
+                        list.Add(tk);
+                    }
+
+                    return list;
+
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ThongKeDoanhThuModel> ThongKeDoanhThuTheoNgay(DateTime? fr_date, DateTime? to_date)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("Pro_ThongKeDoanhThuTheoNgayTrongThang", "@fr_date", "@to_date", fr_date, to_date);
+
+                if (tb != null)
+                {
+                    List<ThongKeDoanhThuModel> list = new List<ThongKeDoanhThuModel>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        ThongKeDoanhThuModel tk = new ThongKeDoanhThuModel();
+                        tk.Day = int.Parse(tb.Rows[i]["day"].ToString());
+                        tk.Thang = int.Parse(tb.Rows[i]["day"].ToString());
                         tk.DoanhThu = int.Parse(tb.Rows[i]["Doanh Thu"].ToString());
                         list.Add(tk);
                     }

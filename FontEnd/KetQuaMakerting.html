@@ -365,40 +365,12 @@
                 <div class="select" style="">
                    <div class="form-item">
                         <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Từ tháng</label>
-                        <select name="" id="fr_month" >
-                            <option value="0">Chọn tháng</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
-                        </select>
+                        <input name="" id="fr_date" type="date" />
+                           
                    </div>
                    <div class="form-item">
                     <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Đến tháng</label>
-                    <select name="" id="to_month">
-                        <option value="0">Chọn tháng</option>
-                        <option value="1">Tháng 1</option>
-                        <option value="2">Tháng 2</option>
-                        <option value="3">Tháng 3</option>
-                        <option value="4">Tháng 4</option>
-                        <option value="5">Tháng 5</option>
-                        <option value="6">Tháng 6</option>
-                        <option value="7">Tháng 7</option>
-                        <option value="8">Tháng 8</option>
-                        <option value="9">Tháng 9</option>
-                        <option value="10">Tháng 10</option>
-                        <option value="11">Tháng 11</option>
-                        <option value="12">Tháng 12</option>
-                    
-                    </select>
+                    <input name="" id="to_date" type="date" />
                     </div>
                     <div class="form-item">
                         <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;">Năm</label>
@@ -424,6 +396,10 @@
                     }
                     .form-item{
                         width: 25%;
+                    }
+                    .form-item input{
+                        border: 1px solid #ccc;
+                        outline: none;
                     }
                     #btnThongKe{
                         padding: 10px 20px;

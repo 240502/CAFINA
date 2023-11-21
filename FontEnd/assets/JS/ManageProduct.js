@@ -13,6 +13,8 @@ const inputBst= $("#bst");
 const inputCreated = $("#created");
 const inputDiscount = $("#discount");
 const btnSaveOpen = $(".opened .btnSave");
+const inputSearchListData  = $(".search-user-input");
+
 const urlGetListProduct = "https://localhost:7284/api-admin/Product/PhanTrang_DSProduct";
 const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST";
 const urlGetListObject = "https://localhost:7284/api-admin/Object/Get_List_Ob";
@@ -20,11 +22,14 @@ const urlCreateProduct = "https://localhost:7284/api-admin/Product/Create_Produc
 const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDetails/GetList_CategoryDetails";
 const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Product";
 const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product";
+const urlApiSearchProductManager= "https://localhost:7284/api-admin/Product/Search";
+
+
 let thisPage =1;
 let pageSize =10;
 let isCreate = true;
 let isUpdate = false;
-
+let isSearchManage = false;
 
 var listObject  = JSON.parse(localStorage.getItem("listObjectProduct"));
 var listCateDetailsProduct = JSON.parse(localStorage.getItem("listCateDetailsProduct"));
@@ -43,7 +48,13 @@ Start();
 
 function changePage(index){
     thisPage = index;
-    handleGetListProduct();
+    if(isSearchManage){
+        handleSearchProductListData();
+    }
+    else{
+
+        handleGetListProduct();
+    }
     if(thisPage !=1){
         $(".page-prev").toggleClass("active-button",true)
     }
@@ -52,7 +63,16 @@ function changePage(index){
     }
 };
 
-
+btnPagePrev.on("click",()=>{
+    if(thisPage === 1){
+  
+    }
+    else{
+        thisPage = thisPage - 1;
+  
+    }
+    changePage(thisPage);
+});
 function handleTextSaveBtn(){
   if(isCreate)
   {
@@ -160,6 +180,42 @@ function GetCateDetailById(id){
     });
     return ct;
 };
+
+inputSearchListData.on("keypress", (e)=>{
+    if(e.key === "Enter"){
+
+        handleSearchProductListData();
+        isSearchManage =true;
+    }
+})
+
+function handleSearchProductListData (){
+    var data = {
+        pageIndex:thisPage > 1 ? 1 : thisPage,
+        pageSize:pageSize,
+        value : inputSearchListData.val()
+    };
+    console.log(data);
+    SearchProductListData(data);
+};
+
+async function SearchProductListData (data) {
+    const promise = new Promise((resolve, reject) =>{
+        httpPostAsyncCate(urlApiSearchProductManager,resolve,reject,data);
+
+    });
+    try{
+        const res = await promise;
+        console.log(res);
+        renderListProduct(res);
+    }catch(err){
+        console.log(err);
+    }
+
+};
+
+
+
 function renderListProduct (data){
     var count = Math.ceil(data["totalItems"] / pageSize);
     renderListPage(count)
@@ -224,6 +280,16 @@ function renderListProduct (data){
         `
     })
     $(".opened tbody").html(html.join(""));
+    btnPageNext.on("click",()=>{
+        if(thisPage === count){
+    
+        }
+        if(thisPage<count){
+            thisPage =thisPage + 1;
+    
+            changePage(thisPage);
+        }
+      });
 };
 
 function handleCreateProduct() {
@@ -255,6 +321,8 @@ function CreateProduct(data){
        alert(res);
        handleGetListProduct();
        clearDataProduct();
+       isSearchManage =false;
+
 
     })
     .fail(err=>{
@@ -317,6 +385,7 @@ function handleUpdateProduct(id){
         "created":inputCreated.val()
     }
     console.log(data);
+
     UpdateProduct(data);
 };
 
@@ -335,6 +404,8 @@ function UpdateProduct(data){
         clearDataProduct();
         isCreate = true;
         isUpdate=false;
+        isSearchManage =false;
+
         handleTextSaveBtn();
     })
     .fail(err=>{
@@ -363,6 +434,8 @@ function DeleteProduct(id){
     .done(res=>{
         showSuccessToast("Xóa sản phẩm thành công");
         handleGetListProduct();
+        isSearchManage =false;
+
     })
     .fail(err=>{
         showErrorToast("Xóa sản phẩm thất bại")

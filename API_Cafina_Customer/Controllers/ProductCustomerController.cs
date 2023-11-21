@@ -72,18 +72,25 @@ namespace API_Cafina_Customer.Controllers
         {
             try
             {
-                int page = 0; 
-                if(formData.Keys.Contains("page") && int.TryParse(formData["page"].ToString(), out int num1))
-                    page = num1;
+                int pageIndex = 0;
                 int pageSize = 0;
-                if(formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+
+                string value = "";
+                if (formData.Keys.Contains("value") && !string.IsNullOrEmpty(Convert.ToString(formData["value"])))
+                {
+                    value = Convert.ToString(formData["value"]);
+                }
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(Convert.ToString(formData["pageIndex"])))
+                {
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                }
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(Convert.ToString(formData["pageSize"])))
+                {
                     pageSize = int.Parse(formData["pageSize"].ToString());
-                string productName = string.Empty;
-                if(formData.Keys.Contains("ProductName") && !string.IsNullOrEmpty(formData["ProductName"].ToString()))
-                    productName = formData["ProductName"].ToString();
+                }
                 long total = 0;
-                Product_List =  proBus.Search(page,pageSize,out total,productName);
-                return Product_List != null ? Ok(new { Page = page, pageSize = pageSize, TotalItems = total, Data = Product_List }) : NotFound();
+                Product_List =  proBus.Search(pageIndex,pageSize,out total,value);
+                return Product_List != null ? Ok(new { Page = pageIndex, pageSize = pageSize, TotalItems = total, Data = Product_List }) : NotFound();
 
             }catch(Exception ex)
             {

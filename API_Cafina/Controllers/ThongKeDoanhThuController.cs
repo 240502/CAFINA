@@ -18,28 +18,53 @@ namespace API_Cafina_Manage.Controllers
         {
             try
             {
-                int fr_month = 0;
-                int to_month = 0;
-                int year = 0;
-                if(formData.Keys.Contains("fr_month") && !string.IsNullOrEmpty(formData["fr_month"].ToString()))
+                DateTime? fr_date = null;
+                DateTime? to_date = null;
+                if(formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(formData["fr_date"].ToString()))
                 {
-                    fr_month = int.Parse(formData["fr_month"].ToString());
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
 
                 }
-                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
                 {
-                    to_month = int.Parse(formData["to_month"].ToString());
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
 
                 }
-                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
-                {
-                    year = int.Parse(formData["year"].ToString());
-
-                }
-                List<ThongKeDoanhThuModel> tk = tkBUS.ThongKeDoanhThu(fr_month, to_month, year);
+              
+                List<ThongKeDoanhThuModel> tk = tkBUS.ThongKeDoanhThu(fr_date, to_date);
                 return tk != null ? Ok(tk) : NotFound();
 
             }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        [Route("Thong_Ke_Doanh_Thu_TheoNgay")]
+        [HttpPost]
+        public IActionResult ThongKeDoanhThuTheoNgay([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                DateTime? fr_date = null;
+                DateTime? to_date = null;
+                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(formData["fr_date"].ToString()))
+                {
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
+
+                }
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
+                {
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
+
+                }
+
+                List<ThongKeDoanhThuModel> tk = tkBUS.ThongKeDoanhThuTheoNgay(fr_date, to_date);
+                return tk != null ? Ok(tk) : NotFound();
+
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -16,50 +16,84 @@ as
 			Where id = @id
 		End
 	End
+select * from Account
+exec Pro_Search_Us 'Sang',1,10
+alter Procedure Pro_Search_Us
+	@value nvarchar(100),
+	@pageIndex int,
+	@pageSize int
 
-Create Procedure Pro_Search_Us
-	@FullName nvarchar(100),
-	@Email varchar(100),
-	@PhoneNumber varchar(20)
 as
 	Begin
-		If(Not Exists (
-			Select * From Users 
-			Where (@FullName = '' Or FullName Like N'%'+@FullName+'%') And
-				(@Email = '' Or email = @Email) And
-				(@PhoneNumber = '' Or Phone_Number = @PhoneNumber)
-		))
+		Declare @RecordCount int
+		If(@pageSize > 0)
 		Begin
-			Return -1
+			Select ROW_NUMBER() Over (Order By u.id) as RowNumber, u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address
+			Into #Result1
+			From Users u inner join Account a on u.id = a.User_id inner join [Role] r on a.Role_Id = r.id
+			Where ((convert(varchar(10),u.id) = @value) 
+			or (FullName Like @value +'%')  
+			or (FullName lIKE '%'+@value) 
+			or (email like @value) or (convert(varchar(100),BirthDay) like @value)
+			or (Phone_Number like @value)
+			or (Gender like @value)
+			or (Address like @value +'%')
+			or (Address like '%'+ @value )
+			) and r.RoName Like 'user'
+			Select @RecordCount = COUNT(*)
+			From #Result1
+			Select @RecordCount as RecordCount, *
+			From #Result1
+			Where RowNumber between(@pageIndex-1) * @pageSize+1 and (((@pageIndex-1)*@pageSize+1)+@pageSize)-1
+				or @pageIndex =-1
+			drop table #result1
 		End
 		Else
 		Begin
-			Select * From Users 
-			Where (@FullName = '' Or FullName Like N'%'+@FullName+'%') And
-				(@Email = '' Or email = @Email) And
-				(@PhoneNumber = '' Or Phone_Number = @PhoneNumber)
+			Select ROW_NUMBER() Over (Order By u.id) as RowNumber, u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address
+			Into #Result2
+			From Users u inner join Account a on u.id = a.User_id inner join [Role] r on a.Role_Id = r.id
+			Where ((convert(varchar(10),u.id) = @value) 
+			or (FullName Like @value +'%')  
+			or (FullName lIKE '%'+@value) 
+			or (email like @value) or (convert(varchar(100),BirthDay) like @value)
+			or (Phone_Number like @value)
+			or (Gender like @value)
+			or (Address like '%'+@value)
+			or (Address like @value+'%')
+			
+			) and r.RoName Like 'user'
+			Select @RecordCount = COUNT(*)
+			From #Result2
+			Select @RecordCount as RecordCount, *
+			From #Result2
+			drop table #result2
 		End
+	End
 
 select * from Users
 alter procedure Pro_ThongKe_User
-	@fr_date datetime,
-	@to_date datetime
+	@fr_date int,
+	@to_date int,
+	@year int
 as 
 	begin
-		select top 5 u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Address,SUM(od.Amount*od.Price)  as [Tổng tiền mua]
+		select top 5 u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address,SUM(od.Amount*od.Price)  as [Tổng tiền mua]
 		from Users u inner join  [Order] o on u.id = o.[user_id] inner join  Order_Details od on o.id = od.OrderId
-		where (@fr_date is null and @to_date is null) 
-			or (@fr_date is not null and @to_date is null and o.order_date >= @fr_date) 
-			or(@fr_date is null and @to_date is not null and o.order_date <=@to_date)
-			or(o.order_date between @fr_date and @to_date)
+		where 	((@fr_date = 0 and @to_date > 0 and MONTH(o.order_date) = @to_date and Year(o.order_date) = @year)
+		or (@fr_date > 0 and @to_date = 0 and MONTH(o.order_date) = @fr_date and Year(o.order_date) = @year)
+		or (@fr_date = 0 and @to_date = 0  and Year(o.order_date) = @year)
+		or (@fr_date > 0 and @to_date > 0 and (MONTH(o.order_date) between  @fr_date and @to_date) and Year(o.order_date) = @year))
+		and o.status  > 2 
 		group by  u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address
 		order by  [Tổng tiền mua] desc 
 	end
+	select * from Users
+exec Pro_ThongKe_User 11,11,2023
+select * from [Order] 
+where Month(order_date) = 11
 
-select * from Users
-
-
-alter proc Pro_Total_User
+ alter proc Pro_Total_User
 as
 	Begin
 		Select Count(*) as total
@@ -117,7 +151,7 @@ as
 			Address= @Address
 		Where id = @User_id
 	End
-select * From Users
+select * From Role
 Alter Proc Pro_Get_ListUS
 	@pageIndex int,
 	@pageSize int
@@ -127,22 +161,24 @@ As
 		If(@pageSize > 0 )
 		Begin
 			Select (Row_Number() Over(Order by Year(Birthday))) as RowNumber,
-			*
+			u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address
 			Into #Result1
-			From Users
+			From Users u inner join Account a on u.id = a.User_id inner join [Role] r on a.Role_Id = r.id
+			Where r.RoName = 'user'
 			Select @RecordCount = Count(*)
 			From #Result1
 			Select @RecordCount as RecordCount , *
 			From #Result1
 			where RowNumber between(@pageIndex-1) * @pageSize+1 and (((@pageIndex-1)*@pageSize+1)+@pageSize)-1
 				or @pageIndex =-1
-			Drop table #Reuslt1
+			Drop table #Result1
 		End
 		Else 
 		Begin
-			Select * 
+			Select u.id,u.FullName,u.email,u.Phone_Number,u.BirthDay,u.Gender,u.Address
 			Into #Result2
-			From Users
+			From Users u inner join Account a on u.id = a.User_id inner join [Role] r on a.Role_Id = r.id
+			Where r.RoName = 'user'
 			Select @RecordCount = COUNT(*)
 			From #Result2
 			Select @RecordCount AS RecordCount,*
@@ -151,7 +187,7 @@ As
 			
 		End
 	End
-Exec Pro_Get_ListUS 1,0
+Exec Pro_Get_ListUS 1,10
 
 
 

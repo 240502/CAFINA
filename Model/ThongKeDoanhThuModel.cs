@@ -10,6 +10,8 @@ namespace Model
     {
         public int DoanhThu { get; set; }
         public int Thang { get; set; }
+        public int Day { get; set; }
+
         public int Nam { get; set; }
 
     }

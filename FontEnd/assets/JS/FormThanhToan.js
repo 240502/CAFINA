@@ -29,7 +29,10 @@ async function GetOrderById(id) {
 Start();
 function GetUserById(){
     if(Account!==null){
-        $.get(urpApiGetUserById+"?id="+Account["user_id"])
+        $.get({
+            url:urpApiGetUserById+"?id="+Account["user_id"],
+            headers: { "Authorization": 'Bearer ' + token }
+        })
         .done(res=>{
             fillDataToInput(res);
         })
@@ -199,6 +202,7 @@ function UpdateOrder(data){
     $.ajax({
         type: "PUT",
         url: urlApiUpdateOrder,
+        headers: { "Authorization": 'Bearer ' + token },
         data: JSON.stringify(data),
         contentType: "application/json"
         

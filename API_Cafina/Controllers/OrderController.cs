@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Newtonsoft.Json.Linq;
 using System;
 
 namespace API_Cafina.Controllers
@@ -116,23 +117,32 @@ namespace API_Cafina.Controllers
             long total = 0;
             try
             {
-                int page = int.Parse(formData["page"].ToString());
-                int pageSize = int.Parse(formData["pageSize"].ToString());
-                string name = "";
-                if (formData.Keys.Contains("name") && !string.IsNullOrEmpty(formData["name"].ToString()))
+                int pageIndex = 0;
+                int pageSize = 0;
+                string value = "";
+                if (formData.Keys.Contains("value") && !string.IsNullOrEmpty(Convert.ToString(formData["value"])))
                 {
-                    name = formData["name"].ToString();
+                    value = Convert.ToString(formData["value"]);
                 }
-                listOrder = orderBus.SearchOrder(page,pageSize, out total, name);
-
-                return Ok(new
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(Convert.ToString(formData["pageIndex"])))
                 {
-                    TotalItem = total,
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                }
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(Convert.ToString(formData["pageSize"])))
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                }
+               
+                listOrder = orderBus.SearchOrder(pageIndex, pageSize, out total, value);
+
+                return listOrder!=null? Ok(new
+                {
+                    TotalItems = total,
                     Data = listOrder,
-                    Page = page,
+                    Page = pageIndex,
                     PageSize = pageSize
                    
-                }) ;
+                }):NotFound();
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -215,24 +225,20 @@ namespace API_Cafina.Controllers
         {
             try
             {
-                int fr_month = 0;
-                int to_month = 0;
+                DateTime? fr_date = null;
+                DateTime? to_date = null;
 
-                int year = 0;
-                if(formData.Keys.Contains("fr_month" )&& !string.IsNullOrEmpty(formData["fr_month"].ToString()))
+                if(formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(formData["fr_date"].ToString()))
                 {
-                    fr_month = int.Parse(formData["fr_month"].ToString());
+                    fr_date = DateTime.Parse(formData["fr_date"].ToString());
                 }
-                if (formData.Keys.Contains("to_month") && !string.IsNullOrEmpty(formData["to_month"].ToString()))
+                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
                 {
-                    to_month = int.Parse(formData["to_month"].ToString());
+                    to_date = DateTime.Parse(formData["to_date"].ToString());
                 }
 
-                if (formData.Keys.Contains("year") && !string.IsNullOrEmpty(formData["year"].ToString()))
-                {
-                    year = int.Parse(formData["year"].ToString());
-                }
-                List<ThongKeOrderByMonthModel> model = odTK.ThongKeSLOrderTheoThang(fr_month,to_month, year);
+             
+                List<ThongKeOrderByMonthModel> model = odTK.ThongKeSLOrderTheoThang(fr_date, to_date);
                 return model !=null? Ok(model) : NotFound();
 
             }catch(Exception ex)

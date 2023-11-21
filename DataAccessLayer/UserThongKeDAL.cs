@@ -32,9 +32,9 @@ namespace DataAccessLayer
                         us.phone_number = tb.Rows[i]["Phone_Number"].ToString();
                         us.Birthday = DateTime.Parse(tb.Rows[i]["BirthDay"].ToString());
                         us.Gender = tb.Rows[i]["Gender"].ToString();
-                        us.RoleId = int.Parse(tb.Rows[i]["Role_Id"].ToString());
+                        us.Address = tb.Rows[i]["Address"] ==  DBNull.Value ? "":tb.Rows[i]["Address"].ToString();
+
                         us.TongTienMua = int.Parse(tb.Rows[i]["Tổng tiền mua"].ToString());
-                        us.PassWord = tb.Rows[i]["PassWord"].ToString();
                         listUser.Add(us);
                     }
                 }

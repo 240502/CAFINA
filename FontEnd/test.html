@@ -1,0 +1,49 @@
+<div style="width:400px">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Mảng dữ liệu cho biểu đồ 1
+  var data1 = {
+    labels: ['January', 'February', 'March', 'April', 'May'],
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: [65, 59, 80, 81, 56],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }
+    ]
+  };
+
+  // Lấy tham chiếu đến canvas
+  var ctx = document.getElementById('myChart').getContext('2d');
+
+  // Tạo biểu đồ ban đầu
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data1,
+    options: {}
+  });
+
+  // Mảng dữ liệu cho biểu đồ 2
+  var data2 = {
+    labels: ['June', 'July', 'August', 'September', 'October'],
+    datasets: [
+      {
+        label: 'Dataset 2',
+        data: [28, 48, 40, 19, 86],
+        fill: false,
+        borderColor: 'rgb(255, 99, 132)',
+        tension: 0.1
+      }
+    ]
+  };
+
+  // Cập nhật dữ liệu của biểu đồ khi cần
+  // Điều này sẽ ẩn biểu đồ cũ và hiển thị biểu đồ mới
+  myChart.data = data2;
+  myChart.update();
+</script>

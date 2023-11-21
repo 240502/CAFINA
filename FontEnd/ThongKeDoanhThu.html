@@ -306,7 +306,7 @@
                 <div class="nav">
                     <ul class="list-nav">
                         <li class="nav-item">
-                            <a style="color:#000;text-decoration: none;" href="#"> Thông tin tài khoản</a>
+                            <a style="color:#000;text-decoration: none;" href="./InfoUser.html"> Thông tin tài khoản</a>
                         </li>
                         <li class="nav-item ">
                             <a style="color:#000;text-decoration: none;" href="./ManageCurtomer.html"> Quản lý khách hàng</a>
@@ -346,67 +346,40 @@
                                 <li>
                                     <a href="#">Đổi mật khẩu</a>
                                 </li>
-                                <li class="logout">
-                                    <button class=" btnLogout">Đăng xuất</button>
-                                </li>
+                              
                                
                             </ul> 
                         </li>
                         
                     </ul>
-                 
+                   
                 </div>
             </div>
         </div>
       
-        <div class="container" style="display:flex;flex-direction:column;padding-top:0">
+        <div class="container" style="display:flex;flex-direction:column;padding-top:0;padding:0 15px">
             <h2 style="font-size: 24px; font-weight:700;margin-bottom:50px;margin-top:0;padding:8px 0;text-transform:capitalize">Thống kê doanh thu</h2>
             <div class="search-input-group" style="justify-content:space-between; width:100%;margin-bottom:50px">
                 <div class="select" style="">
-                   <div class="form-item">
+                    <div class="form-item">
                         <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Từ tháng</label>
-                        <select name="" id="fr_month" >
-                            <option value="0">Chọn tháng</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
-                        </select>
+                        <input name="" id="fr_date" type="date" />
+                           
                    </div>
                    <div class="form-item">
                     <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;"> Đến tháng</label>
-                    <select name="" id="to_month" >
-                        <option value="0">Chọn tháng</option>
-                        <option value="1">Tháng 1</option>
-                        <option value="2">Tháng 2</option>
-                        <option value="3">Tháng 3</option>
-                        <option value="4">Tháng 4</option>
-                        <option value="5">Tháng 5</option>
-                        <option value="6">Tháng 6</option>
-                        <option value="7">Tháng 7</option>
-                        <option value="8">Tháng 8</option>
-                        <option value="9">Tháng 9</option>
-                        <option value="10">Tháng 10</option>
-                        <option value="11">Tháng 11</option>
-                        <option value="12">Tháng 12</option>
-                    
-                    </select>
+                    <input name="" id="to_date" type="date" />
                     </div>
                     <div class="form-item">
-                        <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;">Năm</label>
-                        <select name="" id="year" >
-                            <option value="2021">Năm 2021</option>
-                            <option value="2022">Năm 2022</option>
-                            <option value="2023" selected>Năm 2023</option>
-                            <option value="2023" >Năm 2024</option>
+                        <label for="" style="margin-right: 10px;font-size:16px;font-weight:700;">Thống kê theo</label>
+                        <select name="" id="loaiThongKe" >
+                            <option value="1" selected>Các tháng trong năm</option>
+                            <option value="2">Quý 1</option>
+                            <option value="3">Quý 2</option>
+                            <option value="4">Quý 3</option>
+                            <option value="5">Quý 4</option>
+
+                            <option value="6" >Các ngày trong tháng hiện tại</option>
 
                           
                         
@@ -425,6 +398,10 @@
                     .form-item{
                         width: 25%;
                     }
+                    .form-item input{
+                        border: 1px solid #ccc;
+                        outline: none;
+                    }
                     #btnThongKe{
                         padding: 10px 20px;
                         border:  none;
@@ -442,8 +419,8 @@
             <div class="total-price" style="margin: 20px 0px;font-size:18px;font-weight:700">
                 Tổng doanh số: <span></span>
             </div>
-            <div style="width:80%">
-                <canvas id="canvasBar" width="800" height="800">
+            <div class="canvar-container" style="width:90%">
+                <canvas id="canvasBar" width="1000" height="1000" style="pointer-events:auto;">
                 </canvas>
             </div>
          

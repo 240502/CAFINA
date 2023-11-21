@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using DataAccessLayer.Helper;
 using System.Diagnostics.Metrics;
+using Microsoft.VisualBasic;
 
 namespace DataAccessLayer
 {
@@ -16,11 +17,11 @@ namespace DataAccessLayer
     {
         DataHelper helper = new DataHelper();
 
-        public List<ThongKeOrderByMonthModel> ThongKeSLOrderTheoThang(int fr_month,int to_month,int year)
+        public List<ThongKeOrderByMonthModel> ThongKeSLOrderTheoThang(DateTime? fr_date, DateTime? to_date)
         {
             try
             {
-                DataTable tb = helper.ExcuteReader("Pro_ThongKe_SLOrderTheoThang","@fr_month","@to_month","@year", fr_month, to_month,  year);
+                DataTable tb = helper.ExcuteReader("Pro_ThongKe_SLOrderTheoThang", "@fr_date", "@to_date", fr_date, to_date);
                 if (tb != null)
                 {
                     List<ThongKeOrderByMonthModel> list = new List<ThongKeOrderByMonthModel>();

@@ -15,7 +15,7 @@ namespace API_Cafina.Controllers
     public class UserController : ControllerBase
     {
         UserBUS userBUS = new UserBUS();
-        UserThongKeBUS usTk = new UserThongKeBUS(); 
+        UserThongKeBUS usTk = new UserThongKeBUS();
         UserLoginBUS userLogin = new UserLoginBUS();
         List<UserModel> userList = new List<UserModel>();
 
@@ -27,9 +27,10 @@ namespace API_Cafina.Controllers
             try
             {
                 var result = userBUS.TotalUser();
-                return result!= 0 ? Ok(result) : NotFound();
+                return result != 0 ? Ok(result) : NotFound();
 
-            }catch(Exception ex) 
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -37,7 +38,7 @@ namespace API_Cafina.Controllers
 
         [Route("Get_List")]
         [HttpPost]
-        public IActionResult GetList([FromBody] Dictionary<string,object> formData)
+        public IActionResult GetList([FromBody] Dictionary<string, object> formData)
         {
             try
             {
@@ -48,10 +49,11 @@ namespace API_Cafina.Controllers
                 if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
                     pageSize = int.Parse(formData["pageSize"].ToString());
                 int total = 0;
-                List<UserModel> list = userBUS.GetList(pageIndex,pageSize,out total);
+                List<UserModel> list = userBUS.GetList(pageIndex, pageSize, out total);
                 return list != null ? Ok(new { pageIndex = pageIndex, pageSize = pageSize, totalItems = total, data = list }) : NotFound();
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -67,7 +69,8 @@ namespace API_Cafina.Controllers
                 var result = userBUS.Get(id);
                 return result == null ? NotFound() : Ok(result);
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -76,21 +79,22 @@ namespace API_Cafina.Controllers
 
         [Route("Search_Us")]
         [HttpPost]
-        public IActionResult Search([FromBody] Dictionary<string,Object> formData)
+        public IActionResult Search([FromBody] Dictionary<string, object> formData)
         {
             try
             {
-                string FullName = "";
-                string email = "";
-                string PhoneNumber = "";
-                if (formData.Keys.Contains("FullName") && !string.IsNullOrEmpty(formData["FullName"].ToString()))
-                    FullName = formData["FullName"].ToString();
-                if (formData.Keys.Contains("email") && !string.IsNullOrEmpty(formData["email"].ToString()))
-                    email = formData["email"].ToString();
-                if (formData.Keys.Contains("PhoneNumber") && !string.IsNullOrEmpty(formData["PhoneNumber"].ToString()))
-                    PhoneNumber = formData["PhoneNumber"].ToString();
-                var result = userBUS.Search(FullName,email,PhoneNumber);
-                return result == null ? NotFound() : Ok(result);
+                string value = "";
+                int pageIndex = 0;
+                int pageSize = 0;
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                if (formData.Keys.Contains("value") && !string.IsNullOrEmpty(formData["value"].ToString()))
+                    value = formData["value"].ToString();
+                int total = 0;
+                var result = userBUS.Search(value,pageIndex,pageSize,out total);
+                return result == null ? NotFound() : Ok(new {pageIndex = pageIndex , pageSize = pageSize,totalItems = total,data = result});
 
             }
             catch (Exception ex)
@@ -104,8 +108,8 @@ namespace API_Cafina.Controllers
         public IActionResult Create_User([FromBody] UserModel us)
         {
             var result = userBUS.Create_User(us);
-            
-            return result!=-1 ? Ok("Thêm user thành công"):BadRequest("User đã tồn tại");
+
+            return result != -1 ? Ok("Thêm user thành công") : BadRequest("User đã tồn tại");
         }
 
         [Route("Delete_User")]
@@ -113,7 +117,7 @@ namespace API_Cafina.Controllers
         public IActionResult Delete_User(int usId)
         {
             var result = userBUS.Delete_User(usId);
-            return result >= 1 ?Ok("Xóa thành công"):BadRequest("Xóa thông tin không thành công");
+            return result >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa thông tin không thành công");
         }
 
 
@@ -124,7 +128,7 @@ namespace API_Cafina.Controllers
             var result = userBUS.Update_User(us);
             return result >= 1 ? Ok("Sủa thành công") : BadRequest("Sửa thông tin không thành công");
         }
-        [Route("Thong_Ke_So_Tien_Da_Tieu_Cua_User")]
+        [Route("ThongKe_SoTienCuaUs")]
         [HttpPost]
         [Authorize]
         public IActionResult ThongKeSoTienUs([FromBody] Dictionary<string, object> formData)
@@ -148,7 +152,7 @@ namespace API_Cafina.Controllers
                 {
                     year = int.Parse((formData["year"]).ToString());
                 }
-                List<UserThongKeModel> result = usTk.ThongKeTop5UserTieuNhieuTienNhat(fr_date, to_date,year);
+                List<UserThongKeModel> result = usTk.ThongKeTop5UserTieuNhieuTienNhat(fr_date, to_date, year);
                 return result != null ? Ok(result) : NotFound();
 
             }
@@ -158,6 +162,6 @@ namespace API_Cafina.Controllers
 
             }
         }
-       
+
     }
 }

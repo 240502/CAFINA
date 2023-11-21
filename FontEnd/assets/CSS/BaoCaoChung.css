@@ -40,6 +40,11 @@
 .canvas-item{
     display: inherit;
     align-items: end;
-    margin:20px 2.5% ;
-    width: 45%;
+    margin:20px 0.5% ;
+    width: 49%
+}
+.block-user h3{
+    font-size: 18px;
+    margin:  40px 0 ;
+    font-weight: 700;
 }

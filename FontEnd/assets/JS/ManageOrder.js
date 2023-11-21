@@ -4,7 +4,7 @@ const urlApiGetStatusById  = "https://localhost:7284/api-admin/Status/GetStatusB
 const urlApiUpdateOrder = 'https://localhost:7284/api-admin/Order/Update_Order';
 const urlApiDeleteOrderById = 'https://localhost:7284/api-admin/Order/Delete_Order';
 const urlApitGetOrderDetailByOrderId = 'https://localhost:7284/api-admin/OrderDetail/GetListOrderDetailByOrderId';
-
+const urlApiSearchOrder= "https://localhost:7284/api-admin/Order/Search_Order";
 const btnSaveOpen = $(".opened .btnSave");
 const inputOrderId = $("#orderid");
 const inputUserId = $("#user_id");
@@ -15,8 +15,9 @@ const inputAddress = $("#address");
 const inputNote = $("#note");
 const inputOrderDate = $("#order_date");
 const inputStatus = $("#status"); 
-const inputStatusListData = $("#status_list_data");
+const inputSearchListData = $(".search-user-input");
 let isUpdate = false;
+let isSearch = false;
 var ListStatus = JSON.parse(localStorage.getItem("ListStatus"));
 
 function Start(){
@@ -28,6 +29,40 @@ function Start(){
 let thisPage = 1;
 let pageSize = 10;
 Start();
+
+inputSearchListData.on("keypress",(e)=>{
+    if(e.key  === "Enter"){
+        isSearch = true;
+        handleSearchOrder();
+    }
+});
+
+function handleSearchOrder(){
+    var data = {
+        pageIndex: thisPage,
+        pageSize : pageSize,
+        value : inputSearchListData.val()
+    }
+
+    console.log(data);
+    SearchOrder(data);
+}
+async function SearchOrder(data){
+    const promises = new Promise((resolve,reject) =>
+    {
+        httpPostAsyncCate(urlApiSearchOrder,resolve,reject,data)
+    })
+    try{
+        const res = await promises;
+        console.log(res);
+        renderListOrderManage(res);
+    }catch(e){
+        console.log(e);
+        $(".opened tbody").html("")
+        $(".opened tbody").html("Không có đơn hàng nào")
+
+    }
+}
 
 inputStatus.on("change", ()=>{
     isUpdate=true;
@@ -96,14 +131,7 @@ async function GetOrderDetailByOrderId(listorder){
         }
         i++;
     }
-    //   }
-    // $.get(urlApitGetOrderDetailByOrderId+"?orderId="+orderId)
-    // .done(res=>{
-    //     listorderDetailUpdate.push(res);
-    //     localStorage.setItem("OrderDetailUpdate",JSON.stringify(listorderDetailUpdate));
-    // }).fail(err=>{
-    //     console.log(err)
-    // });
+
 };
 
 async function getOrderDetailByOrderIdUpdate(orderId){
@@ -138,15 +166,20 @@ function getStatusById(id){
 };
 function renderLoaiDonHang(){
     var html = ListStatus.map((status,index )=>{
-        return `
-        <option value="${status["id"]}" ${status["id"] == 3 ? "selected":""}>${status["statusName"]}</option>
-        `
+        if(status["id"]>1){
+            return `
+            <option value="${status["id"]}" ${status["id"] == 3 ? "selected":""}>${status["statusName"]}</option>
+            `
+        }
+       
     });
     $("#status-list-data").html(html.join(""));
     $("#status-list-data").on("change",()=>{
         if(thisPage > 1){
             thisPage = 1
         }
+        isSearch = false;
+        inputSearchListData.val("")
         getListOrder();
     })
 }
@@ -239,18 +272,19 @@ async function renderListOrderManage(data){
     })
     $(".opened tbody").html(html);
 
-       
     btnPageNext.on("click",()=>{
         if(thisPage === page){
-    
+            
         }
-        else{
+        if(thisPage<page){
             thisPage = thisPage + 1;
-    
+            changePage(thisPage);
         }
-        changePage(thisPage);
-      });
+    });
+
 };
+
+
 var OrderIdUpdate =JSON.parse(localStorage.getItem("Order_Update"));
 
 function fillToInput(orderId){
@@ -294,7 +328,6 @@ async function handleUpdateOrder(){
         order_Details:listOrderDetailUpdate[0]
     };
     UpdateOrder(data);
-    console.log(data);
 };
 
 function clearDataInput(){
@@ -321,7 +354,7 @@ function UpdateOrder(data){
            await getListOrder();
             showSuccessToast("Cập nhật thành công");
             clearDataInput();
-
+        isSearch = false;
     })
     .fail(err=>{
         console.log(err.statusText);
@@ -347,9 +380,10 @@ function DeleteOrder(data){
         
     })
     .done(async (res)=>{
-            await getListOrder();
-            showSuccessToast("Xóa thành công");
-            closeModalCofirmDelete();
+        await getListOrder();
+        showSuccessToast("Xóa thành công");
+        closeModalCofirmDelete();
+        isSearch = false;
         
     })
     .fail(err=>{
@@ -367,10 +401,19 @@ btnPagePrev.on("click",()=>{
   
     }
     changePage(thisPage);
-  });
+});
+
 function changePage(index){
+    console.log(index);
     thisPage = index;
-    getListOrder();
+    console.log(isSearch)
+    if(isSearch){
+        handleSearchOrder()
+    }
+    else{
+
+        getListOrder();
+    }
     if(thisPage !=1){
         $(".page-prev").toggleClass("active-button",true)
     }

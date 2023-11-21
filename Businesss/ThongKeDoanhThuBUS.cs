@@ -10,9 +10,14 @@ namespace Businesss
     public class ThongKeDoanhThuBUS
     {
         ThongKeDoanhThuDAL tkDAL = new ThongKeDoanhThuDAL();
-        public List<ThongKeDoanhThuModel> ThongKeDoanhThu(int fr_month, int to_month, int year)
+        public List<ThongKeDoanhThuModel> ThongKeDoanhThu(DateTime? fr_date,DateTime? to_date)
         {
-            return tkDAL.ThongKeDoanhThu(fr_month,to_month,year);
+            return tkDAL.ThongKeDoanhThu(fr_date, to_date);
+        }
+
+        public List<ThongKeDoanhThuModel> ThongKeDoanhThuTheoNgay(DateTime? fr_date, DateTime? to_date)
+        {
+            return tkDAL.ThongKeDoanhThuTheoNgay(fr_date, to_date);
         }
     }
 }

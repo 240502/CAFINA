@@ -163,16 +163,17 @@ namespace DataAccessLayer
             }
 
         }
-        public List<OrderModel> SearchOrder(int pageIndex, int pageSize, out long total, string name)
+        public List<OrderModel> SearchOrder(int pageIndex, int pageSize, out long total, string value)
         {
             total = 0;
-            try
-            {
+            try 
+            { 
+             
                 var tb = helper.ExcuteReader(
 
                     "Pro_Search_Order",
-                    "@name", "@page_index", "@page_size",
-                    name, pageIndex, pageSize
+                    "@value", "@page_index", "@page_size",
+                    value, pageIndex, pageSize
                );
 
                 if (tb != null)
@@ -193,6 +194,8 @@ namespace DataAccessLayer
                         order.note = tb.Rows[i]["note"].ToString();
                         order.order_Date = DateTime.Parse(tb.Rows[i]["order_date"].ToString());
                         order.status = int.Parse(tb.Rows[i]["status"].ToString());
+                        order_Details.Od_id = int.Parse(tb.Rows[i]["Od_id"].ToString());
+                        order_Details.OrderId = int.Parse(tb.Rows[i]["OrderId"].ToString());
                         order_Details.ProductId = tb.Rows[i]["ProductId"].ToString();
                         order_Details.price = int.Parse(tb.Rows[i]["price"].ToString());
                         order_Details.Amount = int.Parse(tb.Rows[i]["Amount"].ToString());
@@ -208,7 +211,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                return null;
             }
         }
 

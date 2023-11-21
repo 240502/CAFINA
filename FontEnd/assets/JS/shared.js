@@ -26,14 +26,24 @@ let isMainContent = true;
 
 const iconShopping = $(".shopping-cart")
 const logOut = $(".logout")
+const logOutUs = $(".logout-us")
+
+logOutUs.on("click",()=>{
+  alert("Bạn chắc chán muốn đăng xuất")
+  window.location = './index.html';
+  ActiveMainContent();
+  localStorage.setItem("login",null);
+  localStorage.setItem("listorderdetail",null);
+
+});
+
 logOut.on("click",()=>{
   alert("Bạn chắc chán muốn đăng xuất")
   window.location = './index.html';
   ActiveMainContent();
   localStorage.setItem("login",null);
-})
-const infoUsLocal = JSON.parse(localStorage.getItem("login"));
-const token = infoUsLocal!=null ? infoUsLocal["token"] :"" ;
+});
+
 function ActiveModelSearch(){
   isSearch=true;
   $(".header-search").toggleClass("opened",isSearch);
@@ -70,7 +80,8 @@ function HiddeSiteMain() {
 };
 
 
-
+const infoUsLocal = JSON.parse(localStorage.getItem("login"));
+const token = infoUsLocal!=null ? infoUsLocal["token"] :"" ;
 
 async function Run (){
     getCategory();
@@ -192,6 +203,7 @@ function hanleNavManager(){
     openNavManage();
   }else{
       hiddleNavManage();
+      
   }
 };
 
@@ -204,10 +216,13 @@ $(".block-minicart").on("click", (e)=>{
 
 function hiddleNavManage(){
   $(".content .nav").removeClass("active");
+  $(".logout-us").addClass("active");
 };
 
 function openNavManage(){
     $(".content .nav").addClass("active");
+    $(".logout-us").removeClass("active");
+
 };
 
 function CloseMinicart(){
@@ -491,15 +506,6 @@ function httpGetAsync(url,resolve,reject,data){
   .fail(error => reject(error))
 };
 
-function httpGetAsync(url,resolve,reject,data){
-  $.get({
-    url: url,
-    headers: { "Authorization": 'Bearer ' + token },
-    data:data
-  })
-  .done(response => resolve(response))
-  .fail(error => reject(error))
-};
 
 function httpPostAsyncCate(url,resolve,reject,data){
   $.post({

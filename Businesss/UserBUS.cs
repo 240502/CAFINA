@@ -37,9 +37,9 @@ namespace Businesss
             return result;
         }
 
-        public List<UserModel> Search(string FullName, string email,string PhoneNumber)
+        public List<UserModel> Search(string value,int pageIndex,int pageSize,out int total)
         {
-            var result = userDAL.Search(FullName,email,PhoneNumber);
+            var result = userDAL.Search(value,pageIndex,pageSize,out total);
             return result;
         }
         public int? Create_User (UserModel us)
@@ -58,11 +58,7 @@ namespace Businesss
             return result;
         }
 
-        public List<UserThongKeModel> ThongKeSoTienUs(DateTime? fr_date ,DateTime ? to_date)
-        {
-            List<UserThongKeModel>  result= usThongke.ThongKeTop5UserTieuNhieuTienNhat(fr_date,to_date);
-            return result;
-        }
+       
       
     }
 }

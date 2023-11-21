@@ -7,15 +7,18 @@ const checkBoxNam = $(".opened #radio1");
 const checkBoxNu = $(" .opened #radio2");
 const checkBoxKhac = $(".opened #radio3");
 const btnSaveOpen = $(".opened .btnSave");
+const searchInputListData = $(".search-user-input")
+
 const urlApiCreateUser = "https://localhost:7284/api-admin/User/Create_User";
 const urlApiGetListUser ="https://localhost:7284/api-admin/User/Get_List";
 const urlApiDeleteUser = "https://localhost:7284/api-admin/User/Delete_User";
 const urlApiUpdateUser = "https://localhost:7284/api-admin/User/Update_User";
-
+const urlApiSearchCustomer = "https://localhost:7284/api-admin/User/Search_Us";
 let thisPage = 1;
 let pageSize = 10;
 let isCreate = true;
 let isUpdate = false;
+let isSearch = false;
 function handleTextSaveBtn(){
   if(isCreate)
   {
@@ -27,14 +30,19 @@ function handleTextSaveBtn(){
       btnSaveOpen.toggleClass("active",isUpdate);
   }
 };
-
 hanleNavManager();
 handlegetListUs();
 handleTextSaveBtn();
 
 function changePage(index){
     thisPage = index;
-    handlegetListUs();
+    if(isSearch){
+        handleSearchCustomer();
+    }
+    else{
+
+        handlegetListUs();
+    }
     if(thisPage !=1){
         $(".page-prev").toggleClass("active-button",true)
     }
@@ -42,6 +50,17 @@ function changePage(index){
         $(".page-prev").toggleClass("active-button",false)
     }
 };
+btnPagePrev.on("click",()=>{
+    if(thisPage === 1){
+  
+    }
+    else{
+        thisPage = thisPage - 1;
+  
+    }
+    changePage(thisPage);
+});
+
 
 function handlegetListUs(){
     var data = {
@@ -60,6 +79,41 @@ function getListUs(data){
     }).done(res=>{
        renderListUs(res)
     })
+};
+
+searchInputListData.on("keypress",(e)=>{
+    if(e.key ==="Enter"){
+        handleSearchCustomer();
+        isSearch = true;
+    };
+});
+
+ function handleSearchCustomer(){
+    var data = {
+        pageIndex: thisPage,
+        pageSize:pageSize,
+        value : searchInputListData.val()
+    }
+    SearchCustomer(data);
+
+}
+async function SearchCustomer(data){
+    const promise = new Promise((resolve, reject) =>{
+        httpPostAsyncCate(urlApiSearchCustomer,resolve,reject,data);
+    });
+
+    try{
+        const response = await promise;
+        renderListUs(response);
+        console.log(response);
+    }
+    catch(err){
+        console.log(err);
+        $(".opened tbody").html("");
+        $(".opened tbody").html("Không tìm thấy người dùng");
+
+    }
+
 };
 
 function renderListUs(data){
@@ -105,6 +159,15 @@ function renderListUs(data){
         `
     })
     $(".opened tbody").html(html.join(""));
+    btnPageNext.on("click",()=>{
+        if(thisPage === count){
+    
+        }
+        if(thisPage<count){
+            thisPage = thisPage + 1;
+            changePage(thisPage);
+        }
+    });
 };
 
 function clearDataCustomer(){
@@ -156,12 +219,14 @@ function CreateUser(data){
         data:JSON.stringify(data),
         contentType:"application/json"
     }).done(res=>{
-        alert(res)
+        isSearch = false;
+        showSuccessToast("Thêm thành công");
         handlegetListUs();
         clearDataCustomer();
 
     })
     .fail(err=>{
+        showErrorToast("Thêm không thành công")
         alert(err.statusText)
     })
 }; 
@@ -169,6 +234,7 @@ function CreateUser(data){
 function fillToInput(usId){
     isCreate = false;
     isUpdate = true;
+    isSearch = false;
     handleTextSaveBtn();
     btnSaveOpen.attr("data-id",usId)
     var tb_content = [...document.querySelectorAll('.tb-content')].find((item)=>{
@@ -217,8 +283,8 @@ function DeleteUs(UserId){
     }).done(res=>{
         showSuccessToast("Xóa thành công");
         closeModalCofirmDelete();
-
         handlegetListUs();
+        isSearch = false;
         
     })
     .fail(err=>{
@@ -256,13 +322,15 @@ function updateUser(data){
          contentType:"application/json"
      })
      .done(res =>{
-         alert(res)
+        showSuccessToast("Sửa thành công!");
          handlegetListUs();
          clearDataCustomer();
          isCreate = true;
          isUpdate=false;
          handleTextSaveBtn();
      }).fail(err =>{
+        showErrorToast("Sửa thất công!");
+
         alert(err.statusText)
      })
 };

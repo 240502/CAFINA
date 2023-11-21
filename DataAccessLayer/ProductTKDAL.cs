@@ -12,14 +12,14 @@ namespace DataAccessLayer
     public class ProductTKDAL
     {   
         DataHelper helper = new DataHelper();
-        public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(int fr_month,int to_month, int year)
+        public List<ThongKeSoLuongBanProductModel> ThongKeSanPhamBanChay(DateTime? fr_month,DateTime? to_month)
         {
             try
             {
                 DataTable tb = helper.ExcuteReader(
                     "Pro_ThongKe_SanPham_BanChay",
-                    "@fr_month","@to_month", "@year",
-                    fr_month,to_month, year
+                    "@fr_month","@to_month",
+                    fr_month,to_month
                 );
                 List<ThongKeSoLuongBanProductModel> tk = new List<ThongKeSoLuongBanProductModel>();
                 if (tb != null)
@@ -57,14 +57,14 @@ namespace DataAccessLayer
         }
 
 
-        public List<ProductTKSLBanModel> ThongKeSLBanProduct(int fr_month, int to_month, int year)
+        public List<ProductTKSLBanModel> ThongKeSLBanProduct(DateTime? fr_month,DateTime? to_month)
         {
             try
             {
                 DataTable tb = helper.ExcuteReader(
                     "Pro_ThongKeSLSPBanRa",
-                     "@fr_month", "@to_month", "@year",
-                    fr_month, to_month, year
+                     "@fr_month", "@to_month",
+                    fr_month, to_month
                 );
                 if (tb != null)
                 {

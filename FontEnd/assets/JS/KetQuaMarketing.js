@@ -10,8 +10,8 @@ const urlGetListObject = "https://localhost:7284/api-admin/Object/Get_List_Ob";
 const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDetails/GetList_CategoryDetails";
 
 const btnThongKe = $("#btnThongKe")
-const inputFr_Month = $("#fr_month");
-const inputTo_Month = $("#to_month");
+const inputFr_Month = $("#fr_date");
+const inputTo_Month = $("#to_date");
 const inputYear = $("#year");
 
 var listObject  = JSON.parse(localStorage.getItem("listObjectProduct"));
@@ -29,14 +29,16 @@ function Start() {
 Start();
 btnThongKe.on("click", ()=>{
   Start();
-})
+});
 
 async function getTotalProductSelled(){
-    var data={
-        fr_month:inputFr_Month.val(),
-        to_month:inputTo_Month.val(),
-        year:inputYear.val(),
+  var data = {};
+  if(inputFr_Month.val() != "" ||inputTo_Month.val() != ""){
+    data={
+      fr_date:inputFr_Month.val() ,
+      to_date:inputTo_Month.val() 
     }
+  }
     const promise = new Promise((resolve, reject) =>{
         httpPostAsyncCate(urlApiThongKeSoLuongBanSPTheoThang,resolve,reject,data)
     });
@@ -60,46 +62,33 @@ function renderTotalProduct(totalProduct){
     $(".total-product span").html(totalProduct)
 };
 function hanleDataTotalProductSelled(data){
+  console.log(data);
     var listData = [];
-    if(data.length>=2){
-      var fr_month = data[0]["month"];
-      var to_month = data[data.length-1]["month"];
-      for(var i=1; i<=12; i ++){
-            if(i<fr_month || i>to_month){
-                listData[i-1] = 0 
-               }
-               if(i>fr_month || i<to_month){
-                for(j=1;j<data.length-1;j++){
-                  for(var z = fr_month+1; z<to_month; z++){
-                     if(data[j]["month"] == z){
-                        listData[z-1] = data[j]["total"];
-                       
-                     }
-                     if(data[j]["month"] != z)
-                     {
-                        listData.push(0);
-                     }
-                   }
-                 }
-              }
-              if(i == fr_month){
-                listData[fr_month-1] = data[0]["total"];
-              }
-               if ( i == to_month){
-                listData[to_month-1] = data[data.length-1]["total"];
-               }
+    if(data.length == 1){
+      for(var i = 1; i<=12; i++){
+        console.log(i == 11)
+        if(data[0]["month"] == i){
+          listData[i-1] = data[0]["total"];
+        }
+        if(data[0]["month"] != i)
+        listData.push(0);
       }
     }
-    else if(data.length == 1){
-        for(var i = 1; i <=12; i ++){
-            listData[data[0]["month"]-1]=data[0]["totalOrder"]
-          if(i<=fr_month || i>=to_month){
-            listData.push(0)
-          }
+    if(data.length>=2){
+      for(var i=1; i<=12;i++){
+        var result =  data.find(item =>{
+          return  item["month"]  == i
+        })
+
+        if(result === undefined){
+          listData[i-1] = 0;
         }
-    };
-    var maxTotalOrder = listData[0] ;
-    console.log(listData.slice(0,12))
+        if(result !== undefined){
+          listData[i-1] = result["total"];
+        }
+      }
+    }
+    var maxTotalOrder = listData[0];
 
     for (var j = 0; j < listData.slice(0,12).length-1; j++){
         if(listData.slice(0,12)[j]>maxTotalOrder){
@@ -112,7 +101,6 @@ function hanleDataTotalProductSelled(data){
 
 
 function renderLineProduct(listdata,maxTotalOrder){
-    console.log(maxTotalOrder)
     let myChart = document.getElementById('lineProduct').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -148,9 +136,11 @@ function renderLineProduct(listdata,maxTotalOrder){
           fontSize:25
         },
         legend: {display: true},
-        tooltips:{
-          enabled:true
-        }
+        tooltips: {
+          enabled: true,
+          mode: 'index',
+          intersect: false
+      }
       }
     });
 };
@@ -173,11 +163,13 @@ async function getTotalOrder(){
 
 
 async function getTotalOrderByMonth(){
-    var data={
-        fr_month:inputFr_Month.val(),
-        to_month:inputTo_Month.val(),
-        year:inputYear.val(),
+  var data = {};
+  if(inputFr_Month.val() != "" ||inputTo_Month.val() != ""){
+    data={
+      fr_date:inputFr_Month.val() ,
+      to_date:inputTo_Month.val() 
     }
+  }
       const promise = new Promise((resolve, reject) =>{
         httpPostAsyncCate(urlApiThongKeSoLuongDonHangTheoThang,resolve,reject,data);
       })
@@ -194,68 +186,48 @@ async function getTotalOrderByMonth(){
 };
 
 function hanleDataTotalOrderByMonth(data){
-    var listTotalOrder = [];
-    if(data.length>=2){
-      var fr_month = data[0]["month"];
-      var to_month = data[data.length-1]["month"];
-      
-      if(listTotalOrder.length == 12){return}
-      for(var i=1; i<=12; i ++){
-            if(i<fr_month || i>to_month){
-                listTotalOrder[i-1] = 0 
-               }
-               if(i>fr_month || i<to_month){
-                for(j=1;j<data.length-1;j++){
-                  for(var z = fr_month+1; z<to_month; z++){
-                     if(data[j]["month"] == z){
-                        listTotalOrder[z-1] = data[j]["totalOrder"];
-                       
-                     }
-                     if(data[j]["month"] != z)
-                     {
-                        listTotalOrder.push(0);
-                     }
-                   }
-                 }
-              }
-              if(i == fr_month){
-                listTotalOrder[fr_month-1] = data[0]["totalOrder"];
-              }
-               if ( i == to_month){
-                listTotalOrder[to_month-1] = data[data.length-1]["totalOrder"];
-               }
-       }
+  var listTotalOrder =[];
+  if(data.length == 1){
+    for(var i = 1; i<=12; i++){
+      if(data[0]["month"] == i){
+        listTotalOrder[i-1] = data[0]["totalOrder"];
+      }
+      if(data[0]["month"] != i)
+        listTotalOrder.push(0);
     }
-    else if(data.length == 1){
-        for(var i = 1; i <=12; i ++){
-            listTotalOrder[data[0]["month"]-1]=data[0]["totalOrder"]
-          if(i<=fr_month || i>=to_month){
-            listTotalOrder.push(0)
-          }
-        }
-    };
-    var maxTotalOrder = listTotalOrder[0] ;
-
-    for (var j = 0; j < listTotalOrder.slice(0,12).length-1; j++){
-        if(listTotalOrder.slice(0,12)[j]>maxTotalOrder){
-
-          maxTotalOrder = listTotalOrder.slice(0,12)[j]
-        }
-    };
-    renderLineOrder(listTotalOrder.slice(0,12),maxTotalOrder)
+  }
+  if(data.length>=2){
+    for(var i=1; i<=12;i++){
+      var result =  data.find(item =>{
+        return  item["month"]  == i
+      })
+      if(result === undefined){
+        listTotalOrder[i-1] = 0;
+      }
+      if(result !== undefined){
+        listTotalOrder[i-1] = result["totalOrder"];
+      }
+    }
+  }
+  
+  var maxTotalOrder = listTotalOrder[0] ;
+  for (var j = 0; j < listTotalOrder.slice(0,12).length-1; j++){
+      if(listTotalOrder.slice(0,12)[j]>maxTotalOrder){
+        maxTotalOrder = listTotalOrder.slice(0,12)[j]
+      }
   };
-
+  renderLineOrder(listTotalOrder.slice(0,12),maxTotalOrder)
+};
 
 
 function renderLineOrder(data,maxTotalOrder){
-
     let myChart = document.getElementById('lineSoLuongDonHang').getContext('2d');
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor = '#777';
     new Chart("lineSoLuongDonHang", 
     {
-      type: "line",
+      type: "bar",
       data: {
         labels: xLabel(),
         xAxisID:"Tháng",
@@ -290,12 +262,6 @@ function renderLineOrder(data,maxTotalOrder){
       }
     });
 };
-function handleGetTopSPBanChay(){
-   
-
-};
-
-
 
 function GetObjectNameById(obid){
     var ob = listObject.find(ob => {
@@ -347,11 +313,13 @@ function GetCateDetailById(id){
 
 
 async function GetTop5SpBanChayNhat(){
-    var data={
-        fr_month:inputFr_Month.val(),
-        to_month:inputTo_Month.val(),
-        year:inputYear.val(),
+  var data = {};
+  if(inputFr_Month.val() != "" ||inputTo_Month.val() != ""){
+    data={
+      fr_date:inputFr_Month.val() ,
+      to_date:inputTo_Month.val() 
     }
+  }
     const promise = new Promise((resolve, reject) =>{
         httpPostAsyncCate(urlApiGetTop5SPBanChay,resolve,reject,data);
     })
