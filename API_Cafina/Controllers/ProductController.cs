@@ -257,7 +257,6 @@ namespace API_Cafina.Controllers
         {
             try
             {
-               
                 if (file.Length > 0)
                 {
                     string filePath = $"upload/{file.FileName}";

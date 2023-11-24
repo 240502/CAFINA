@@ -16,5 +16,9 @@ namespace Businesss
             GaleryModel galery= galeryDAL.GetByProductId(productId);
             return galery;
         } 
+        public int Create(GaleryModel galery)
+        {
+            return galeryDAL.Create(galery);
+        }
     }
 }

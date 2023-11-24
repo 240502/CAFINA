@@ -100,29 +100,29 @@ namespace DataAccessLayer
             }
 
         }
-        public ThongKe_SLOrderModel ThongKeSoLuongDonHangTheoTgian(DateTime? fr_date, DateTime? to_date)
-        {
-            try
-            {
-                DataTable tb = helper.ExcuteReader(
-                    "Pro_ThongKe_SoLuongDonHang",
-                    "@fr_date", "@to_date",
-                    fr_date, to_date
-                );
-                if (tb != null)
-                {
-                    ThongKe_SLOrderModel tk = new ThongKe_SLOrderModel();
-                    tk.fr_date = tb.Rows[0]["fr_date"] != null ? tb.Rows[0]["fr_date"].ToString() : null;
-                    tk.to_date = tb.Rows[0]["to_date"] != null ? tb.Rows[0]["to_date"].ToString() : null;
-                    tk.TongDonHang = int.Parse(tb.Rows[0]["total"].ToString());
-                    return tk;
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public ThongKe_SLOrderModel ThongKeSoLuongDonHangTheoTgian(DateTime? fr_date, DateTime? to_date)
+        //{
+        //    try
+        //    {
+        //        DataTable tb = helper.ExcuteReader(
+        //            "Pro_ThongKe_SoLuongDonHang",
+        //            "@fr_date", "@to_date",
+        //            fr_date, to_date
+        //        );
+        //        if (tb != null)
+        //        {
+        //            ThongKe_SLOrderModel tk = new ThongKe_SLOrderModel();
+        //            tk.fr_date = tb.Rows[0]["fr_date"] != null ? tb.Rows[0]["fr_date"].ToString() : null;
+        //            tk.to_date = tb.Rows[0]["to_date"] != null ? tb.Rows[0]["to_date"].ToString() : null;
+        //            tk.TongDonHang = int.Parse(tb.Rows[0]["total"].ToString());
+        //            return tk;
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

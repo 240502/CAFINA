@@ -22,3 +22,12 @@ As
 	EXEC Pro_Get_Galery_By_ProductId '6KS23W005'
 	EXEC Pro_Get_Galery_By_ProductId '6TE23W014'
 	EXEC Pro_Get_Galery_By_ProductId '6OT23W014'
+Create Proc Pro_Create_Galery
+	@productid varchar(100),
+	@thumbnail varchar(100)
+As
+	Begin
+		Insert into Galery(ProductId,thumbnail)
+		Values(@productid,@thumbnail)
+	End
+Select* from Galery

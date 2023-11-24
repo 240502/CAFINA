@@ -36,5 +36,18 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+        public int Create (GaleryModel galery)
+        {
+            try
+            {
+                int result = helper.ExcuteNonQuery("Pro_Create_Galery","@productid", "@thumbnail",galery.ProductId,galery.thumbnail);
+                return result;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -14,6 +14,8 @@ const inputCreated = $("#created");
 const inputDiscount = $("#discount");
 const btnSaveOpen = $(".opened .btnSave");
 const inputSearchListData  = $(".search-user-input");
+const inputFile = $("#file_img")
+
 
 const urlGetListProduct = "https://localhost:7284/api-admin/Product/PhanTrang_DSProduct";
 const urlGetListBST = "https://localhost:7284/api-admin/BST/GetListBST";
@@ -23,7 +25,7 @@ const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDeta
 const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Product";
 const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product";
 const urlApiSearchProductManager= "https://localhost:7284/api-admin/Product/Search";
-
+const urlApiCreateGalery = "https://localhost:7284/api-admin/Galery/Create_Galery"
 
 let thisPage =1;
 let pageSize =10;
@@ -45,6 +47,29 @@ function Start(){
 
 }
 Start();
+
+
+
+async function CreateGalery() {
+    console.log()
+    const data = {
+        productId:inputProductId.val(),
+        thumbnail:`./assets/Image/ImageProduct/${$('#file_img')[0].files[0]["name"]}`
+    }
+    const promise = new Promise((resolve, reject) => {
+        httpPostAsyncCate(urlApiCreateGalery,resolve,reject,data)
+    });
+    try{
+
+        const res = await promise;
+    }
+    catch(err){
+        console.log(err);
+    }
+
+};
+
+
 
 function changePage(index){
     thisPage = index;
@@ -305,8 +330,7 @@ function handleCreateProduct() {
         "color": inputColor.val().trim(),
         "cateDetailId": Number(inputCate.val().trim()),
         "object_id": Number(inputOb.val().trim()),
-        "bst_id": Number(inputBst.val().trim()),
-        "created":Number(inputCreated.val().trim())
+        "bst_id": Number(inputBst.val().trim())
     }
     CreateProduct(data);
 };
@@ -318,7 +342,7 @@ function CreateProduct(data){
         data:JSON.stringify(data),
         contentType: "application/json"
     }).done(res=>{
-       alert(res);
+       showSuccessToast("Thêm thành công!");
        handleGetListProduct();
        clearDataProduct();
        isSearchManage =false;
@@ -326,7 +350,8 @@ function CreateProduct(data){
 
     })
     .fail(err=>{
-        alert(err.statusText);
+        showErrorToast("Thêm không thành công!");
+
     })
     
 };
@@ -445,7 +470,10 @@ function DeleteProduct(id){
 
 btnSaveOpen.on("click", ()=>{
     if(isCreate)
-        handleCreateProduct();
+    {
+        handleCreateProduct();        
+        CreateGalery();
+    }
     else if(isUpdate)
     {
         var id = btnSaveOpen.attr("data-id")

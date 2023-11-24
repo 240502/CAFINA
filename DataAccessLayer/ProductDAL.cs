@@ -44,11 +44,18 @@ namespace DataAccessLayer
 
         public int CreateProduct(ProductModel product)
         {
-            var result = helper.ExcuteNonQuery("InsertProduct",
-                "@ma", "@ten", "@gia", "@giaGiam", "@mota", "@chatLieu", "@hd", "size", "@color", "@catedetailid", "@Object_id", "@Bst_id",
-                product.ProductId, product.title, product.price, product.discount, product.description, product.ChatLieu, product.HuongDanSuDung, product.size, product.color, product.CateDetailId == 0 ? DBNull.Value : product.CateDetailId, product.Object_id == 0 ? DBNull.Value : product.Object_id, product.Bst_id == 0 ? DBNull.Value : product.Bst_id
-            );
-            return result;
+            try
+            {
+                var result = helper.ExcuteNonQuery("InsertProduct",
+                    "@ma", "@ten", "@gia", "@giaGiam", "@mota", "@chatLieu", "@hd", "size", "@color", "@catedetailid", "@Object_id", "@Bst_id",
+                    product.ProductId, product.title, product.price, product.discount, product.description, product.ChatLieu, product.HuongDanSuDung, product.size, product.color, product.CateDetailId == 0 ? DBNull.Value : product.CateDetailId, product.Object_id == 0 ? DBNull.Value : product.Object_id, product.Bst_id == 0 ? DBNull.Value : product.Bst_id
+                );
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
         }
         public int UpdateProduct(ProductModel product)

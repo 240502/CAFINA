@@ -25,6 +25,24 @@ namespace API_Cafina_Manage.Controllers
             }catch(Exception ex)
             {
                 throw new Exception(ex.Message);
+         
+            }
+        }
+
+        [Route("Get_OrderDetail_ByUsId")]
+        [HttpGet]
+        public IActionResult GetListOrderByUsId(int usid)
+        {
+            try
+            {
+
+                List<Order_Details> list = odBUS.GetListOrderByUsId(usid);
+                int total = list.Count;
+                return list != null ? Ok(new { totalItems = total, data = list }) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

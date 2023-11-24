@@ -27,6 +27,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/api/Galery/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7140
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Galery/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/api/CategoryDetails/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

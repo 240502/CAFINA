@@ -20,12 +20,12 @@ namespace Businesss
             List<ThongKe_Order_By_KhachModel> result = odTk.ThongKeSoLuongDonHangTheoKH(page, page_size, out total, fullname, ngaybd, ngaykt);
             return result;
         }
-        public ThongKe_SLOrderModel ThongKeSoLuongDonHangTheoTgian(DateTime? fr_date, DateTime? to_date)
-        {
-            ThongKe_SLOrderModel order = odTk.ThongKeSoLuongDonHangTheoTgian(fr_date,to_date);
-            return order;
+        //public ThongKe_SLOrderModel ThongKeSoLuongDonHangTheoTgian(DateTime? fr_date, DateTime? to_date)
+        //{
+        //    ThongKe_SLOrderModel order = odTk.ThongKeSoLuongDonHangTheoTgian(fr_date,to_date);
+        //    return order;
            
-        }
+        //}
         public int GetTotalOrder()
         {
             

@@ -34,22 +34,7 @@ namespace API_Cafina.Controllers
         }
 
 
-        [Route("Get_OrderDetail_ByUsId")]
-        [HttpGet]
-        public IActionResult GetListOrderByUsId(int usid)
-        {
-            try
-            {
-
-                List<Order_Details> list = odDetail.GetListOrderByUsId(usid);
-                int total = list.Count;
-                return list != null ? Ok(new { totalItems = total, data = list }) : NotFound();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+       
 
         [Route("Get_ListOrder_Manage")]
         [HttpPost]
@@ -176,7 +161,7 @@ namespace API_Cafina.Controllers
                 int total = 0;
                 var result = odTK.ThongKeSoLuongDonHangTheoKH(page,pageSize,out total,fullname,ngaybd,ngaykt);
                 long abc = total;
-                return Ok(new
+                return result == null? NotFound(): Ok(new
                 {
                     TotalItem = total,
                     Data = result,
@@ -189,35 +174,35 @@ namespace API_Cafina.Controllers
             }
         }
 
-        [Route("ThongKe_TongSoLuongDonHang")]
-        [HttpPost]
-        public IActionResult ThongKeTongSlDonHang([FromBody] Dictionary<string,object> formData)
-        {
-            try
-            {
-                DateTime? fr_date = null;
-                DateTime? to_date = null;
-                if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
-                {
-                    var dt = DateTime.Parse(formData["fr_date"].ToString());
-                    fr_date = new DateTime(dt.Year,dt.Month,dt.Day);
+        //[Route("ThongKe_TongSoLuongDonHang")]
+        //[HttpPost]
+        //public IActionResult ThongKeTongSlDonHang([FromBody] Dictionary<string,object> formData)
+        //{
+        //    try
+        //    {
+        //        DateTime? fr_date = null;
+        //        DateTime? to_date = null;
+        //        if (formData.Keys.Contains("fr_date") && !string.IsNullOrEmpty(Convert.ToString(formData["fr_date"])))
+        //        {
+        //            var dt = DateTime.Parse(formData["fr_date"].ToString());
+        //            fr_date = new DateTime(dt.Year,dt.Month,dt.Day);
 
-                }
-                if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
-                {
-                    var dt= DateTime.Parse((formData["to_date"]).ToString());
-                    to_date = new DateTime(dt.Year,dt.Month,dt.Day);
-                }
+        //        }
+        //        if (formData.Keys.Contains("to_date") && !string.IsNullOrEmpty(formData["to_date"].ToString()))
+        //        {
+        //            var dt= DateTime.Parse((formData["to_date"]).ToString());
+        //            to_date = new DateTime(dt.Year,dt.Month,dt.Day);
+        //        }
                
-                ThongKe_SLOrderModel tk = odTK.ThongKeSoLuongDonHangTheoTgian(fr_date, to_date);
-                if (tk != null) return Ok(tk);
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //        ThongKe_SLOrderModel tk = odTK.ThongKeSoLuongDonHangTheoTgian(fr_date, to_date);
+        //        if (tk != null) return Ok(tk);
+        //        return NotFound();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
         [Route("ThongKe_SLDonHangTheoThang")]
         [HttpPost]
