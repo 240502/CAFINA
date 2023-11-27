@@ -9,45 +9,6 @@ const minusBtn = $(".btnMinus");
 const plusBtn = $(".btnPlus");
 let isCreate = false;
 let isUpdate = false;
-console.log(infoUsLocal);
-function handleReduceAmount(productId){
-    isCreate = false;
-    isUpdate=true;
-    orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
-    var orderdetail = orderdetails[0].find(item=>{
-        return item["productId"] === productId
-    })
-    GetOrderById(orderdetail["orderId"])
-    const order = JSON.parse(localStorage.getItem("order"));
-    if(orderdetail["amount"]>1){
-        const data = {
-            id:order["id"],
-            user_Id:order["user_Id"],
-            fullName:order["fullName"],
-            email:order["email"],
-            order_Date:order["order_Date"],
-            phone_number:order["phone_number"],
-            address:order["address"],
-            note:"",
-            status:order["status"],
-            order_Details:[
-                {
-                    orderId:orderdetail["id"],
-                    od_id:orderdetail["od_id"],
-                    productId:orderdetail["productId"],
-                    amount:orderdetail["amount"]-1,
-                    price:orderdetail["price"],
-                    size : orderdetail["size"]
-                }
-            ]
-        }
-        UpdateOrder(data);
-    }
-    else{
-        showErrorToast("Số lượng sản phẩm đã ở số lượng nhỏ nhất");
-    }
-    
-};
 
 function handleIncreaseAmount(productId){
     isCreate = false;
@@ -83,7 +44,6 @@ function handleIncreaseAmount(productId){
 };
 
 function GetUserByID(){
-    console.log("oge")
     if(infoUsLocal!==null){
         $.get({
             url :urlApiGetUsById+'?id='+infoUsLocal["user_id"],
@@ -108,22 +68,21 @@ function checkProductInOrder(productId){
     return Duplicate;
 }
 
-function handleCreateOrder(size,productId,price){
+async function handleCreateOrder(size,productId,price){
     const infoUsOrder = JSON.parse(localStorage.getItem('InfoUsOrder')); 
+    await getListOrderDetail();
     orderdetails = JSON.parse(localStorage.getItem("listorderdetail"));
     var orderdetail = orderdetails[0].find(item=>{
-        return item["productId"] === productId
+        return (item["productId"] === productId && item["size"] === size)
     })
     if(orderdetail!==undefined){
-        GetOrderById(orderdetail["orderId"])
-
+        await GetOrderById(orderdetail["orderId"])
     }
     const order = JSON.parse(localStorage.getItem("order"));
-    const product = checkProductInOrder(productId);
-    if(infoUsLocal!=null){
-        if(infoUsOrder!=null){
-          if(size!==null){
-            if((product ===undefined) ||(product !==undefined && orderdetail["size"] !==size ) ){
+     if(infoUsLocal!=null){
+         if(infoUsOrder!=null){
+            if(orderdetail===undefined)
+            {
                 const data = {
                     user_Id:infoUsOrder["id"],
                     fullName:infoUsOrder["fullName"],
@@ -143,12 +102,11 @@ function handleCreateOrder(size,productId,price){
                 }
                 isCreate = true;
                 isUpdate=false;
-                console.log(data)
-                CreateOrder(data);
-
-
-            } 
-            else if(product !== undefined && orderdetail["size"] ===size){
+                CreateOrder(data)
+            }
+            if(orderdetail !==undefined)
+            {
+                
                 const data = {
                     id:order["id"],
                     user_Id:order["user_Id"],
@@ -170,16 +128,18 @@ function handleCreateOrder(size,productId,price){
                         }
                     ]
                 };
+                console.log(order);
+                console.log(data)
                 isCreate = false;
                 isUpdate=true;
                 UpdateOrder(data);
             }
-          } 
-        }
-    }
-    else{
-        window.location='./login.html';
-    }
+              
+        } 
+     }
+     else{
+         window.location='./login.html';
+     }
 };
 
 
@@ -204,7 +164,6 @@ function CreateOrder(data){
             await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
-            console.log(orders);
             await getProductById(orders,totalItems);
             renderListOrder();
             OpenMinicart();
@@ -238,7 +197,6 @@ function UpdateOrder(data){
             await getListOrderDetail();
             orders = JSON.parse(localStorage.getItem("listorderdetail"));
             totalItems = JSON.parse(localStorage.getItem("totalItemsOrder"));
-            console.log(orders)
             await getProductById(orders,totalItems);
             renderListOrder();
             OpenMinicart();
@@ -263,13 +221,13 @@ function UpdateOrder(data){
 
 function activeModalConfirm(orderId){
     openModalCofirmDelete("Bạn chắc chắn muốn xóa sản phẩm này ?");
-    btnConfirmNo.on('click', ()=>{
+    $("#modal-confirm-delete .btnNo").on('click', ()=>{
       closeModalCofirmDelete();
     });
-    btnConfirmYes.on('click', ()=>{
+    $("#modal-confirm-delete .btnYes").on('click', ()=>{
       DeleteOrder(orderId);
     });
-  };
+};
 
 function DeleteOrder(data){
     $.ajax({

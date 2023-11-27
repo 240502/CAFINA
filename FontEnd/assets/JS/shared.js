@@ -13,7 +13,6 @@ const searchInputHeader = $(".search-input");
 const searchInputModel = $(".form-search .search-input");
 const btnPageNext  = $("#btn-page-next")
 const btnPagePrev  = $("#btn-page-prev")
-
 const  subMenuImage = $(".sub-menu-image");
 const btnConfirmNo = $("#modal-confirm-delete .btnNo");
 const btnConfirmYes= $("#modal-confirm-delete .btnYes");
@@ -152,9 +151,9 @@ subMenuImage.slick({
 function handleSearchProduct(productName){
   
   var data = {
-    page: thisPage,
+    pageIndex: thisPage,
     pageSize: pageSize,
-    ProductName : productName
+    value : productName
   }
   SearchProduct(data)
 
@@ -376,10 +375,16 @@ async function getGalaryProductOrder(products){
       const promise = new Promise((resolve, reject) => {
         httpGetAsync(urlApiGetGaleryByProductId,resolve,reject,data[i])
       });
-      var response = await promise;
-         i+=1
-         ListGaleryOrder.push(response)
-         localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
+      try{
+        var response = await promise;
+        ListGaleryOrder.push(response)
+        localStorage.setItem("galaryProductOrder",JSON.stringify(ListGaleryOrder));
+      }catch(err){
+        console.log(err);
+      }
+      i+=1
+
+    
   }
 };
 
@@ -396,7 +401,12 @@ async function renderListOrder(){
   var listProductOrder = JSON.parse(localStorage.getItem("ListProductOrder"))
   var totalprice = 0;
   var totalSale = 0;
-  await getGalaryProductOrder(listProductOrder);
+  try{
+
+    await getGalaryProductOrder(listProductOrder);
+  }catch(err){
+    console.log(err)
+  }
   if(listOrder[0].length>0){
     var html =listProductOrder.map((item,index)=>{
       if(listOrder[0].length !==0){
@@ -699,10 +709,15 @@ const handleGetGalery = async (products)=>{
        const promise = new Promise((resolve, reject) => {
          httpGetAsync(urlApiGetGaleryByProductId,resolve,reject,data[i])
        });
-       var response = await promise;
-          i+=1
-          ListGalery.push(response)
-          localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
+       try{
+        var response = await promise;
+        ListGalery.push(response)
+        localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
+       }catch(err){
+        console.log(err);
+       }
+       i+=1
+       
    }
 
 };
@@ -915,3 +930,4 @@ $("#modal-confirm-delete").on('click', ()=>{
 btnPayOrder.on('click', ()=>{
   window.location = "./FormThanhToan.html";
 });
+

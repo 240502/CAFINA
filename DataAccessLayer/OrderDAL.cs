@@ -74,6 +74,7 @@ namespace DataAccessLayer
                     order.order_Details = new List<Order_Details>();
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
+                        var count = "";
                         Order_Details detail = new Order_Details();
                         order.Id = int.Parse(tb.Rows[i]["ID"].ToString());
                         order.User_Id = int.Parse(tb.Rows[i]["User_id"].ToString());

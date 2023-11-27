@@ -158,44 +158,40 @@ btnPay.on("click", async()=>{
     let listOrderPayment= [];
     let count = 0;
     while(i<listOrder[0].length){
-       
-        if(listOrder[0][i+1] !==undefined){
-            if(listOrder[0][i]["orderId"] !==listOrder[0][i+1]["orderId"]){
-                listOrderPayment.push(listOrder[0][i]);
-                listOrderPayment.push(listOrder[0][i+1]);
-
-                 localStorage.setItem("orderPayment", JSON.stringify(listOrderPayment));
-            }
-        }
-        else{
-            
+        if(listOrderPayment.length  === 0 ){
             listOrderPayment.push(listOrder[0][i]);
-            localStorage.setItem("orderPayment", JSON.stringify(listOrderPayment));
+            console.log(listOrderPayment.length);
+        }
+        if(listOrderPayment.length > 0){
+            var order = listOrderPayment.find(item=>{
+                return item["orderId"] === listOrder[0][i]["orderId"]  
+            })
+            if(order === undefined){
+                listOrderPayment.push(listOrder[0][i]);
+            }
+        }
+        i++;
+    }
+    console.log(listOrderPayment.length);
+    while (j <listOrderPayment.length){
+        await GetOrderById(listOrderPayment[j]["orderId"])
+        const order = JSON.parse(localStorage.getItem("order"));
+        const data = {
+            id:order["id"],
+            user_Id:order["user_Id"],
+            fullName:order["fullName"],
+            email:order["email"],
+            order_Date:order["order_Date"],
+            phone_number:order["phone_number"],
+            address:order["address"],
+            note:"",
+            status:3,
+            order_Details:order["order_Details"]
 
         }
-            i++;
-        }
-        console.log(listOrderPayment)
-        
-        while (j <listOrderPayment.length){
-            await GetOrderById(listOrderPayment[j]["orderId"])
-            const order = JSON.parse(localStorage.getItem("order"));
-            const data = {
-                id:order["id"],
-                user_Id:order["user_Id"],
-                fullName:order["fullName"],
-                email:order["email"],
-                order_Date:order["order_Date"],
-                phone_number:order["phone_number"],
-                address:order["address"],
-                note:"",
-                status:3,
-                order_Details:order["order_Details"]
- 
-            }
-            UpdateOrder(data);
-            j++;
-        }
+        UpdateOrder(data);
+        j++;
+    }
     
 });
 function UpdateOrder(data){

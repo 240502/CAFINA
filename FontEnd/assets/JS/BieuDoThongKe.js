@@ -67,7 +67,6 @@ function hanleSelectThongKe(){
   }
 
   if(inputLoaiThongKe.val()==="6"){
-    console.log(6)
     data={
       fr_date:`${date.getFullYear()}-${date.getMonth()+1}-01`,
       to_date:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,

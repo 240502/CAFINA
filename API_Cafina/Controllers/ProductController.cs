@@ -29,6 +29,7 @@ namespace API_Cafina.Controllers
         string _path;
 
         [Route("ThongKeSLBanProduct")]
+
         [HttpPost]
         public IActionResult ThongKeSLBanProduct([FromBody] Dictionary<string,object> formData)
         {

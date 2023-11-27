@@ -10,7 +10,7 @@ namespace API_Cafina_Customer.Controllers
     {
         ProductBUS proBus = new ProductBUS();
         List<ProductModel> Product_List ;
-        [Route("GetByBst")]
+        [Route("GetProductByBst")]
         [HttpPost]
         public IActionResult GetByBST([FromBody] Dictionary<string,object> formData)
         {
@@ -65,6 +65,36 @@ namespace API_Cafina_Customer.Controllers
                 throw new Exception(ex.Message);
             }
 
+        }
+        [Route("GetProductByCateName")]
+        [HttpGet]
+        public IActionResult GetProductByCateName(string cateName)
+        {
+            try
+            {
+                List<ProductModel> product = proBus.GetProductByCateName(cateName);
+                return product != null ? Ok(product) : NotFound();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("GetProductByObjectId_CateDtId")]
+        [HttpGet]
+        public IActionResult GetProductByObjectId_CateDtId(int objectId , int catedtid,string productId)
+        {
+            try
+            {
+                List<ProductModel> product = proBus.GetProductByObjectId_CateDtId(objectId,catedtid,productId);
+                return product !=null ? Ok(product) : NotFound();
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         [Route("Search")]
         [HttpPost]
@@ -169,20 +199,6 @@ namespace API_Cafina_Customer.Controllers
 
         }
 
-        [Route("GetProductByCateName")]
-        [HttpGet]
-        public IActionResult GetProductByCateName(string cateName)
-        {
-            try
-            {
-                List<ProductModel> list = proBus.GetProductByCateName(cateName);
-                return list != null ? Ok(list) : NotFound(); 
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         [Route("GetProductByCateDetailName")]
         [HttpGet]
         public IActionResult GetProductByCateDetailName(string cateDetailName)
@@ -198,19 +214,5 @@ namespace API_Cafina_Customer.Controllers
             }
         }
 
-        [Route("GetProductByObjectId_CateDtId")]
-        [HttpGet]
-        public IActionResult GetProductByObjectId_CateDtId(int objectId, int cateDtId,string productId)
-        {
-            try
-            {
-                List<ProductModel> list = proBus.GetProductByObjectId_CateDtId(objectId,cateDtId,productId);
-                return list != null ? Ok(list) :NotFound();
-
-            }catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

@@ -180,8 +180,16 @@ function GetListProduct(data) {
         data:JSON.stringify(data),
         contentType:"application/json"
     })
-    .done(res=>{
-        renderListProduct(res);
+    .done(async (res)=>{
+        try{
+            await handleGetGalery(res["data"]);
+            renderListProduct(res);
+        }
+        catch(err){
+            console.log(err);
+            renderListProduct(res); 
+        }
+      
     })
 };
 
@@ -241,7 +249,7 @@ async function SearchProductListData (data) {
 
 
 
-function renderListProduct (data){
+async function renderListProduct (data){
     var count = Math.ceil(data["totalItems"] / pageSize);
     renderListPage(count)
     var html = data["data"].map((product,index)=>{
@@ -255,6 +263,9 @@ function renderListProduct (data){
             </td>
             <td class="product_title" stylye="width:fit-content">
                 ${product["title"]}
+            </td>
+            <td>
+                <img style="width:100%;background-color: #fff;" src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}"" alt="">
             </td>
             <td class="price">
                 ${product["price"]}
@@ -441,10 +452,11 @@ function UpdateProduct(data){
 
 function activeModalConfirm(id){
     openModalCofirmDelete("Bạn chắc chắn muốn xóa sản phẩm này ?");
-    btnConfirmNo.on('click', ()=>{
+    $("#modal-confirm-delete .btnNo").on('click', ()=>{
       closeModalCofirmDelete();
     });
-    btnConfirmYes.on('click', ()=>{
+    $("#modal-confirm-delete .btnYes").on('click', ()=>{
+        console.log("oe")
         DeleteProduct(id);
     });
 };
@@ -460,11 +472,14 @@ function DeleteProduct(id){
         showSuccessToast("Xóa sản phẩm thành công");
         handleGetListProduct();
         isSearchManage =false;
+        closeModalCofirmDelete();
 
     })
     .fail(err=>{
         showErrorToast("Xóa sản phẩm thất bại")
         alert(err.statusText);
+        closeModalCofirmDelete();
+
     })
 };
 

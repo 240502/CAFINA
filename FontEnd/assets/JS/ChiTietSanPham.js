@@ -68,6 +68,7 @@ function CreateProductView(data){
   
     $.post({
         url:urlApiCreateProductView,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(data),
         contentType:"application/json"
     })
@@ -84,12 +85,14 @@ function UpdateProductView(data){
     var productView = {
         id: data["id"],
         productId: data["productId"],
+       
         count: data["count"]+1,
         dateView: data["dateView"]
     }
     $.ajax({
         type: "PUT",
         url:urlApiUpdateProductView,
+        headers: { "Authorization": 'Bearer ' + token },
         data:JSON.stringify(productView),
         contentType: "application/json"
     })
@@ -131,7 +134,10 @@ function getThumbnail(){
     return thumbnail;
 }
 function GetCateDetailName(id){
-    $.get(urlApiGetCateDetailsByID+"?id="+id)
+    $.get({
+        url:urlApiGetCateDetailsByID+"?id="+id,
+        headers: { "Authorization": 'Bearer ' + token },
+    })
     .done(res=>{
         localStorage.setItem("cateDetail",JSON.stringify(res));
         GetCategory(res["cateId"])
@@ -144,7 +150,10 @@ function GetCateDetailName(id){
 };
 
 function GetCategory(id){
-    $.get(urlApiGetCategoryByID+"?id="+id)
+    $.get({
+        url:urlApiGetCategoryByID+"?id="+id,
+        headers: { "Authorization": 'Bearer ' + token },
+    })
     .done(res=>{
         localStorage.setItem("Category",JSON.stringify(res));
     })
@@ -154,8 +163,12 @@ function GetCategory(id){
     })
 };
 
-function GetObject(id){
-    $.get(urlApiGetObjectById+"?id="+id)
+async function GetObject(id){
+    $.get({
+        url:urlApiGetObjectById+"?id="+id,
+        headers: { "Authorization": 'Bearer ' + token },
+    
+    })
     .done(res=>{
         localStorage.setItem("Object",JSON.stringify(res));
 

@@ -485,6 +485,7 @@ div.price{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
 .price h3,
 .price span {
@@ -500,8 +501,8 @@ table{
     text-align: center;
 } 
 .tb-content .group-delete{
-    margin-right: 10px;
     display: flex;
+    margin-bottom: 10px;
 }   
 .tb-header { 
     font-size: 16px;
@@ -529,6 +530,7 @@ table{
 }
 .group-btn{
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
