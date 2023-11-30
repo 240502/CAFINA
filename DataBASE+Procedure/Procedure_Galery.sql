@@ -30,4 +30,23 @@ As
 		Insert into Galery(ProductId,thumbnail)
 		Values(@productid,@thumbnail)
 	End
+exec Pro_Create_Galery 'sp04','./assets/Image/ImageProduct/6BS23S009_1.webp'
 Select* from Galery
+
+Create Proc Pro_Update_Galery
+	@id int,
+	@productid varchar(100),
+	@thumbnail varchar(100)
+As
+	Begin
+		Update  Galery set productid = @productid, thumbnail = @thumbnail
+		Where id = @id
+	End
+Create Proc Pro_Delete_Galery
+
+	@productid varchar(100)
+As 
+	Begin
+		Delete Galery
+		Where ProductId = @productid
+	End

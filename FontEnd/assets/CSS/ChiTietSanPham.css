@@ -1,6 +1,8 @@
 
 
-
+.size li.selected{
+    border: 1px solid #000;
+}
 
 
 #content .site-main{
@@ -143,6 +145,9 @@
 .group-btn .addtocart{
     background-color: #da291c;
     border: 1px solid #da291c;
+}
+.group-btn .addtocart:hover{
+   opacity: 0.8;
 }
 .group-btn .findatstore{
     background-color:#333f48;

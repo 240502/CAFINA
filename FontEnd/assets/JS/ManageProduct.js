@@ -25,7 +25,9 @@ const urlGetListCategoryDetails = "https://localhost:7284/api-admin/CategoryDeta
 const urlUpdateProduct = "https://localhost:7284/api-admin/Product/Update_Product";
 const urlDeleteProduct = "https://localhost:7284/api-admin/Product/Delete_Product";
 const urlApiSearchProductManager= "https://localhost:7284/api-admin/Product/Search";
-const urlApiCreateGalery = "https://localhost:7284/api-admin/Galery/Create_Galery"
+const urlApiCreateGalery = "https://localhost:7284/api-admin/Galery/Create_Galery";
+const urlApiDeleteGalery = "https://localhost:7284/api-admin/Galery/Delete_Galery";
+const urlApiUpdateGalery = "https://localhost:7284/api-admin/Galery/Update_Galery";
 
 let thisPage =1;
 let pageSize =10;
@@ -51,16 +53,15 @@ Start();
 
 
 async function CreateGalery() {
-    console.log()
     const data = {
         productId:inputProductId.val(),
         thumbnail:`./assets/Image/ImageProduct/${$('#file_img')[0].files[0]["name"]}`
     }
+    console.log(data);
     const promise = new Promise((resolve, reject) => {
         httpPostAsyncCate(urlApiCreateGalery,resolve,reject,data)
     });
     try{
-
         const res = await promise;
     }
     catch(err){
@@ -70,7 +71,34 @@ async function CreateGalery() {
 };
 
 
+async function DeleteGalery(productId){
+    $.ajax({
+        url:urlApiDeleteGalery+"?productid" + productId,
+        type: 'DELETE',
+        headers: { "Authorization": 'Bearer ' + token },
+    })
+    .done(res=>{
+        console.log(res);
+    })
+    .fail(err=>{
+        console.log(err);
+    })
+}
 
+async function UpdateGalery(){
+    $.ajax({
+        url:urlApiUpdateGalery,
+        type:"PUT",
+        data: JSON.stringify(data),
+        contentType:"application/json"
+    })
+    .done(res=>{
+        console.log(res);
+    })
+    .fail(err=>{
+        console.log(err);
+    });
+}
 function changePage(index){
     thisPage = index;
     if(isSearchManage){
@@ -183,7 +211,8 @@ function GetListProduct(data) {
     .done(async (res)=>{
         try{
             await handleGetGalery(res["data"]);
-            renderListProduct(res);
+            const ListGalery = await JSON.parse( localStorage.getItem("GaleryHome"));
+            renderListProduct(res,ListGalery);
         }
         catch(err){
             console.log(err);
@@ -249,10 +278,14 @@ async function SearchProductListData (data) {
 
 
 
-async function renderListProduct (data){
+async function renderListProduct (data,ListGalery){
     var count = Math.ceil(data["totalItems"] / pageSize);
     renderListPage(count)
     var html = data["data"].map((product,index)=>{
+       var galery = ListGalery.find(item=>{
+        return item["productId"] === product["productId"]
+       })
+       console.log(galery)
         var cateDetail =GetCateDetailById( product["cateDetailId"]);
         var object = GetObjectNameById(product["object_id"]);
         var bst = GetBSTById( product["bst_id"]);
@@ -264,7 +297,7 @@ async function renderListProduct (data){
             <td class="product_title" stylye="width:fit-content">
                 ${product["title"]}
             </td>
-            <td>
+            <td class="img-product" data-id ="${galery !== undefined ? galery["id"]:0}">
                 <img style="width:100%;background-color: #fff;" src="${GetLinkImgBSTHome(product["productId"]) != null ? GetLinkImgBSTHome(product["productId"]):""}"" alt="">
             </td>
             <td class="price">
@@ -308,7 +341,7 @@ async function renderListProduct (data){
                      </div>
 
                      <div class="group-update">
-                         <button type="button" class="btnUpdate btn" onclick = "fillToInput(${index})">Sửa</button>
+                         <button type="button" class="btnUpdate btn" onclick = "fillToInput(${index},${galery!==undefined? galery["id"]:0})">Sửa</button>
                      </div>
                  </div>
             </td>
@@ -328,7 +361,8 @@ async function renderListProduct (data){
       });
 };
 
-function handleCreateProduct() {
+async function handleCreateProduct() {
+    if(inputProductId.val().trim() !== '') {
     var data = {
         "productId": inputProductId.val().trim(),
         "title": inputTitle.val().trim(),
@@ -343,7 +377,11 @@ function handleCreateProduct() {
         "object_id": Number(inputOb.val().trim()),
         "bst_id": Number(inputBst.val().trim())
     }
-    CreateProduct(data);
+        CreateProduct(data);
+    }
+    if(inputProductId.val().trim() === ''){
+        alert("Vui lòng nhập mã sản phẩm");
+    }
 };
 
 function CreateProduct(data){
@@ -367,10 +405,12 @@ function CreateProduct(data){
     
 };
 
-function fillToInput(index){
+function fillToInput(index,galeryid){
     isCreate = false;
     isUpdate = true;
     handleTextSaveBtn();
+    console.log(galeryid);
+    localStorage.setItem('galeryid_update',JSON.stringify(galeryid));
     var tb_content = [...document.querySelectorAll('.tb-content')].find((item)=>{
         if( Number(item.dataset.id) == index)
         return item;
@@ -420,11 +460,36 @@ function handleUpdateProduct(id){
         "bst_id": Number(inputBst.val().trim()),
         "created":inputCreated.val()
     }
-    console.log(data);
-
+     if(JSON.parse(localStorage.getItem("galeryid_update")) === 0){
+         CreateGalery();
+     }
+     if(JSON.parse(localStorage.getItem("galeryid_update")) !== 0){
+         var galeryid = JSON.parse(localStorage.getItem("galeryid_update"))
+         var galery = {
+             "id":galeryid,
+             "productId": id,
+             "thumbnail":$('#file_img')[0].files[0]["name"]
+          }
+          UpdateGalery(galery);
+        }
     UpdateProduct(data);
 };
-
+function UpdateGalery(data) {
+    $.ajax({
+        type: "PUT",
+        url: urlApiUpdateGalery,
+        headers: { "Authorization": 'Bearer ' + token },
+        data: JSON.stringify(data),
+        contentType: "application/json"
+        
+    })
+    .done(res=>{
+        console.log(res)
+    })
+    .fail(err=>{
+        console.log(err.statusText);
+    })
+}
 function UpdateProduct(data){
     $.ajax({
         type: "PUT",
@@ -456,7 +521,7 @@ function activeModalConfirm(id){
       closeModalCofirmDelete();
     });
     $("#modal-confirm-delete .btnYes").on('click', ()=>{
-        console.log("oe")
+
         DeleteProduct(id);
     });
 };
@@ -483,11 +548,11 @@ function DeleteProduct(id){
     })
 };
 
-btnSaveOpen.on("click", ()=>{
+btnSaveOpen.on("click", async ()=>{
     if(isCreate)
     {
-        handleCreateProduct();        
-        CreateGalery();
+       await  handleCreateProduct();        
+         CreateGalery();
     }
     else if(isUpdate)
     {

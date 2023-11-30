@@ -49,5 +49,30 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+        public int Update(GaleryModel galery)
+        {
+            try
+            {
+                int result = helper.ExcuteNonQuery("Pro_Update_Galery","@id", "@productid", "@thumbnail", galery.id,galery.ProductId, galery.thumbnail);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int Delete(string productId)
+        {
+            try
+            {
+                int result = helper.ExcuteNonQuery("Pro_Delete_Galery", "@productid",productId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

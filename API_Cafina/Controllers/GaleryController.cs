@@ -24,5 +24,40 @@ namespace API_Cafina_Manage.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+
+
+        [Route("Delete_Galery")]
+        [HttpDelete]
+        public IActionResult Delete(string productid)
+        {
+            try
+            {
+                int reuslt = galeryBUS.Delete(productid);
+                return reuslt >= 1 ? Ok("Xóa thành công") : BadRequest("Xóa không thành công");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        [Route("Update_Galery")]
+        [HttpPost]
+        public IActionResult Update([FromBody] GaleryModel galery)
+        {
+            try
+            {
+                int reuslt = galeryBUS.Update(galery);
+                return reuslt >= 1 ? Ok("Sửa thành công") : BadRequest("Sửa không thành công");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

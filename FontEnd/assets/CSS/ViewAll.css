@@ -45,7 +45,7 @@
     cursor: pointer;
     background-color: rgba(230,231,232,.3);
 }
-.block-heading .link li.active a{
+.block-heading .link li.active-cate a{
     background-color: #fff;
 }
 .block-hot-deal-listing .block-product{

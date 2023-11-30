@@ -347,7 +347,10 @@ function renderListProduct (data){
                 ${product["title"]}
             </td>
             <td class="price">
-                ${product["price"]}
+                ${handlePrice(product["price"])}
+            </td>
+            <td class="discount">
+            ${handlePrice(product["discount"])}
             </td>
             <td class="description">
                 ${product["description"]}

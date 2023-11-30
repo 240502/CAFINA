@@ -110,6 +110,7 @@ function getListStatus(){
     });
 };
 async function GetOrderDetailByOrderId(listorder){
+    console.log(listorder);
     var data = listorder.map(item=>{
         return {orderId:item["id"]}
     })
@@ -301,7 +302,7 @@ function fillToInput(orderId){
     inputOrderDate.val(row.querySelector(".order_Date").textContent.trim());
     inputStatus.val(row.querySelector(".status").dataset.id);
     localStorage.setItem("Order_Update",JSON.stringify(orderId));
-    GetOrderDetailByOrderId(OrderIdUpdate);
+    //GetOrderDetailByOrderId(OrderIdUpdate);
 };
 
 
@@ -376,7 +377,8 @@ function activeModalConfirm(orderId){
 function DeleteOrder(data){
     $.ajax({
         type: "DELETE",
-        url: urlApiDeleteOrderById+"?orderId="+data
+        url: urlApiDeleteOrderById+"?orderId="+data,
+        headers: { "Authorization": 'Bearer ' + token }
         
     })
     .done(async (res)=>{

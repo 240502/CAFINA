@@ -699,7 +699,7 @@ async function renderTitleSubMenu(title,clasName){
      renderSubMenuContent(subMenuContentBeTrai,'Trẻ em trai')
 };
 
-let ListGalery = new Array();
+let ListGalery = [];
 const handleGetGalery = async (products)=>{
   var data =  products.map(product=>{
      return {productId:product["productId"]}
@@ -711,7 +711,18 @@ const handleGetGalery = async (products)=>{
        });
        try{
         var response = await promise;
-        ListGalery.push(response)
+        if(ListGalery.length  === 0){
+
+          ListGalery.push(response)
+        }
+        if(ListGalery.length >0){
+          var galery =  ListGalery.find(item=>{
+            return item["id"] === response["id"]
+          })
+          if(galery === undefined){
+            ListGalery.push(response)
+          }
+        }
         localStorage.setItem("GaleryHome",JSON.stringify(ListGalery));
        }catch(err){
         console.log(err);

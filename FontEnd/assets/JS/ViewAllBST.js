@@ -16,8 +16,8 @@ Start();
 listLink.forEach(item=>{
     item.onclick = (e)=>{
         var linkitem =  e.target
-        $("li.active").removeClass("active");
-        linkitem.parentElement.classList.add("active");
+        $("li.active-cate").removeClass("active-cate");
+        linkitem.parentElement.classList.add("active-cate");
         if(linkitem.textContent.trim().toLowerCase() !=='tất cả'){
             if(thisPage > 1){
                 thisPage = 1
@@ -60,6 +60,8 @@ function GetAllProductByBSTName_ObjectName(data) {
     })
     .fail(err=>{
         console.log(err.statusCode);
+        $(".block-hot-deal-listing .product-items").html("Khong co san pham nao")
+        $(".list-page div").html("")
     })
 };
 function renderListProduct(products){

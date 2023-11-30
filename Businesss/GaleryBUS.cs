@@ -20,5 +20,15 @@ namespace Businesss
         {
             return galeryDAL.Create(galery);
         }
+
+
+        public int Update(GaleryModel galery)
+        {
+            return galeryDAL.Update(galery);
+        }
+        public int Delete(string productid)
+        {
+            return galeryDAL.Delete(productid);
+        }
     }
 }

@@ -32,7 +32,6 @@ async function Start(){
 Start();
 
 
-
 async function Get_ProductView_ByProductId(){
     const date = new Date();
     var data = { 
@@ -322,6 +321,34 @@ function renderProduct(product){
             document.querySelector(".hd i").classList.remove("fa-plus")
         }
     });
+    document.querySelectorAll(".size li").forEach(item=>{
+        item.onclick =()=>{
+            if(document.querySelector(".size li.selected")){
+                document.querySelector(".size li.selected").classList.remove("selected");
+                item.classList.add("selected");
+
+            }
+            else{
+                item.classList.add("selected");
+            }
+        };
+    });
+    $(".addtocart").on("click", ()=>{
+        const productid = product["productId"];
+        const price = product["discount"] !=0 ? product["discount"]: product["price"];
+        const size = $(".size li.selected").text().trim();
+        if(size)
+        {
+            console.log(productid)
+            console.log(price)
+            console.log(size)
+            handleCreateOrder(size,productid,price)
+        }
+        else{
+            alert("vui lòng chọn size!")
+        }
+    });
+ 
 };
 
 
